@@ -10,7 +10,6 @@ wwwroot\images\licenses\88783b07-ba33-4a12-89ff-efd7c88b8474_.png
 wwwroot\images\licenses\8a3f6055-4872-4633-b051-3eb01123bd63_.png
 wwwroot\images\licenses\dc2e780c-71fe-4b62-b7d9-7ce2e20a321c.png
 wwwroot\images\licenses\f0e76dc3-7d4d-4503-9cc3-ff9614e98c79.png
-wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -71,13 +70,15 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\uploads\driving_licenses\9362b1f2-416e-4df0-9be6-ef5836cfe124_image (1).png
+wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
+wwwroot\js\site.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\contact.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Index.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\RedeemPoints.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Review.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\site.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\favicon.ico
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\site.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -137,3 +138,4 @@ C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.sl
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\site.js

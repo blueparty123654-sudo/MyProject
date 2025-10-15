@@ -7,6 +7,7 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
@@ -217,7 +218,100 @@
             </div>
         </div>
     </footer>
-   @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-datepicker/1.12.1/i18n/datepicker-en-GB.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">เข้าสู่ระบบ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Account" asp-action="Login" method="post">
+                        <div class="form-group">
+                            <label for="email">อีเมล</label>
+                            <input type="email" class="form-control" name="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">รหัสผ่าน</label>
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">สมัครสมาชิก</h5>
+                </div>
+                <div class="modal-body">
+                    @model MyProject.ViewModels.RegisterViewModel
+
+                    <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label asp-for="UserName">ชื่อ-นามสกุล</label>
+                            <input asp-for="UserName" class="form-control">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Email">อีเมล</label>
+                            <input asp-for="Email" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber">เบอร์โทรศัพท์</label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="0XXXXXXXXX">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth">วัน/เดือน/ปีเกิด</label>
+                            <input asp-for="DateOfBirth" id="datepicker" class="form-control" type="text" placeholder="กรุณาเลือกวันเกิด" autocomplete="off">
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Password">รหัสผ่าน</label>
+                            <input asp-for="Password" class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword">ยืนยันรหัสผ่าน</label>
+                            <input asp-for="ConfirmPassword" class="form-control">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DrivingLicenseFile">รูปใบขับขี่หรือใบอนุญาต</label>
+                            <input asp-for="DrivingLicenseFile" class="form-control-file">
+                            <span asp-validation-for="DrivingLicenseFile" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn">สมัครสมาชิก</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
