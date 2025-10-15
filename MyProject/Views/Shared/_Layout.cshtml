@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyProject</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/contact.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav id="custom-navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark box-shadow">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyProject</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["home"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#footer-section" class="scroll-button nav-link">@Localizer["contact"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Review">@Localizer["review"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="RedeemPoints">@Localizer["insurance"]</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item lang-selector-container">
+                            <a class="btn-lang-pill" href="#">
+                                🌐
+                                @{
+                                    var currentCulture = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+                                    if (currentCulture == "th")
+                                    {
+                                        @:ไทย
+                                    }
+                                    else
+                                    {
+                                        @:English
+                                    }
+                                }
+                            </a>
+                            <div class="lang-dropdown-custom">
+
+                                <a class="dropdown-item" asp-controller="Language" asp-action="Index" asp-route-culture="en">English (EN)</a>
+
+                                <a class="dropdown-item" asp-controller="Language" asp-action="Index" asp-route-culture="th">ไทย (TH)</a>
+
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="auth-buttons">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            // ---- ถ้า Login แล้ว (ดีไซน์ใหม่) ----
+                            <div class="user-profile-bar">
+                                <a href="#" id="showProfileModalBtn" class="user-details-link">
+                                    <i class="fa-solid fa-user-circle"></i>
+
+                                    <span>@User.Identity.Name</span>
+
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>@User.FindFirst("Points")?.Value Points</span>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    <span>@User.FindFirst("Status")?.Value</span>
+                                </a>
+                                <a asp-controller="Account" asp-action="Logout" class="btn-logout-yellow">@Localizer["logout"]</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn-login show-auth-modal" data-form="login">@Localizer["log in"]</a>
+                            <a href="#" class="btn-signup show-auth-modal" data-form="signup">@Localizer["sign up"]</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <div class="modal-overlay" id="authModalOverlay" style="display: none;">
+        <div class="auth-modal" id="loginModalContainer">
+            <span class="close-btn">×</span>
+            <h2>@Localizer["log in"]</h2>
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div class="form-group">
+                    <label>@Localizer["email"]</label>
+                    <input type="email" name="Email" class="form-control" required />
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["password"]</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="Password" id="loginPassword" class="form-control" required />
+                        <i class="fa-solid fa-eye-slash toggle-password"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">@Localizer["log in"]</button>
+            </form>
+        </div>
+
+        <div class="auth-modal" id="registerModalContainer">
+            <span class="close-btn">×</span>
+            <h2>@Localizer["sign up"]</h2>
+            <form id="registerForm" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken() <div class="form-group">
+                    <label>@Localizer["name"]</label>
+                    <input type="text" name="Name" class="form-control" required />
+                    <span class="text-danger validation-message" data-for="Name"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["email"]</label>
+                    <input type="email" name="Email" class="form-control" required />
+                    <span class="text-danger validation-message" data-for="Email"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["phone number"]</label>
+                    <input type="tel" name="PhoneNumber" class="form-control" required />
+                    <span class="text-danger validation-message" data-for="PhoneNumber"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["date of birth"]</label>
+                    <input type="text" id="visibleDateOfBirth" class="form-control" required autocomplete="off" />
+
+                    <input type="hidden" name="DateOfBirth" id="hiddenDateOfBirth" />
+
+                    <span class="text-danger validation-message" data-for="DateOfBirth"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["password"]</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="Password" id="registerPassword" class="form-control" required />
+                        <i class="fa-solid fa-eye-slash toggle-password"></i>
+                    </div>
+                    <span class="text-danger validation-message" data-for="Password"></span>
+                </div>
+                <div class="form-group">
+                    <label>@Localizer["license"]</label>
+                    <input type="file" name="LicenseImage" class="form-control-file" accept="image/*" required />
+                    <span class="text-danger validation-message" data-for="LicenseImage"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">@Localizer["sign up"]</button>
+            </form>
+        </div>
+
+        <div class="auth-modal" id="profileModalContainer">
+            <span class="close-btn">&times;</span>
+            <h2>@Localizer["profile"]</h2>
+            <div id="profileModalBody">
+                <p>Loading...</p>
+            </div>
+        </div>
+
+    </div>
+    <footer id="footer-section" class="footer-local" role="contentinfo">
+        <div class="container">
+            <div class="footer-local__main">
+                <div class="footer-local__details">
+                    <h3>The Best Motor bike near you</h3>
+                    <p>
+                        📍 ที่อยู่:<br>
+                        16 / 8 ซอยประชาอุทิศ 79 แยก 15 ถนนประชาอุทิศ<br>
+                        แขวงทุ่งครุ เขตทุ่งครุ กรุงเทพมหานคร 10140
+                    </p>
+                    <p>
+                        <strong>📞 โทรศัพท์:</strong>
+                        <a href="tel:0641522888">064-152-2888</a> /
+                        <a href="tel:0864714850">086-471-4850</a><br>
+                        <strong>📧 อีเมล:</strong> <a href="mailto:rentnewalphard24@hotmail.com">rentnewalphard24@hotmail.com</a>
+                    </p>
+                </div>
+                <div class="footer-local__map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.352535593903!2d100.51153957513958!3d13.6363065999569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a3cec27a70e3%3A0xe15856f02834583e!2s85%2F16%20Soi%20Pracha%20Uthit%2079%2C%20Khwaeng%20Thung%20Khru%2C%20Khet%20Thung%20Khru%2C%20Krung%20Thep%20Maha%20Nakhon%2010140!5e0!3m2!1sen!2sth!4v1760294038522!5m2!1sen!2sth"
+                            allowfullscreen="" loading="lazy"
+                            aria-label="Location of The Best Motor bike near you">
+                    </iframe>
+                </div>
+            </div>
+            <div class="footer-local__bottom">
+                <p class="footer-local__copyright">© 2025 The Best Motor bike near you (THAILAND).</p>
+
+                <nav class="footer-local__social" aria-label="Social media">
+                    <ul>
+                        <li>
+                            <a href="#" aria-label="Our Facebook Page">
+                                <i class="fa-brands fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Our Instagram Profile">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Our Line Profile">
+                                <i class="fa-brands fa-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+   @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

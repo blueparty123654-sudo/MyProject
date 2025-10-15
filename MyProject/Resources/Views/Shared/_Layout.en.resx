@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="review" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="insurance" xml:space="preserve">
+    <value>Redeem Point</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="loginTitle" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="loginBtn" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="cancelBtn" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="registerText" xml:space="preserve">
+    <value>Don't have an account? &lt;a href='#' onclick='switchToRegister()'&gt;Register&lt;/a&gt;</value>
+  </data>
+  <data name="registerTitle" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="idcard" xml:space="preserve">
+    <value>ID Card</value>
+  </data>
+  <data name="license" xml:space="preserve">
+    <value>Upload Driving License</value>
+  </data>
+  <data name="registerBtn" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="loginText" xml:space="preserve">
+    <value>Already have an account? &lt;a href='#' onclick='switchToLogin()'&gt;Login&lt;/a&gt;</value>
+  </data>
+  <data name="siteTitle" xml:space="preserve">
+    <value>Base Motorcycle Rental System</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="bike1" xml:space="preserve">
+    <value>Honda Wave 125 LED</value>
+  </data>
+  <data name="bike1Price1" xml:space="preserve">
+    <value>300 THB / Day</value>
+  </data>
+  <data name="bike1Price2" xml:space="preserve">
+    <value>1,600 THB / Week</value>
+  </data>
+  <data name="bike1Price3" xml:space="preserve">
+    <value>3,000 THB / Month</value>
+  </data>
+  <data name="bike2" xml:space="preserve">
+    <value>Honda Pcx 160 (2025)</value>
+  </data>
+  <data name="bike2Price1" xml:space="preserve">
+    <value>550 THB / Day</value>
+  </data>
+  <data name="bike2Price2" xml:space="preserve">
+    <value>3,200 THB / Week</value>
+  </data>
+  <data name="bike2Price3" xml:space="preserve">
+    <value>8,000 THB / Month</value>
+  </data>
+  <data name="bike3" xml:space="preserve">
+    <value>Honda Scoopy (2024)</value>
+  </data>
+  <data name="bike3Price1" xml:space="preserve">
+    <value>300 THB / Day</value>
+  </data>
+  <data name="bike3Price2" xml:space="preserve">
+    <value>1,600 THB / Week</value>
+  </data>
+  <data name="bike3Price3" xml:space="preserve">
+    <value>3,000 THB / Month</value>
+  </data>
+  <data name="bike4" xml:space="preserve">
+    <value>Yamaha Grand Filano (2025)</value>
+  </data>
+  <data name="bike4Price1" xml:space="preserve">
+    <value>350 THB / Day</value>
+  </data>
+  <data name="bike4Price2" xml:space="preserve">
+    <value>2,000 THB / Week</value>
+  </data>
+  <data name="bike4Price3" xml:space="preserve">
+    <value>3,500 THB / Month</value>
+  </data>
+  <data name="bike5" xml:space="preserve">
+    <value>Yamaha NMAX TECH MAX (2025)</value>
+  </data>
+  <data name="bike5Price1" xml:space="preserve">
+    <value>550 THB / Day</value>
+  </data>
+  <data name="bike5Price2" xml:space="preserve">
+    <value>3,200 THB / Week</value>
+  </data>
+  <data name="bike5Price3" xml:space="preserve">
+    <value>8,000 THB / Month</value>
+  </data>
+  <data name="bike6" xml:space="preserve">
+    <value>Yamaha Fazzio FILA Edition (2024)</value>
+  </data>
+  <data name="bike6Price1" xml:space="preserve">
+    <value>300 THB / Day</value>
+  </data>
+  <data name="bike6Price2" xml:space="preserve">
+    <value>1,600 THB / Week</value>
+  </data>
+  <data name="bike6Price3" xml:space="preserve">
+    <value>3,000 THB / Month</value>
+  </data>
+  <data name="bike7" xml:space="preserve">
+    <value>Honda Click 160 Special Edition (2024)</value>
+  </data>
+  <data name="bike7Price1" xml:space="preserve">
+    <value>400 THB / Day</value>
+  </data>
+  <data name="bike7Price2" xml:space="preserve">
+    <value>2,200 THB / Week</value>
+  </data>
+  <data name="bike7Price3" xml:space="preserve">
+    <value>5,500 THB / Month</value>
+  </data>
+  <data name="bike8" xml:space="preserve">
+    <value>Honda Super Cub C125 Custom Edition (2025)</value>
+  </data>
+  <data name="bike8Price1" xml:space="preserve">
+    <value>700 THB / Day</value>
+  </data>
+  <data name="bike8Price2" xml:space="preserve">
+    <value>4,000 THB / Week</value>
+  </data>
+  <data name="bike8Price3" xml:space="preserve">
+    <value>10,000 THB / Month</value>
+  </data>
+  <data name="bike9" xml:space="preserve">
+    <value>Yamaha GT125 (Standard) (2023)</value>
+  </data>
+  <data name="bike9Price1" xml:space="preserve">
+    <value>600 THB / Day</value>
+  </data>
+  <data name="bike9Price2" xml:space="preserve">
+    <value>3,500 THB / Week</value>
+  </data>
+  <data name="bike9Price3" xml:space="preserve">
+    <value>9,000 THB / Month</value>
+  </data>
+  <data name="bike10" xml:space="preserve">
+    <value>Yamaha FINN UBS (2024)</value>
+  </data>
+  <data name="bike10Price1" xml:space="preserve">
+    <value>400 THB / Day</value>
+  </data>
+  <data name="bike10Price2" xml:space="preserve">
+    <value>2,200 THB / Week</value>
+  </data>
+  <data name="bike10Price3" xml:space="preserve">
+    <value>5,500 THB / Month</value>
+  </data>
+  <data name="bike11" xml:space="preserve">
+    <value>Yamaha Fazzio SMART KEY (2022)</value>
+  </data>
+  <data name="bike11Price1" xml:space="preserve">
+    <value>650 THB / Day</value>
+  </data>
+  <data name="bike11Price2" xml:space="preserve">
+    <value>3,800 THB / Week</value>
+  </data>
+  <data name="bike11Price3" xml:space="preserve">
+    <value>9,500 THB / Month</value>
+  </data>
+  <data name="bike12" xml:space="preserve">
+    <value>Honda Giorno+ ABS (2024)</value>
+  </data>
+  <data name="bike12Price1" xml:space="preserve">
+    <value>350 THB / Day</value>
+  </data>
+  <data name="bike12Price2" xml:space="preserve">
+    <value>2,000 THB / Week</value>
+  </data>
+  <data name="bike12Price3" xml:space="preserve">
+    <value>4,800 THB / Month</value>
+  </data>
+  <data name="contactTitle" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="contactSub" xml:space="preserve">
+    <value>Ways to reach us and more information</value>
+  </data>
+  <data name="contactHoursTitle" xml:space="preserve">
+    <value>Operating Hours</value>
+  </data>
+  <data name="contactHoursText" xml:space="preserve">
+    <value>08:00-18:00
+Open Daily</value>
+  </data>
+  <data name="contactAddressTitle" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="contactAddressText" xml:space="preserve">
+    <value>Bangkok, Thailand</value>
+  </data>
+  <data name="contactPhoneTitle" xml:space="preserve">
+    <value>Telephone &amp; Email</value>
+  </data>
+  <data name="contactPhoneText" xml:space="preserve">
+    <value>+66xxxxxxxxxx
++66xxxxxxxxxx
+xxx@gmail.com</value>
+  </data>
+  <data name="backHome" xml:space="preserve">
+    <value>← Back to Home</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="sign up" xml:space="preserve">
+    <value>Sign up</value>
+  </data>
+</root>
