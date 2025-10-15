@@ -1,51 +1,76 @@
-﻿// รอให้เอกสาร HTML ทั้งหมดโหลดเสร็จก่อนเริ่มทำงาน
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
-    // ===================================
-    // == ส่วนควบคุมการแสดง Modal Login/Register ==
-    // ===================================
-    $('.show-auth-modal').on('click', function (e) {
+    // ... (โค้ดเปิด modal, datepicker, AJAX for Login/Register ของเดิม) ...
+    // ... (ตรวจสอบให้แน่ใจว่าโค้ดเก่าทั้งหมดอยู่ครบ) ...
 
-        // ป้องกันไม่ให้ลิงก์ทำงานตามปกติ
+    // --- Datepicker สำหรับฟอร์ม Profile ---
+    $("#profileDatepicker").datepicker({
+        changeMonth: true, changeYear: true, yearRange: "c-100:c",
+        dateFormat: "yy-mm-dd", showAnim: "slideDown"
+    });
+
+    // ===========================================
+    // ==   เปิด Profile Modal และดึงข้อมูลเก่า   ==
+    // ===========================================
+    $('#showProfileModalBtn').on('click', function (e) {
         e.preventDefault();
 
-        // ดึงค่าจาก attribute 'data-form' ของปุ่มที่ถูกคลิก
-        var formType = $(this).data('form');
+        // ดึงข้อมูลโปรไฟล์ปัจจุบันจากเซิร์ฟเวอร์
+        $.ajax({
+            type: "GET",
+            url: "/Account/GetProfile",
+            success: function (data) {
+                // นำข้อมูลที่ได้ไปใส่ในฟอร์ม
+                $('#UserName').val(data.userName);
+                $('#Email').val(data.email);
+                $('#profileDatepicker').val(data.dateOfBirth);
 
-        // เปิด Modal ที่ถูกต้อง
-        if (formType === 'login') {
-            $('#loginModal').modal('show');
-        }
-        else if (formType === 'signup') {
-            $('#registerModal').modal('show');
-        }
+                // ซ่อนข้อความแจ้งเตือนเก่าๆ แล้วค่อยเปิด Modal
+                $('#profileErrorContainer').hide();
+                $('#profileSuccessContainer').hide();
+                $('#profileModal').modal('show');
+            },
+            error: function () {
+                alert("ไม่สามารถโหลดข้อมูลโปรไฟล์ได้");
+            }
+        });
     });
 
     // ===================================
-    // ==   ส่วนของ jQuery UI Datepicker  ==
+    // ==   AJAX for Profile Form      ==
     // ===================================
+    $('#profileForm').on('submit', function (e) {
+        e.preventDefault();
 
-    // **สำคัญ:** ตั้งค่าปฏิทินให้เป็นภาษาอังกฤษ (en-GB) เสมอ
-    // เพื่อแก้ปัญหาปี พ.ศ. เพี้ยน เมื่อเปลี่ยนภาษาเว็บเป็นไทย
-    $.datepicker.setDefaults($.datepicker.regional["en-GB"]);
+        var form = $(this);
+        var errorContainer = $('#profileErrorContainer');
+        var successContainer = $('#profileSuccessContainer');
+        errorContainer.hide();
+        successContainer.hide();
 
-    // สั่งให้ element ที่มี id="datepicker" กลายเป็นช่องเลือกวันที่แบบพิเศษ
-    $("#datepicker").datepicker({
-        changeMonth: true,     // เปิดให้เลือกเดือนจาก Dropdown
-        changeYear: true,      // เปิดให้เลือกปีจาก Dropdown
-        yearRange: "c-100:c",  // กำหนดช่วงปีให้เลือกได้ (100 ปีก่อนหน้า ถึงปีปัจจุบัน)
-        dateFormat: "yy-mm-dd", // กำหนด Format วันที่เป็น "ปี-เดือน-วัน"
-        showAnim: "slideDown"  // เพิ่ม Animation เล็กน้อยตอนเปิด
+        var formData = new FormData(this); // ใช้ FormData สำหรับการอัปโหลดไฟล์
+
+        $.ajax({
+            type: "POST",
+            url: form.attr('action'),
+            data: formData,
+            processData: false, // จำเป็นสำหรับ FormData
+            contentType: false, // จำเป็นสำหรับ FormData
+            success: function (response) {
+                if (response.success) {
+                    successContainer.text(response.message).show();
+                    // หน่วงเวลา 2 วินาทีแล้วรีโหลดหน้าเพื่อให้เห็นชื่อใหม่บน Navbar
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    errorContainer.text(response.message).show();
+                }
+            },
+            error: function () {
+                errorContainer.text('เกิดข้อผิดพลาดในการเชื่อมต่อ').show();
+            }
+        });
     });
-
-    // ===================================
-    // ==  ทำให้ Alert หายไปเองใน 5 วินาที  ==
-    // ===================================
-    // ใช้ setTimeout เพื่อหน่วงเวลาทำงาน
-    setTimeout(function () {
-        // ค้นหา div ที่มี class 'alert' แล้วค่อยๆ เลื่อนปิด (slideUp)
-        // 500 คือความเร็วในการเลื่อนปิด (0.5 วินาที)
-        $('.alert').slideUp(500);
-    }, 5000); // 5000 milliseconds = 5 วินาที
 
 });

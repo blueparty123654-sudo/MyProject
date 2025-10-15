@@ -1,18 +1,26 @@
-﻿<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+﻿@model MyProject.ViewModels.LoginViewModel
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLabel">เข้าสู่ระบบ</h5>
             </div>
             <div class="modal-body">
-                <form asp-controller="Account" asp-action="Login" method="post">
+                <form id="loginForm" asp-controller="Account" asp-action="Login" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div id="loginErrorContainer" class="alert alert-danger" style="display: none;"></div>
+
                     <div class="form-group">
-                        <label>อีเมล</label>
-                        <input type="email" name="Email" class="form-control" required />
+                        <label asp-for="Email">อีเมล</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label>รหัสผ่าน</label>
-                        <input type="password" name="Password" class="form-control" required />
+                        <label asp-for="Password">รหัสผ่าน</label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn">เข้าสู่ระบบ</button>
                 </form>

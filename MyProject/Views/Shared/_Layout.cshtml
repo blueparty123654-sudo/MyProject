@@ -174,8 +174,9 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <partial name="_ValidationScriptsPartial" />
-    <partial name="_LoginModalPartial" />
     <partial name="_RegisterModalPartial" model="new MyProject.ViewModels.RegisterViewModel()" />
+    <partial name="_LoginModalPartial" model="new MyProject.ViewModels.LoginViewModel()" />
+    <partial name="_ProfileModalPartial" model="new MyProject.ViewModels.ProfileViewModel()" />
 
 </body>
 </html>

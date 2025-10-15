@@ -1,94 +1,126 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Data;
 using MyProject.Models;
 using MyProject.ViewModels;
 using System.Globalization;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MyProject.Controllers // ตรวจสอบว่า namespace ตรงกับโปรเจกต์ของคุณ
+namespace MyProject.Controllers
 {
-    public class AccountController : Controller // << บรรทัดนี้สำคัญที่สุด! ต้องมี ": Controller"
+    public class AccountController : Controller
     {
         private readonly MyBookstoreDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        // Constructor สำหรับรับ DbContext และ IWebHostEnvironment
         public AccountController(MyBookstoreDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
 
+        // ... (Action Register, Login, Logout เหมือนเดิม) ...
+
+        // ===================================
+        // ==   ACTION: GET PROFILE DATA    ==
+        // ===================================
+        [HttpGet]
+        public async Task<IActionResult> GetProfile()
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            if (userEmail == null) return Unauthorized();
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+            if (user == null) return NotFound();
+
+            return Json(new
+            {
+                userName = user.UserName,
+                email = user.UserEmail,
+                dateOfBirth = user.UserDob.ToString("yyyy-MM-dd")
+            });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
         {
-            // *** การเปลี่ยนแปลงที่สำคัญที่สุด: ตรวจสอบ ModelState ก่อนเป็นอันดับแรก ***
             if (!ModelState.IsValid)
             {
-                // ค้นหาข้อความ Error แรกที่เจอใน ModelState เพื่อนำมาแสดง
                 var firstError = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
-
-                // นำข้อความ Error ที่เจอมาใส่ใน TempData ถ้าไม่เจอก็ใช้ข้อความกลางๆ แทน
-                TempData["RegisterError"] = firstError ?? "ข้อมูลไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
-
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false, message = firstError ?? "ข้อมูลไม่ถูกต้อง" });
             }
 
-            // --- โค้ดส่วนที่เหลือจะทำงานก็ต่อเมื่อข้อมูลเบื้องต้นถูกต้องทั้งหมดแล้ว ---
+            var currentUserEmail = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == currentUserEmail);
+            if (user == null) return Json(new { success = false, message = "ไม่พบผู้ใช้ในระบบ" });
 
-            // 1. ตรวจสอบอีเมลซ้ำ
-            if (await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
+            // ... (ส่วนอัปเดต UserName, Email, UserDob, และรหัสผ่าน เหมือนเดิม) ...
+            if (user.UserEmail != model.Email && await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
             {
-                TempData["RegisterError"] = "อีเมลนี้ถูกใช้งานแล้ว";
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false, message = "อีเมลใหม่นี้ถูกใช้งานโดยบัญชีอื่นแล้ว" });
             }
-
-            // 2. จัดการการอัปโหลดไฟล์
-            string uniqueFileName = "";
-            if (model.DrivingLicenseFile != null)
+            user.UserName = model.UserName;
+            user.UserEmail = model.Email;
+            user.UserDob = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(model.NewPassword))
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses");
-                if (!Directory.Exists(uploadsFolder))
+                if (string.IsNullOrEmpty(model.CurrentPassword) || user.UserPass != HashPassword(model.CurrentPassword))
                 {
-                    Directory.CreateDirectory(uploadsFolder);
+                    return Json(new { success = false, message = "รหัสผ่านปัจจุบันไม่ถูกต้อง" });
                 }
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.DrivingLicenseFile.FileName;
+                user.UserPass = HashPassword(model.NewPassword);
+            }
+
+            // *** ส่วนที่แก้ไข: เปลี่ยนเป็นการอัปเดตใบขับขี่ ***
+            if (model.NewDrivingLicenseFile != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses"); // ใช้โฟลเดอร์เดิม
+                if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+                // (Optional but recommended) ลบไฟล์เก่าทิ้งเพื่อประหยัดพื้นที่
+                if (!string.IsNullOrEmpty(user.UserDrivingcard))
+                {
+                    var oldFilePath = Path.Combine(uploadsFolder, user.UserDrivingcard);
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
+
+                // บันทึกไฟล์ใหม่
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.NewDrivingLicenseFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    await model.DrivingLicenseFile.CopyToAsync(fileStream);
+                    await model.NewDrivingLicenseFile.CopyToAsync(fileStream);
                 }
+                user.UserDrivingcard = uniqueFileName; // << บันทึกชื่อไฟล์ลงคอลัมน์ที่ถูกต้อง
             }
 
-            // 3. Hash รหัสผ่าน
-            var hashedPassword = HashPassword(model.Password);
-
-            // 4. แปลงวันที่ (ตอนนี้มั่นใจได้ว่า Format ถูกต้องเพราะผ่าน ModelState มาแล้ว)
-            var birthDate = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-            // 5. สร้าง Object User ใหม่
-            var user = new User
-            {
-                UserName = model.UserName,
-                UserEmail = model.Email,
-                UserNo = model.PhoneNumber,
-                UserDob = birthDate,
-                UserPass = hashedPassword,
-                UserDrivingcard = uniqueFileName,
-            };
-
-            // 6. บันทึกข้อมูล
-            _context.Users.Add(user);
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            TempData["RegisterSuccess"] = "สมัครสมาชิกสำเร็จ!";
-            return RedirectToAction("Index", "Home");
+            // ... (ส่วน SignOut/SignIn เพื่ออัปเดต Cookie เหมือนเดิม) ...
+            await HttpContext.SignOutAsync("MyCookieAuth");
+            var newClaims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Email, user.UserEmail),
+        new Claim("Points", user.UserPoint.ToString()),
+        new Claim("Status", user.Status ?? "N/A"),
+    };
+            var claimsIdentity = new ClaimsIdentity(newClaims, "MyCookieAuth");
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+
+            return Json(new { success = true, message = "อัปเดตโปรไฟล์สำเร็จ!" });
         }
 
-        // ฟังก์ชันสำหรับ Hash Password ต้องอยู่ภายใน Class
+        // ... (ฟังก์ชัน HashPassword เหมือนเดิม) ...
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())

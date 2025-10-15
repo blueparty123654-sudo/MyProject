@@ -1,0 +1,44 @@
+﻿@model MyProject.ViewModels.ProfileViewModel
+
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">โปรไฟล์ / เปลี่ยนรหัสผ่าน</h5>
+            </div>
+            <div class="modal-body">
+                <form id="profileForm" asp-controller="Account" asp-action="ChangePassword" method="post">
+
+                    <div id="profileErrorContainer" class="alert alert-danger" style="display: none;"></div>
+                    <div id="profileSuccessContainer" class="alert alert-success" style="display: none;"></div>
+
+                    <div class="form-group">
+                        <label>ชื่อผู้ใช้</label>
+                        <input type="text" class="form-control" value="@User.Identity!.Name" disabled>
+                    </div>
+                    <hr />
+
+                    <div class="form-group">
+                        <label asp-for="CurrentPassword">รหัสผ่านปัจจุบัน</label>
+                        <input asp-for="CurrentPassword" class="form-control">
+                        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="NewPassword">รหัสผ่านใหม่</label>
+                        <input asp-for="NewPassword" class="form-control">
+                        <span asp-validation-for="NewPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ConfirmNewPassword">ยืนยันรหัสผ่านใหม่</label>
+                        <input asp-for="ConfirmNewPassword" class="form-control">
+                        <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn">บันทึกการเปลี่ยนแปลง</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
