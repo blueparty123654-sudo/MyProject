@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\MyProject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_registermodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\views\\shared\\_registermodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_profilemodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\views\\shared\\_profilemodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_loginmodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\views\\shared\\_loginmodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -31,12 +27,20 @@
       "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\viewmodels\\profileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_registermodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\views\\shared\\_registermodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\views\\shared\\_loginmodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\views\\shared\\_loginmodalpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\validation\\agerangeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,10 +61,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|solutionrelative:myproject\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F28558E-F812-41FF-B461-71592CE2DA36}|MyProject\\MyProject.csproj|c:\\users\\user\\source\\repos\\myproject\\myproject\\data\\mybookstoredbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -122,152 +122,107 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_ProfileModalPartial.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
-              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
-              "RelativeToolTip": "MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T15:17:29.675Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "MyProject\\Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "MyProject\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAADwv24AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-14T17:58:31.604Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_LoginModalPartial.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
-              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
-              "RelativeToolTip": "MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T09:41:44.273Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "MyProject\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAiwLUAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-14T08:00:20.734Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "site.js",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "MyProject\\wwwroot\\js\\site.js",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "MyProject\\wwwroot\\js\\site.js",
-              "ViewState": "AgIAAFEAAAAAAAAAAADwv2YAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-10-15T10:42:04.172Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "_RegisterModalPartial.cshtml",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_RegisterModalPartial.cshtml",
               "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_RegisterModalPartial.cshtml",
               "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_RegisterModalPartial.cshtml",
               "RelativeToolTip": "MyProject\\Views\\Shared\\_RegisterModalPartial.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvyoAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-15T09:32:33.257Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "MyProject\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "MyProject\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAMwAAAAAAAAAAADwv9UAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-14T17:58:31.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "MyProject\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "MyProject\\wwwroot\\js\\site.js",
+              "ViewState": "AgIAAFcAAAAAAAAAAADwv2kAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-10-15T10:42:04.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ProfileViewModel.cs",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\ProfileViewModel.cs",
               "RelativeDocumentMoniker": "MyProject\\ViewModels\\ProfileViewModel.cs",
               "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\ProfileViewModel.cs",
               "RelativeToolTip": "MyProject\\ViewModels\\ProfileViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwCEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T15:15:24.783Z"
+              "WhenOpened": "2025-10-15T15:15:24.783Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AgeRangeAttribute.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Validation\\AgeRangeAttribute.cs",
-              "RelativeDocumentMoniker": "MyProject\\Validation\\AgeRangeAttribute.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Validation\\AgeRangeAttribute.cs",
-              "RelativeToolTip": "MyProject\\Validation\\AgeRangeAttribute.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T10:23:33.419Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "_ViewImports.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\_ViewImports.cshtml",
-              "RelativeDocumentMoniker": "MyProject\\Views\\_ViewImports.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\_ViewImports.cshtml",
-              "RelativeToolTip": "MyProject\\Views\\_ViewImports.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "_ProfileModalPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
+              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
+              "RelativeToolTip": "MyProject\\Views\\Shared\\_ProfileModalPartial.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACsAAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T10:43:25.566Z"
+              "WhenOpened": "2025-10-15T15:17:29.675Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "MyProject\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAiwLIAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-14T08:00:20.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "MyProject\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "MyProject\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAmwK8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-15T07:24:42.478Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "LoginViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\LoginViewModel.cs",
-              "RelativeDocumentMoniker": "MyProject\\ViewModels\\LoginViewModel.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\LoginViewModel.cs",
-              "RelativeToolTip": "MyProject\\ViewModels\\LoginViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T14:30:31.397Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "MyProject\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "MyProject\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "_LoginModalPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
+              "RelativeDocumentMoniker": "MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
+              "RelativeToolTip": "MyProject\\Views\\Shared\\_LoginModalPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T10:43:34.982Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "MyProject\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "MyProject\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T10:45:28.491Z"
+              "WhenOpened": "2025-10-15T09:41:44.273Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -279,11 +234,73 @@
               "RelativeToolTip": "MyProject\\ViewModels\\RegisterViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T09:12:01.351Z"
+              "WhenOpened": "2025-10-15T09:12:01.351Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "MyProject\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\ViewModels\\LoginViewModel.cs",
+              "RelativeToolTip": "MyProject\\ViewModels\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T14:30:31.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AgeRangeAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Validation\\AgeRangeAttribute.cs",
+              "RelativeDocumentMoniker": "MyProject\\Validation\\AgeRangeAttribute.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Validation\\AgeRangeAttribute.cs",
+              "RelativeToolTip": "MyProject\\Validation\\AgeRangeAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T10:23:33.419Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "MyProject\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "MyProject\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T10:43:25.566Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "MyProject\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "MyProject\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T10:43:34.982Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "MyProject\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "MyProject\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-15T10:45:28.491Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\appsettings.json",
               "RelativeDocumentMoniker": "MyProject\\appsettings.json",
@@ -292,18 +309,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-10-15T10:43:15.626Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "MyProject\\wwwroot\\css\\site.css",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\MyProject\\MyProject\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "MyProject\\wwwroot\\css\\site.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-15T07:24:42.478Z"
             },
             {
               "$type": "Document",

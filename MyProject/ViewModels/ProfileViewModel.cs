@@ -5,7 +5,6 @@ namespace MyProject.ViewModels
 {
     public class ProfileViewModel
     {
-        // --- ส่วนข้อมูลโปรไฟล์ ---
         [Required(ErrorMessage = "กรุณากรอกชื่อ-นามสกุล")]
         public string UserName { get; set; } = string.Empty;
 
@@ -20,8 +19,7 @@ namespace MyProject.ViewModels
         // สำหรับอัปโหลดใบขับขี่ใหม่ (ไม่บังคับ)
         public IFormFile? NewDrivingLicenseFile { get; set; }
 
-
-        // --- ส่วนเปลี่ยนรหัสผ่าน (ไม่บังคับ) ---
+        // ส่วนเปลี่ยนรหัสผ่าน (ไม่บังคับ)
         [DataType(DataType.Password)]
         public string? CurrentPassword { get; set; }
 

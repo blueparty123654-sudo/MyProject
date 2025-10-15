@@ -1,54 +1,40 @@
 ﻿@model MyProject.ViewModels.RegisterViewModel
-
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">สมัครสมาชิก</h5>
-            </div>
+            <div class="modal-header"><h5 class="modal-title" id="registerModalLabel">สมัครสมาชิก</h5></div>
             <div class="modal-body">
                 <form id="registerForm" asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
-
                     <div id="registerErrorContainer" class="alert alert-danger" style="display: none;"></div>
-                    <div id="registerSuccessContainer" class="alert alert-success" style="display: none;"></div>
-
                     <div class="form-group">
                         <label asp-for="UserName">ชื่อ-นามสกุล</label>
                         <input asp-for="UserName" class="form-control">
-                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Email">อีเมล</label>
                         <input asp-for="Email" class="form-control">
-                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="PhoneNumber">เบอร์โทรศัพท์</label>
                         <input asp-for="PhoneNumber" class="form-control" placeholder="0XXXXXXXXX">
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DateOfBirth">วัน/เดือน/ปีเกิด</label>
                         <input asp-for="DateOfBirth" id="datepicker" class="form-control" type="text" placeholder="กรุณาเลือกวันเกิด" autocomplete="off">
-                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Password">รหัสผ่าน</label>
                         <input asp-for="Password" class="form-control">
-                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ConfirmPassword">ยืนยันรหัสผ่าน</label>
                         <input asp-for="ConfirmPassword" class="form-control">
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="DrivingLicenseFile">รูปใบขับขี่หรือใบอนุญาต</label>
                         <input asp-for="DrivingLicenseFile" class="form-control-file">
-                        <span asp-validation-for="DrivingLicenseFile" class="text-danger"></span>
                     </div>
-
                     <button type="submit" class="btn">สมัครสมาชิก</button>
                 </form>
             </div>

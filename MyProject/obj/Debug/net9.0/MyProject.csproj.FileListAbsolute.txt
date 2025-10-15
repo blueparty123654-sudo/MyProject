@@ -171,7 +171,6 @@ C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\y9rv9
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\yeqq7984yy-k2wxddzotx.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\ryxoo9rih0-q3q4e9zs8x.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\y3qwz2iodl-sxy6c1d9kh.gz
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\lx9r8pf48f-zuf6g7gcz5.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\v4w2h1eygx-61n19gt1b8.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\fevv1rbui6-bqjiyaj88i.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\oulx5lev8l-c2jlpeoesf.gz
@@ -245,4 +244,5 @@ C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\refint\MyProject
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.pdb
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.genruntimeconfig.cache
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\ref\MyProject.dll
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-xbmin0c5sh.gz
+C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-gl65xlv8vz.gz
+C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\lx9r8pf48f-gd8ul0e4gh.gz

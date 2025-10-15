@@ -1,43 +1,57 @@
 ﻿@model MyProject.ViewModels.ProfileViewModel
 
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="profileModalLabel">โปรไฟล์ / เปลี่ยนรหัสผ่าน</h5>
+                <h5 class="modal-title" id="profileModalLabel">ข้อมูลส่วนตัว</h5>
             </div>
             <div class="modal-body">
-                <form id="profileForm" asp-controller="Account" asp-action="ChangePassword" method="post">
+                <form id="profileForm" asp-controller="Account" asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
                     <div id="profileErrorContainer" class="alert alert-danger" style="display: none;"></div>
                     <div id="profileSuccessContainer" class="alert alert-success" style="display: none;"></div>
 
-                    <div class="form-group">
-                        <label>ชื่อผู้ใช้</label>
-                        <input type="text" class="form-control" value="@User.Identity!.Name" disabled>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>ข้อมูลโปรไฟล์</h5>
+                            <div class="form-group">
+                                <label asp-for="UserName">ชื่อ-นามสกุล</label>
+                                <input asp-for="UserName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email">อีเมล</label>
+                                <input asp-for="Email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfBirth">วัน/เดือน/ปีเกิด</label>
+                                <input asp-for="DateOfBirth" id="profileDatepicker" class="form-control" type="text" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NewDrivingLicenseFile">อัปโหลดใบขับขี่ใหม่ (ถ้าต้องการเปลี่ยน)</label>
+                                <input asp-for="NewDrivingLicenseFile" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>เปลี่ยนรหัสผ่าน</h5>
+                            <div class="form-group">
+                                <label asp-for="CurrentPassword">รหัสผ่านปัจจุบัน</label>
+                                <input asp-for="CurrentPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NewPassword">รหัสผ่านใหม่</label>
+                                <input asp-for="NewPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmNewPassword">ยืนยันรหัสผ่านใหม่</label>
+                                <input asp-for="ConfirmNewPassword" class="form-control">
+                            </div>
+                        </div>
                     </div>
-                    <hr/>
 
-                    <div class="form-group">
-                        <label asp-for="CurrentPassword">รหัสผ่านปัจจุบัน</label>
-                        <input asp-for="CurrentPassword" class="form-control">
-                        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="NewPassword">รหัสผ่านใหม่</label>
-                        <input asp-for="NewPassword" class="form-control">
-                        <span asp-validation-for="NewPassword" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="ConfirmNewPassword">ยืนยันรหัสผ่านใหม่</label>
-                        <input asp-for="ConfirmNewPassword" class="form-control">
-                        <span asp-validation-for="ConfirmNewPassword" class="text-danger"></span>
-                    </div>
-
-                    <button type="submit" class="btn">บันทึกการเปลี่ยนแปลง</button>
+                    <hr />
+                    <button type="submit" class="btn w-100">บันทึกการเปลี่ยนแปลง</button>
                 </form>
             </div>
         </div>

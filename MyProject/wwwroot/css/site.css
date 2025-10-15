@@ -1,5 +1,10 @@
+/* =================================== */
+/* ==      Base & Global Styles     == */
+/* =================================== */
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,281 +13,163 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
     margin-bottom: 60px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-    color: var(--bs-secondary-color);
-    text-align: end;
+/* --- Custom Focus Style --- */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-    text-align: start;
-}
 
-/* --- Modal Styles --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1050;
-}
-
-.auth-modal {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 100%;
-    max-width: 400px;
-    position: relative;
-    display: none; /* ซ่อน modal ไว้ก่อน */
-}
-
-    .auth-modal h2 {
-        margin-top: 0;
-        margin-bottom: 25px;
-        text-align: center;
-        color: #333;
-    }
-
-    .auth-modal .form-group {
-        margin-bottom: 15px;
-    }
-
-    .auth-modal .form-control {
-        border-radius: 5px;
-    }
-
-    .auth-modal .btn-block {
-        width: 100%;
-        padding: 10px;
-        background-color: #ffc107; /* สีเหลืองเหมือนตัวอย่าง */
-        border: none;
-        font-weight: bold;
-    }
-
-        .auth-modal .btn-block:hover {
-            background-color: #e0a800;
-        }
-
-    .auth-modal .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 28px;
-        font-weight: bold;
-        color: #aaa;
-        cursor: pointer;
-    }
-
-        .auth-modal .close-btn:hover {
-            color: #333;
-        }
-
-.password-wrapper {
-    position: relative;
-}
-
-.password-wrapper .toggle-password {
-position: absolute;
-top: 50%;
-right: 10px;
-transform: translateY(-50%);
-cursor: pointer;
-color: #aaa;
-}
-
-.user-info-panel {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* ระยะห่างระหว่างชื่อกับปุ่ม logout */
-    color: white; /* หรือสีที่เข้ากับเว็บของคุณ */
-}
-
-    .user-info-panel span {
-        font-size: 0.9rem;
-    }
-
-.btn-logout {
-    background-color: #dc3545; /* สีแดงสำหรับ logout */
-    color: white !important;
-    padding: 8px 15px;
-    border-radius: 20px;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-    .btn-logout:hover {
-        background-color: #c82333;
-        color: white !important;
-    }
-
-
-/* --- New User Profile Bar Styles --- */
+/* =================================== */
+/* ==   User Profile Bar (Navbar)   == */
+/* =================================== */
 .user-profile-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50px; /* ทำให้ขอบมนเป็นแคปซูล */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
     padding: 5px;
     gap: 10px;
-    width: 100%;
-    max-width: 500px; /* ปรับขนาดได้ตามความเหมาะสม */
 }
 
 .user-details-link {
     display: flex;
     align-items: center;
-    gap: 8px; /* ระยะห่างระหว่างไอคอนกับข้อความ */
+    gap: 8px;
     color: white;
     text-decoration: none;
     padding: 8px 15px;
     border-radius: 50px;
-    transition: background-color 0.3s ease;
-    flex-grow: 1; /* ทำให้ลิงก์ขยายเต็มพื้นที่ที่เหลือ */
+    transition: all 0.3s ease;
+    flex-grow: 1;
 }
 
     .user-details-link:hover {
-        background-color: rgba(255, 255, 255, 0.1); /* Effect ตอนเอาเมาส์ไปชี้ */
+        background-color: rgba(255, 255, 255, 0.2);
         color: white;
-        transform: translateY(-1px);
     }
 
     .user-details-link i {
-        color: #ffc107; /* สีเหลืองสำหรับไอคอน */
+        color: #ffc107;
         font-size: 1.1em;
     }
 
 .btn-logout-yellow {
-    background-color: #ffc107; /* สีเหลืองสด */
-    color: #212529 !important; /* สีตัวอักษรเข้ม */
+    background-color: #ffc107;
+    color: #212529 !important;
     font-weight: bold;
     padding: 8px 20px;
     border-radius: 50px;
     text-decoration: none;
-    transition: background-color 0.2s ease;
-    white-space: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
     .btn-logout-yellow:hover {
-        background-color: #e0a800; /* สีเหลืองเข้มขึ้นตอนชี้ */
+        background-color: #e0a800;
         color: #212529 !important;
-        transform: translateY(-1px);
     }
 
-/* ======================================== */
-/* ==   Custom Styles for Auth Modals    == */
-/* ======================================== */
 
-/* --- 1. จัดระเบียบและเพิ่มช่องไฟ --- */
-/* ใช้ , เพื่อกำหนดสไตล์ให้ทั้งสองฟอร์มพร้อมกัน */
-#registerModal .form-group,
-#loginModal .form-group {
-    margin-bottom: 1.25rem; /* เพิ่มระยะห่างด้านล่างของแต่ละช่อง (ปรับค่าได้ตามชอบ) */
+/* =================================== */
+/* ==    Floating Alert Messages    == */
+/* =================================== */
+.floating-alert-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 90%;
+    max-width: 600px;
 }
 
-/* --- 2. ตกแต่งส่วนหัว (Header) และซ่อนปุ่ม 'x' --- */
+.alert-danger {
+    background-color: #d32f2f;
+    color: #ffffff;
+    border-color: #c62828;
+}
+
+.alert-success {
+    background-color: #2e7d32;
+    color: #ffffff;
+    border-color: #1b5e20;
+}
+
+
+/* ================================================= */
+/* ==   Styles for ALL Modals (Login, Register, Profile)   == */
+/* ================================================= */
+
+/* --- 1. Header & Title --- */
+#loginModal .modal-header,
 #registerModal .modal-header,
-#loginModal .modal-header {
-    background-color: #ffffff !important; /* เปลี่ยนพื้นหลังกลับเป็นสีขาว */
-    color: #1a237e; /* เปลี่ยนสีตัวอักษรกลับเป็นสีน้ำเงินเข้ม */
-    border-bottom: 1px solid #dee2e6; /* เพิ่มเส้นขอบบางๆ ด้านล่างเพื่อแบ่งสัดส่วน */
-    justify-content: center; /* จัดให้หัวข้ออยู่ตรงกลางแนวนอน */
+#profileModal .modal-header {
+    justify-content: center;
+    border-bottom: 1px solid #dee2e6;
 }
 
-    /* ทำให้ Title ดูเด่นขึ้น */
-    #registerModal .modal-header .modal-title,
-    #loginModal .modal-header .modal-title {
-        font-size: 1.5rem; /* เพิ่มขนาดตัวอักษร */
-        font-weight: bold;
-    }
+#loginModal .modal-title,
+#registerModal .modal-title,
+#profileModal .modal-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #1a237e;
+}
 
-    /* ซ่อนปุ่ม 'x' (ถ้ายังไม่ได้ลบใน HTML) */
-    #registerModal .modal-header .close,
-    #loginModal .modal-header .close {
-        display: none;
-    }
+/* --- 2. Form Spacing --- */
+#loginModal .form-group,
+#registerModal .form-group,
+#profileModal .form-group {
+    margin-bottom: 1.25rem;
+}
 
-/* --- 3. สไตล์กลางสำหรับ Label และ Input --- */
+/* --- 3. Labels & Inputs --- */
+#loginModal label,
 #registerModal label,
-#loginModal label {
+#profileModal label {
     color: #1a237e;
     font-weight: bold;
 }
 
+#loginModal .form-control,
 #registerModal .form-control,
-#loginModal .form-control {
-    background-color: #f5f5f5; /* เปลี่ยนเป็นสีเทาอ่อนๆ จะดูสบายตากว่าสีขาว */
+#profileModal .form-control {
+    background-color: #f5f5f5;
     color: #1a237e;
     border: 1px solid #1a237e;
-    border-radius: 5px; /* ทำให้ขอบมนเล็กน้อย */
+    border-radius: 5px;
 }
 
+    #loginModal .form-control:focus,
     #registerModal .form-control:focus,
-    #loginModal .form-control:focus {
+    #profileModal .form-control:focus {
         background-color: #ffffff;
         border-color: #ffcc00;
         box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.5);
     }
 
-/* --- 4. ตกแต่งปุ่ม Submit ให้เป็นธีมเดียวกัน --- */
+/* --- 4. Main Buttons (Submit) --- */
+#loginModal .btn,
 #registerModal .btn,
-#loginModal .btn {
+#profileModal .btn {
     background-color: #ffcc00 !important;
     border-color: #ffcc00 !important;
     color: #1a237e !important;
     font-weight: bold;
-    width: 100%; /* ทำให้ปุ่มเต็มความกว้าง */
-    padding: 10px 0; /* เพิ่มความสูงให้ปุ่ม */
+    width: 100%;
+    padding: 0.75rem 1rem; /* ปรับปรุง padding ให้สวยงาม */
     font-size: 1rem;
+    transition: background-color 0.2s ease-in-out;
 }
 
+    #loginModal .btn:hover,
     #registerModal .btn:hover,
-    #loginModal .btn:hover {
-        background-color: #e6b800 !important; /* ทำให้สีเข้มขึ้นเมื่อเมาส์ชี้ */
-        border-color: #e6b800 !important;
+    #profileModal .btn:hover {
+        background-color: #e0a800 !important;
+        border-color: #e0a800 !important;
     }
-
-/* =================================== */
-/* ==   Floating Alert Container    == */
-/* =================================== */
-.floating-alert-container {
-    position: fixed; /* ทำให้ลอยอยู่กับหน้าจอ ไม่เลื่อนตาม */
-    top: 20px; /* ระยะห่างจากขอบบนสุดของจอ */
-    left: 50%; /* จัดให้อยู่กึ่งกลางแนวนอน (ขั้นตอนที่ 1) */
-    transform: translateX(-50%); /* จัดให้อยู่กึ่งกลางแนวนอน (ขั้นตอนที่ 2) */
-    z-index: 9999; /* ตั้งค่าให้ลอยอยู่เหนือทุกอย่าง */
-    width: 90%; /* ความกว้างสำหรับจอมือถือ */
-    max-width: 600px; /* ความกว้างสูงสุดสำหรับจอใหญ่ */
-}
-
-.alert-danger {
-    background-color: #d32f2f; /* สีพื้นหลังแดงเข้ม */
-    color: #ffffff; /* สีตัวอักษรเป็นสีขาว */
-    border-color: #c62828; /* สีขอบให้เข้มขึ้นเล็กน้อย */
-}
-
-/* --- สีเขียวเข้มสำหรับ Success --- */
-.alert-success {
-    background-color: #2e7d32; /* สีพื้นหลังเขียวเข้ม */
-    color: #ffffff; /* สีตัวอักษรเป็นสีขาว */
-    border-color: #1b5e20; /* สีขอบให้เข้มขึ้นเล็กน้อย */
-}
