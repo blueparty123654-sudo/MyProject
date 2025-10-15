@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MyProject.Validation;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
 namespace MyProject.ViewModels
@@ -19,8 +20,8 @@ namespace MyProject.ViewModels
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "กรุณาเลือกวันเกิด")]
-        [DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        [AgeRange(16, 100, ErrorMessage = "ผู้สมัครต้องมีอายุระหว่าง 16 ถึง 100 ปี")]
+        public string DateOfBirth { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "กรุณากรอกรหัสผ่าน")]
         [StringLength(100, MinimumLength = 8, ErrorMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร")]

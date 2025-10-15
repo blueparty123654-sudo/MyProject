@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyProject.Data;
 using MyProject.Models;
 using MyProject.ViewModels;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -24,55 +25,66 @@ namespace MyProject.Controllers // ตรวจสอบว่า namespace ต�
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            // *** การเปลี่ยนแปลงที่สำคัญที่สุด: ตรวจสอบ ModelState ก่อนเป็นอันดับแรก ***
+            if (!ModelState.IsValid)
             {
-                // 1. ตรวจสอบอีเมลซ้ำ
-                if (await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
-                {
-                    TempData["RegisterError"] = "อีเมลนี้ถูกใช้งานแล้ว";
-                    return RedirectToAction("Index", "Home");
-                }
+                // ค้นหาข้อความ Error แรกที่เจอใน ModelState เพื่อนำมาแสดง
+                var firstError = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
 
-                // 2. จัดการการอัปโหลดไฟล์
-                string uniqueFileName = ""; // กำหนดค่าเริ่มต้น
-                if (model.DrivingLicenseFile != null)
-                {
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses");
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.DrivingLicenseFile.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.DrivingLicenseFile.CopyToAsync(fileStream);
-                    }
-                }
+                // นำข้อความ Error ที่เจอมาใส่ใน TempData ถ้าไม่เจอก็ใช้ข้อความกลางๆ แทน
+                TempData["RegisterError"] = firstError ?? "ข้อมูลไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
 
-                // 3. Hash รหัสผ่าน
-                var hashedPassword = HashPassword(model.Password);
-
-                // 4. สร้าง Object User ใหม่
-                var user = new User
-                {
-                    UserName = model.UserName,
-                    UserEmail = model.Email,
-                    UserNo = model.PhoneNumber,
-                    UserDob = DateOnly.FromDateTime(model.DateOfBirth),
-                    UserPass = hashedPassword,
-                    UserDrivingcard = uniqueFileName,
-                };
-
-                // 5. บันทึกข้อมูล
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-
-                TempData["RegisterSuccess"] = "สมัครสมาชิกสำเร็จ!";
                 return RedirectToAction("Index", "Home");
             }
 
-            TempData["RegisterError"] = "ข้อมูลไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
+            // --- โค้ดส่วนที่เหลือจะทำงานก็ต่อเมื่อข้อมูลเบื้องต้นถูกต้องทั้งหมดแล้ว ---
+
+            // 1. ตรวจสอบอีเมลซ้ำ
+            if (await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
+            {
+                TempData["RegisterError"] = "อีเมลนี้ถูกใช้งานแล้ว";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // 2. จัดการการอัปโหลดไฟล์
+            string uniqueFileName = "";
+            if (model.DrivingLicenseFile != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.DrivingLicenseFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.DrivingLicenseFile.CopyToAsync(fileStream);
+                }
+            }
+
+            // 3. Hash รหัสผ่าน
+            var hashedPassword = HashPassword(model.Password);
+
+            // 4. แปลงวันที่ (ตอนนี้มั่นใจได้ว่า Format ถูกต้องเพราะผ่าน ModelState มาแล้ว)
+            var birthDate = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+            // 5. สร้าง Object User ใหม่
+            var user = new User
+            {
+                UserName = model.UserName,
+                UserEmail = model.Email,
+                UserNo = model.PhoneNumber,
+                UserDob = birthDate,
+                UserPass = hashedPassword,
+                UserDrivingcard = uniqueFileName,
+            };
+
+            // 6. บันทึกข้อมูล
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            TempData["RegisterSuccess"] = "สมัครสมาชิกสำเร็จ!";
             return RedirectToAction("Index", "Home");
         }
 

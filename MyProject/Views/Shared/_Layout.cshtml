@@ -92,83 +92,29 @@
             </div>
         </nav>
     </header>
+
+    @if (TempData["RegisterError"] != null || TempData["RegisterSuccess"] != null)
+    {
+        <div class="floating-alert-container">
+            @if (TempData["RegisterError"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["RegisterError"]
+                </div>
+            }
+            @if (TempData["RegisterSuccess"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["RegisterSuccess"]
+                </div>
+            }
+        </div>
+    }
+
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 
-    <div class="modal-overlay" id="authModalOverlay" style="display: none;">
-        <div class="auth-modal" id="loginModalContainer">
-            <span class="close-btn">×</span>
-            <h2>@Localizer["log in"]</h2>
-            <form asp-controller="Account" asp-action="Login" method="post">
-                <div class="form-group">
-                    <label>@Localizer["email"]</label>
-                    <input type="email" name="Email" class="form-control" required />
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["password"]</label>
-                    <div class="password-wrapper">
-                        <input type="password" name="Password" id="loginPassword" class="form-control" required />
-                        <i class="fa-solid fa-eye-slash toggle-password"></i>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">@Localizer["log in"]</button>
-            </form>
-        </div>
-
-        <div class="auth-modal" id="registerModalContainer">
-            <span class="close-btn">×</span>
-            <h2>@Localizer["sign up"]</h2>
-            <form id="registerForm" method="post" enctype="multipart/form-data">
-                @Html.AntiForgeryToken() <div class="form-group">
-                    <label>@Localizer["name"]</label>
-                    <input type="text" name="Name" class="form-control" required />
-                    <span class="text-danger validation-message" data-for="Name"></span>
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["email"]</label>
-                    <input type="email" name="Email" class="form-control" required />
-                    <span class="text-danger validation-message" data-for="Email"></span>
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["phone number"]</label>
-                    <input type="tel" name="PhoneNumber" class="form-control" required />
-                    <span class="text-danger validation-message" data-for="PhoneNumber"></span>
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["date of birth"]</label>
-                    <input type="text" id="visibleDateOfBirth" class="form-control" required autocomplete="off" />
-
-                    <input type="hidden" name="DateOfBirth" id="hiddenDateOfBirth" />
-
-                    <span class="text-danger validation-message" data-for="DateOfBirth"></span>
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["password"]</label>
-                    <div class="password-wrapper">
-                        <input type="password" name="Password" id="registerPassword" class="form-control" required />
-                        <i class="fa-solid fa-eye-slash toggle-password"></i>
-                    </div>
-                    <span class="text-danger validation-message" data-for="Password"></span>
-                </div>
-                <div class="form-group">
-                    <label>@Localizer["license"]</label>
-                    <input type="file" name="LicenseImage" class="form-control-file" accept="image/*" required />
-                    <span class="text-danger validation-message" data-for="LicenseImage"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">@Localizer["sign up"]</button>
-            </form>
-        </div>
-
-        <div class="auth-modal" id="profileModalContainer">
-            <span class="close-btn">&times;</span>
-            <h2>@Localizer["profile"]</h2>
-            <div id="profileModalBody">
-                <p>Loading...</p>
-            </div>
-        </div>
-
-    </div>
     <footer id="footer-section" class="footer-local" role="contentinfo">
         <div class="container">
             <div class="footer-local__main">
@@ -227,91 +173,9 @@
     
     @await RenderSectionAsync("Scripts", required: false)
 
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">เข้าสู่ระบบ</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form asp-controller="Account" asp-action="Login" method="post">
-                        <div class="form-group">
-                            <label for="email">อีเมล</label>
-                            <input type="email" class="form-control" name="email" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">รหัสผ่าน</label>
-                            <input type="password" class="form-control" name="password" placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">สมัครสมาชิก</h5>
-                </div>
-                <div class="modal-body">
-                    @model MyProject.ViewModels.RegisterViewModel
-
-                    <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
-
-                        <div class="form-group">
-                            <label asp-for="UserName">ชื่อ-นามสกุล</label>
-                            <input asp-for="UserName" class="form-control">
-                            <span asp-validation-for="UserName" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="Email">อีเมล</label>
-                            <input asp-for="Email" class="form-control">
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="PhoneNumber">เบอร์โทรศัพท์</label>
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="0XXXXXXXXX">
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="DateOfBirth">วัน/เดือน/ปีเกิด</label>
-                            <input asp-for="DateOfBirth" id="datepicker" class="form-control" type="text" placeholder="กรุณาเลือกวันเกิด" autocomplete="off">
-                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="Password">รหัสผ่าน</label>
-                            <input asp-for="Password" class="form-control">
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="ConfirmPassword">ยืนยันรหัสผ่าน</label>
-                            <input asp-for="ConfirmPassword" class="form-control">
-                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="DrivingLicenseFile">รูปใบขับขี่หรือใบอนุญาต</label>
-                            <input asp-for="DrivingLicenseFile" class="form-control-file">
-                            <span asp-validation-for="DrivingLicenseFile" class="text-danger"></span>
-                        </div>
-
-                        <button type="submit" class="btn">สมัครสมาชิก</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_LoginModalPartial" />
+    <partial name="_RegisterModalPartial" model="new MyProject.ViewModels.RegisterViewModel()" />
 
 </body>
 </html>
