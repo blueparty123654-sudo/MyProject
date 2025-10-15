@@ -245,4 +245,4 @@ C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\refint\MyProject
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.pdb
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.genruntimeconfig.cache
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\ref\MyProject.dll
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-va7z47a5au.gz
+C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-xbmin0c5sh.gz

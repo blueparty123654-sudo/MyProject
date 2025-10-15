@@ -1,76 +1,110 @@
 ﻿$(document).ready(function () {
-
-    // ... (โค้ดเปิด modal, datepicker, AJAX for Login/Register ของเดิม) ...
-    // ... (ตรวจสอบให้แน่ใจว่าโค้ดเก่าทั้งหมดอยู่ครบ) ...
-
-    // --- Datepicker สำหรับฟอร์ม Profile ---
-    $("#profileDatepicker").datepicker({
+    // ... (ส่วนเปิด Modal และ Datepicker เหมือนเดิม) ...
+    $('.show-auth-modal').on('click', function (e) {
+        e.preventDefault();
+        var formType = $(this).data('form');
+        if (formType === 'login') {
+            $('#loginErrorContainer').hide();
+            $('#loginModal').modal('show');
+        } else if (formType === 'signup') {
+            $('#registerErrorContainer').hide();
+            $('#registerModal').modal('show');
+        }
+    });
+    $('#showProfileModalBtn').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "GET", url: "/Account/GetProfile",
+            success: function (data) {
+                $('#UserName').val(data.userName);
+                $('#Email').val(data.email);
+                $('#profileDatepicker').val(data.dateOfBirth);
+                $('#profileErrorContainer').hide();
+                $('#profileSuccessContainer').hide();
+                $('#profileModal').modal('show');
+            },
+            error: function () { alert("ไม่สามารถโหลดข้อมูลโปรไฟล์ได้"); }
+        });
+    });
+    $.datepicker.setDefaults($.datepicker.regional["en-GB"]);
+    $("#datepicker, #profileDatepicker").datepicker({
         changeMonth: true, changeYear: true, yearRange: "c-100:c",
         dateFormat: "yy-mm-dd", showAnim: "slideDown"
     });
 
     // ===========================================
-    // ==   เปิด Profile Modal และดึงข้อมูลเก่า   ==
+    // ==   AJAX SUBMISSION WITH ANTI-FORGERY   ==
     // ===========================================
-    $('#showProfileModalBtn').on('click', function (e) {
+
+    // --- AJAX for Login Form ---
+    $('#loginForm').on('submit', function (e) {
         e.preventDefault();
-
-        // ดึงข้อมูลโปรไฟล์ปัจจุบันจากเซิร์ฟเวอร์
-        $.ajax({
-            type: "GET",
-            url: "/Account/GetProfile",
-            success: function (data) {
-                // นำข้อมูลที่ได้ไปใส่ในฟอร์ม
-                $('#UserName').val(data.userName);
-                $('#Email').val(data.email);
-                $('#profileDatepicker').val(data.dateOfBirth);
-
-                // ซ่อนข้อความแจ้งเตือนเก่าๆ แล้วค่อยเปิด Modal
-                $('#profileErrorContainer').hide();
-                $('#profileSuccessContainer').hide();
-                $('#profileModal').modal('show');
-            },
-            error: function () {
-                alert("ไม่สามารถโหลดข้อมูลโปรไฟล์ได้");
-            }
-        });
-    });
-
-    // ===================================
-    // ==   AJAX for Profile Form      ==
-    // ===================================
-    $('#profileForm').on('submit', function (e) {
-        e.preventDefault();
-
         var form = $(this);
-        var errorContainer = $('#profileErrorContainer');
-        var successContainer = $('#profileSuccessContainer');
+        var errorContainer = $('#loginErrorContainer');
         errorContainer.hide();
-        successContainer.hide();
-
-        var formData = new FormData(this); // ใช้ FormData สำหรับการอัปโหลดไฟล์
+        var token = form.find('input[name="__RequestVerificationToken"]').val(); // **ดึงรหัสลับ**
 
         $.ajax({
-            type: "POST",
-            url: form.attr('action'),
-            data: formData,
-            processData: false, // จำเป็นสำหรับ FormData
-            contentType: false, // จำเป็นสำหรับ FormData
+            type: "POST", url: form.attr('action'), data: form.serialize(),
+            headers: { 'RequestVerificationToken': token }, // **แนบรหัสลับไปกับ Header**
             success: function (response) {
                 if (response.success) {
-                    successContainer.text(response.message).show();
-                    // หน่วงเวลา 2 วินาทีแล้วรีโหลดหน้าเพื่อให้เห็นชื่อใหม่บน Navbar
-                    setTimeout(function () {
-                        window.location.reload();
-                    }, 2000);
+                    window.location.reload();
                 } else {
                     errorContainer.text(response.message).show();
                 }
             },
-            error: function () {
-                errorContainer.text('เกิดข้อผิดพลาดในการเชื่อมต่อ').show();
-            }
+            error: function () { errorContainer.text('เกิดข้อผิดพลาดในการเชื่อมต่อ').show(); }
         });
     });
 
+    // --- AJAX for Register Form ---
+    $('#registerForm').on('submit', function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var errorContainer = $('#registerErrorContainer');
+        errorContainer.hide();
+        var formData = new FormData(this);
+        var token = form.find('input[name="__RequestVerificationToken"]').val(); // **ดึงรหัสลับ**
+
+        $.ajax({
+            type: "POST", url: form.attr('action'), data: formData,
+            processData: false, contentType: false,
+            headers: { 'RequestVerificationToken': token }, // **แนบรหัสลับไปกับ Header**
+            success: function (response) {
+                if (response.success) {
+                    window.location.reload();
+                } else {
+                    errorContainer.text(response.message).show();
+                }
+            },
+            error: function () { errorContainer.text('เกิดข้อผิดพลาดในการเชื่อมต่อ').show(); }
+        });
+    });
+
+    // --- AJAX for Profile Form ---
+    $('#profileForm').on('submit', function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var errorContainer = $('#profileErrorContainer');
+        var successContainer = $('#profileSuccessContainer');
+        errorContainer.hide(); successContainer.hide();
+        var formData = new FormData(this);
+        var token = form.find('input[name="__RequestVerificationToken"]').val(); // **ดึงรหัสลับ**
+
+        $.ajax({
+            type: "POST", url: form.attr('action'), data: formData,
+            processData: false, contentType: false,
+            headers: { 'RequestVerificationToken': token }, // **แนบรหัสลับไปกับ Header**
+            success: function (response) {
+                if (response.success) {
+                    successContainer.text(response.message).show();
+                    setTimeout(function () { window.location.reload(); }, 2000);
+                } else {
+                    errorContainer.text(response.message).show();
+                }
+            },
+            error: function () { errorContainer.text('เกิดข้อผิดพลาดในการเชื่อมต่อ').show(); }
+        });
+    });
 });

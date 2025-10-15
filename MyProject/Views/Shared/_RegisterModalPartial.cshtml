@@ -8,6 +8,7 @@
             </div>
             <div class="modal-body">
                 <form id="registerForm" asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
 
                     <div id="registerErrorContainer" class="alert alert-danger" style="display: none;"></div>
                     <div id="registerSuccessContainer" class="alert alert-success" style="display: none;"></div>

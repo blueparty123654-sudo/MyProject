@@ -8,6 +8,7 @@
             </div>
             <div class="modal-body">
                 <form id="profileForm" asp-controller="Account" asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
 
                     <div id="profileErrorContainer" class="alert alert-danger" style="display: none;"></div>
                     <div id="profileSuccessContainer" class="alert alert-success" style="display: none;"></div>
@@ -16,7 +17,7 @@
                         <label>ชื่อผู้ใช้</label>
                         <input type="text" class="form-control" value="@User.Identity!.Name" disabled>
                     </div>
-                    <hr />
+                    <hr/>
 
                     <div class="form-group">
                         <label asp-for="CurrentPassword">รหัสผ่านปัจจุบัน</label>

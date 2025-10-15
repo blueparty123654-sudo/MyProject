@@ -10,7 +10,6 @@ wwwroot\images\licenses\88783b07-ba33-4a12-89ff-efd7c88b8474_.png
 wwwroot\images\licenses\8a3f6055-4872-4633-b051-3eb01123bd63_.png
 wwwroot\images\licenses\dc2e780c-71fe-4b62-b7d9-7ce2e20a321c.png
 wwwroot\images\licenses\f0e76dc3-7d4d-4503-9cc3-ff9614e98c79.png
-wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -79,6 +78,7 @@ wwwroot\uploads\driving_licenses\a97ec3e1-2792-48ca-be0f-964f18410674_Screenshot
 wwwroot\uploads\driving_licenses\b1a68e26-f85f-482c-8b9b-e233273f4460_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\c10b14d4-1efe-4846-bc4b-730cc1d9350b_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
+wwwroot\js\site.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\contact.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Index.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\RedeemPoints.css
