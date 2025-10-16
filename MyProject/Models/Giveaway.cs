@@ -4,12 +4,15 @@ namespace MyProject.Models
 {
     public class Giveaway
     {
-        [Key] // 👈 ติดป้าย
-        public int GiveawayId { get; set; } // เดิมคือ GId
+        [Key]
+        public int GiveawayId { get; set; }
+        [Required]
+        public string Name { get; set; } = null!;
+        [Required]
+        public string ImageUrl { get; set; } = string.Empty; // 👈 **เพิ่มบรรทัดนี้เข้ามา**
+        public int PointCost { get; set; }
 
-        public string Name { get; set; } = null!; // เดิมคือ GName
-        public int PointCost { get; set; } // เดิมคือ GPointcost
-
+        // ความสัมพันธ์กับ Redemption
         public virtual ICollection<Redemption> Redemptions { get; set; } = new List<Redemption>();
     }
 }

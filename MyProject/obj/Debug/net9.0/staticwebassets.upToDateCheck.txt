@@ -4,12 +4,43 @@ wwwroot\css\RedeemPoints.css
 wwwroot\css\Review.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\giveaways\Adidas_Lite_Racer_RBN_2.0_FW3890_Shoes.png
+wwwroot\images\giveaways\Backpack.png
+wwwroot\images\giveaways\Bluetooth_Headphones.png
+wwwroot\images\giveaways\Half_Helmet.png
+wwwroot\images\giveaways\Raincoat.png
+wwwroot\images\giveaways\Realme_Watch_2.png
+wwwroot\images\giveaways\Smart_Helmet.png
+wwwroot\images\giveaways\Sunscreen_Long_Shirt.png
 wwwroot\images\licenses\1b355657-3200-4630-8599-bd06668d74a6.png
 wwwroot\images\licenses\4f207179-7421-4cf8-9d0f-fca3ab7956e8_.png
 wwwroot\images\licenses\88783b07-ba33-4a12-89ff-efd7c88b8474_.png
 wwwroot\images\licenses\8a3f6055-4872-4633-b051-3eb01123bd63_.png
 wwwroot\images\licenses\dc2e780c-71fe-4b62-b7d9-7ce2e20a321c.png
 wwwroot\images\licenses\f0e76dc3-7d4d-4503-9cc3-ff9614e98c79.png
+wwwroot\images\product\Honda_Click_160_Special_Edition_2024.png
+wwwroot\images\product\Honda_Giorno_ABS_2024.png
+wwwroot\images\product\Honda_Giorno_ABS_2024_2.png
+wwwroot\images\product\Honda_PCX_160_2025.png
+wwwroot\images\product\Honda_PCX_160_2025_2.png
+wwwroot\images\product\Honda_Scoopy_2024.png
+wwwroot\images\product\Honda_Scoopy_2024_2.png
+wwwroot\images\product\Honda_Super_Cub_c125_2025.png
+wwwroot\images\product\Honda_Super_Cub_c125_2025_2.png
+wwwroot\images\product\Honda_Wave_125_LED.png
+wwwroot\images\product\Honda_Wave_125_LED_2.png
+wwwroot\images\product\Yamaha_Fazzio_FILA_Edition_2024.png
+wwwroot\images\product\Yamaha_Fazzio_FILA_Edition_2024_2.png
+wwwroot\images\product\Yamaha_Fazzio_SMART_KEY_2022.png
+wwwroot\images\product\Yamaha_Fazzio_SMART_KEY_2022_2.png
+wwwroot\images\product\Yamaha_FINN_UBS_2024.png
+wwwroot\images\product\Yamaha_FINN_UBS_2024_2.png
+wwwroot\images\product\Yamaha_Grand_Filano_2025.png
+wwwroot\images\product\Yamaha_Grand_Filano_2025_2.png
+wwwroot\images\product\Yamaha_GT125_2023.png
+wwwroot\images\product\Yamaha_GT125_2023_2.png
+wwwroot\images\product\Yamaha_NMAX_TECH_MAX_2025.png
+wwwroot\images\product\Yamaha_NMAX_TECH_MAX_2025_2.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -84,6 +115,7 @@ wwwroot\uploads\driving_licenses\b1a68e26-f85f-482c-8b9b-e233273f4460_Screenshot
 wwwroot\uploads\driving_licenses\c10b14d4-1efe-4846-bc4b-730cc1d9350b_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\c5aad5ec-fce3-4371-b8db-01d8041263b6_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
+wwwroot\images\product\Honda_Click_160_Special_Edition_2024_2.png
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map

@@ -23,6 +23,9 @@ namespace MyProject.Models
         [Required]
         public string ImageUrl { get; set; } = null!; // เดิมคือ PrImage
 
+        [Required]
+        public string ImageUrl2 { get; set; } = null!; // เดิมคือ PrImage
+
         public string GearType { get; set; } = null!; // เดิมคือ PrGeartype
         public string Engine { get; set; } = null!; // เดิมคือ PrEngine
         public string CoolingSystem { get; set; } = null!; // เดิมคือ PrCoolin

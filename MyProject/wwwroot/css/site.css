@@ -15,7 +15,6 @@ html {
 }
 
 body {
-    /* 👈 กำหนด Font และกฎหลักของทุกหน้าที่นี่ที่เดียว */
     font-family: "Kanit", sans-serif;
     margin-bottom: 60px;
     background-color: #f8f9fa; /* สีพื้นหลังอ่อนๆ ที่สะอาดตา */

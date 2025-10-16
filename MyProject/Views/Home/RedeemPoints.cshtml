@@ -1,73 +1,28 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<MyProject.Models.Giveaway>
+@{
+    ViewData["Title"] = "แลกคะแนนสะสม";
 }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แลกคะแนนสินค้า</title>
-</head>
+<div class="container">
+    <h1 class="page-title">🎁 แลกคะแนนสะสม 🎁</h1>
 
-<h1>🎁 แลกคะแนนสะสม 🎁</h1>
-
-<div class="reward-container">
-
-    <!-- สินค้าเดิม -->
-    <div class="reward-item">
-        <img src="https://img.lazcdn.com/g/p/66fc8cf24a15e14cf63a9c3018f8bf03.jpg_720x720q80.jpg_.webp" alt="หมวกกันน็อค">
-        <h3>หมวกกันน็อคครึ่งใบ</h3>
-        <div class="points">700 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('หมวกกันน็อค', 1200)">แลกคะแนน</button>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="custom-card">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">
+                            @item.PointCost.ToString("N0") คะแนน
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-card-action">แลกคะแนน</button>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-
-    <div class="reward-item">
-        <img src="https://www.ppemate.com/uploads/images/240515162139CqqR.jpg" alt="เสื้อกันฝน">
-        <h3>เสื้อกันฝน</h3>
-        <div class="points">800 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('เสื้อกันฝน', 800)">แลกคะแนน</button>
-    </div>
-
-    <div class="reward-item">
-        <img src="https://static.wixstatic.com/media/216237_d21c2fb36346425b8e8280fb3b99f03c~mv2.jpg/v1/fill/w_600,h_625,al_c,q_85,enc_avif,quality_auto/216237_d21c2fb36346425b8e8280fb3b99f03c~mv2.jpg" alt="เสื้อแขนยาวกันแดด">
-        <h3>เสื้อแขนยาวกันแดด</h3>
-        <div class="points">650 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('เสื้อแขนยาวกันแดด', 650)">แลกคะแนน</button>
-    </div>
-
-    <div class="reward-item">
-        <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_500,h_500/global/091659/02/fnd/THA/fmt/png/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2%E0%B9%80%E0%B8%9B%E0%B9%89-Manchester-City-Essentials-(22-%E0%B8%A5%E0%B8%B4%E0%B8%95%E0%B8%A3)" alt="กระเป๋าสะพาย">
-        <h3>กระเป๋าสะพาย</h3>
-        <div class="points">950 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('กระเป๋าสะพาย', 950)">แลกคะแนน</button>
-    </div>
-
-    <!-- 🆕 สินค้าใหม่ -->
-    <div class="reward-item">
-        <img src="https://media.studio7thailand.com/88789/JBL-Flex-TWS-Glass-Black-1-square_medium.jpg" alt="หูฟังไร้สาย">
-        <h3>หูฟังไร้สาย Bluetooth</h3>
-        <div class="points">2,500 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('หูฟังไร้สาย Bluetooth', 2500)">แลกคะแนน</button>
-    </div>
-
-    <div class="reward-item">
-        <img src="https://s.alicdn.com/@@sc04/kf/Hf5a40210a978490e97ce5cde379feb40d.png?avif=close&amp;webp=close" alt="หมวกกันน็อค Smart Helmet">
-        <h3>หมวกกันน็อค Smart Helmet</h3>
-        <div class="points">3,200 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('หมวกกันน็อค Smart Helmet', 3200)">แลกคะแนน</button>
-    </div>
-
-    <div class="reward-item">
-        <img src="https://cf.shopee.co.th/file/0ee739f86a6a0f66dc003b045a2b2e39_tn" alt="รองเท้า Adidas Rider Pro">
-        <h3>รองเท้า Adidas Lite Racer RBN 2.0 FW3890</h3>
-        <div class="points">2,800 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('รองเท้า Adidas Rider Pro', 2800)">แลกคะแนน</button>
-    </div>
-
-    <div class="reward-item">
-        <img src="https://m.media-amazon.com/images/I/61woO3KeV9S.jpg" alt="นาฬิกา Smart Watch">
-        <h3>นาฬิกา Realme Watch 2</h3>
-        <div class="points">4,500 คะแนน</div>
-        <button class="redeem-button" onclick="redeemReward('นาฬิกา Smart Watch', 4500)">แลกคะแนน</button>
-    </div>
-
 </div>
