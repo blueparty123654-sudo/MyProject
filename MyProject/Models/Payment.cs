@@ -5,16 +5,21 @@ namespace MyProject.Models
 {
     public class Payment
     {
-        [Key] // 👈 ติดป้าย
-        public int PaymentId { get; set; } // เดิมคือ PayId
+        [Key]
+        public int PaymentId { get; set; }
 
-        public decimal Amount { get; set; } // เดิมคือ PayAmount
-        public DateTime Date { get; set; } // เดิมคือ PayDate
-        public string Method { get; set; } = null!; // เดิมคือ PayMethod
+        [Column(TypeName = "decimal(10, 2)")]
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
+        public string Method { get; set; } = null!;
+
+        [Required]
+        public string Status { get; set; } = "Pending"; // e.g., "Pending", "Completed", "Failed", "Refunded"
+
+        // Foreign Key to Order
         public int OrderId { get; set; }
 
         [ForeignKey("OrderId")]
         public virtual Order? Order { get; set; }
-        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

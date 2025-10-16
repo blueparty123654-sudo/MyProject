@@ -9,5 +9,7 @@ namespace MyProject.Models
 
         public string Name { get; set; } = null!; // เดิมคือ GName
         public int PointCost { get; set; } // เดิมคือ GPointcost
+
+        public virtual ICollection<Redemption> Redemptions { get; set; } = new List<Redemption>();
     }
 }

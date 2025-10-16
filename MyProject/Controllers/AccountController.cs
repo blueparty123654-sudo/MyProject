@@ -66,7 +66,8 @@ namespace MyProject.Controllers
                 DateOfBirth = birthDate,
                 PasswordHash = hashedPassword,
                 DrivingLicenseImageUrl = uniqueFileName,
-                RoleId = customerRole.RoleId
+                RoleId = customerRole.RoleId,
+                Status = "รอการตรวจสอบ"
             };
 
             _context.Users.Add(user);
@@ -85,7 +86,9 @@ namespace MyProject.Controllers
                 return Json(new { success = false, message = "กรุณากรอกข้อมูลให้ครบถ้วน" });
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user = await _context.Users
+                                     .Include(u => u.Role)
+                                     .FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user == null || user.PasswordHash != HashPassword(model.Password))
             {
@@ -98,6 +101,7 @@ namespace MyProject.Controllers
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("Points", user.UserPoint.ToString()),
                 new Claim("Status", user.Status ?? "N/A"),
+                new Claim(ClaimTypes.Role, user.Role?.Name ?? "Customer")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "MyCookieAuth");
@@ -150,7 +154,10 @@ namespace MyProject.Controllers
             }
 
             var currentUserEmail = User.FindFirstValue(ClaimTypes.Email);
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+            var user = await _context.Users
+                                     .Include(u => u.Role) // 👈 **(เพิ่ม) ดึงข้อมูล Role มาด้วย**
+                                     .FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+
             if (user == null) return Json(new { success = false, message = "ไม่พบผู้ใช้ในระบบ" });
 
             if (user.Email != model.Email && await _context.Users.AnyAsync(u => u.Email == model.Email))
@@ -202,6 +209,7 @@ namespace MyProject.Controllers
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("Points", user.UserPoint.ToString()),
                 new Claim("Status", user.Status ?? "N/A"),
+                new Claim(ClaimTypes.Role, user.Role?.Name ?? "Customer") 
             };
             var claimsIdentity = new ClaimsIdentity(newClaims, "MyCookieAuth");
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

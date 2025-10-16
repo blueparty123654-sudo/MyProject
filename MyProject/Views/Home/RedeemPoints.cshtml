@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แลกคะแนนสินค้า</title>
-    <link rel="stylesheet" href="~/css/RedeemPoints.css">
 </head>
 
 <h1>🎁 แลกคะแนนสะสม 🎁</h1>
@@ -72,33 +71,3 @@
     </div>
 
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-      renderUserInfo();
-    });
-
-    function redeemReward(itemName, cost) {
-      const user = localStorage.getItem("currentUser");
-      if (!user) {
-        alert("กรุณาเข้าสู่ระบบก่อนแลกคะแนน");
-        return;
-      }
-
-      let points = parseInt(localStorage.getItem(`points_${user}`)) || 0;
-
-      if (points < cost) {
-        alert("❌ คะแนนไม่เพียงพอสำหรับแลกรางวัลนี้!");
-        return;
-      }
-
-      points -= cost;
-      localStorage.setItem(`points_${user}`, points);
-      renderUserInfo();
-
-      localStorage.setItem("redeem_item", itemName);
-      localStorage.setItem("redeem_cost", cost);
-
-      window.location.href = "Qr แลกคะแนน.html";
-    }
-</script>

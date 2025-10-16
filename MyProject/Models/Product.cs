@@ -36,13 +36,8 @@ namespace MyProject.Models
         public string Dimensions { get; set; } = null!; // เดิมคือ PrSize
         public string VehicleWeight { get; set; } = null!; // เดิมคือ PrVehicleweight
 
-        // --- Foreign Key to Branch ---
-        public int BranchId { get; set; } // เดิมคือ BrId
-
-        [ForeignKey("BranchId")]
-        public virtual Branch? Branch { get; set; }
-
         // --- Navigation Properties ---
+        public virtual ICollection<BranchProduct> BranchProducts { get; set; } = new List<BranchProduct>();
         public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

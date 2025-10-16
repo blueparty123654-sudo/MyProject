@@ -19,7 +19,7 @@ namespace MyProject.Models
         public string? MapUrl { get; set; } // เดิมคือ BrMapUrl
 
         // --- Navigation Property ---
-        // ความสัมพันธ์: 1 สาขา มีได้หลาย Product
-        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public virtual ICollection<BranchProduct> BranchProducts { get; set; } = new List<BranchProduct>();
     }
 }

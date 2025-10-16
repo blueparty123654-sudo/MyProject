@@ -74,7 +74,9 @@ wwwroot\lib\jquery\LICENSE.txt
 wwwroot\uploads\driving_licenses\0101b10a-1e62-4818-a18b-5cb37ab95ae3_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\2623dc3b-f317-4be9-8383-b8b153c00cc5_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\315e5957-b4ba-4a02-8cf9-72055438a55c_Screenshot 2025-10-13 163848.png
+wwwroot\uploads\driving_licenses\39973ff2-7999-4832-884f-f958c782cb25_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\46232a4c-5e32-4225-b8b7-948612c9bb90_Screenshot 2025-10-13 163848.png
+wwwroot\uploads\driving_licenses\7d8c0292-6180-43f5-8902-98c1273e428d_cut_slime.png
 wwwroot\uploads\driving_licenses\9362b1f2-416e-4df0-9be6-ef5836cfe124_image (1).png
 wwwroot\uploads\driving_licenses\94c7a600-3ba5-452c-a942-22650584d8f5_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\a97ec3e1-2792-48ca-be0f-964f18410674_Screenshot 2025-10-13 163848.png
@@ -82,70 +84,69 @@ wwwroot\uploads\driving_licenses\b1a68e26-f85f-482c-8b9b-e233273f4460_Screenshot
 wwwroot\uploads\driving_licenses\c10b14d4-1efe-4846-bc4b-730cc1d9350b_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\c5aad5ec-fce3-4371-b8db-01d8041263b6_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
-wwwroot\uploads\driving_licenses\39973ff2-7999-4832-884f-f958c782cb25_Screenshot 2025-10-13 163848.png
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\LICENSE.md
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\jquery.validate.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\additional-methods.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\site.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\favicon.ico
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\additional-methods.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\additional-methods.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\jquery.validate.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery-validation\LICENSE.md
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.map
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\site.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\favicon.ico
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\contact.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\RedeemPoints.css
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\site.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Review.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Index.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\contact.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\RedeemPoints.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
