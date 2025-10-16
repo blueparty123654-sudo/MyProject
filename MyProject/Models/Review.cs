@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyProject.Models;
-
-public partial class Review
+namespace MyProject.Models
 {
-    public int RvId { get; set; }
+    public class Review
+    {
+        [Key] // 👈 ติดป้าย
+        public int ReviewId { get; set; } // เดิมคือ RvId
 
-    public string? RvText { get; set; }
+        public int UserId { get; set; }
+        public int ProductId { get; set; } // เดิมคือ PrId
+        public int Rating { get; set; } // เดิมคือ RvRating
+        public string? Text { get; set; } // เดิมคือ RvText
 
-    public int? RvRating { get; set; }
-
-    public int? PrId { get; set; }
-
-    public int? UserId { get; set; }
-
-    public virtual Product? Pr { get; set; }
-
-    public virtual User? User { get; set; }
+        // Navigation Properties
+        public virtual User? User { get; set; }
+        public virtual Product? Product { get; set; }
+    }
 }

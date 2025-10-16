@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MyProject.Models;
-
-public partial class Favorite
+﻿namespace MyProject.Models
 {
-    public int UserId { get; set; }
+    public class Favorite
+    {
+        // ไม่มี [Key] ที่นี่ เพราะเราจะกำหนดใน DbContext
+        public int UserId { get; set; }
+        public int ProductId { get; set; } // เดิมคือ PrId
+        public string? MonthYear { get; set; } // เดิมคือ FavMonthYear
+        public int ViewCount { get; set; }
 
-    public int PrId { get; set; }
-
-    public string? FavMonthYear { get; set; }
-
-    public int? ViewCount { get; set; }
-
-    public virtual Product Pr { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+        // Navigation Properties
+        public virtual User? User { get; set; }
+        public virtual Product? Product { get; set; }
+    }
 }

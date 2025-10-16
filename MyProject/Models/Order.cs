@@ -1,33 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyProject.Models;
-
-public partial class Order
+namespace MyProject.Models
 {
-    public int OdId { get; set; }
+    public class Order
+    {
+        [Key] // 👈 ติดป้าย
+        public int OrderId { get; set; } // เดิมคือ OdId
 
-    public decimal OdPrice { get; set; }
+        public int UserId { get; set; }
+        public int ProductId { get; set; } // เดิมคือ PrId
+        public DateOnly DateReceipt { get; set; } // เดิมคือ OdDateReceipt
+        public DateOnly DateReturn { get; set; } // เดิมคือ OdDateReturn
+        public decimal Price { get; set; } // เดิมคือ OdPrice
+        public int Point { get; set; } // เดิมคือ OdPoint
+        public string RentalType { get; set; } = null!;
 
-    public int OdPoint { get; set; }
-
-    public DateOnly OdDateReceipt { get; set; }
-
-    public DateOnly OdDateReturn { get; set; }
-
-    public string RentalType { get; set; } = null!;
-
-    public int PayId { get; set; }
-
-    public int PrId { get; set; }
-
-    public int UserId { get; set; }
-
-    public virtual Payment Pay { get; set; } = null!;
-
-    public virtual Product Pr { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<Discount> Dcs { get; set; } = new List<Discount>();
+        // Navigation Properties
+        public virtual User? User { get; set; }
+        public virtual Product? Product { get; set; }
+        public virtual Payment? Payment { get; set; }
+    }
 }

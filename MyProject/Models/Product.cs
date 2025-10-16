@@ -1,51 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyProject.Models;
-
-public partial class Product
+namespace MyProject.Models
 {
-    public int PrId { get; set; }
+    public partial class Product
+    {
+        [Key]
+        public int ProductId { get; set; } // เดิมคือ PrId
 
-    public string PrName { get; set; } = null!;
+        [Required]
+        public string Name { get; set; } = null!; // เดิมคือ PrName
 
-    public decimal PrCostdaily { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal PricePerDay { get; set; } // เดิมคือ PrCostdaily
 
-    public decimal PrCostweekly { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal PricePerWeek { get; set; } // เดิมคือ PrCostweekly
 
-    public decimal PrCostmonthly { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal PricePerMonth { get; set; } // เดิมคือ PrCostmonthly
 
-    public string PrImage { get; set; } = null!;
+        [Required]
+        public string ImageUrl { get; set; } = null!; // เดิมคือ PrImage
 
-    public string PrLocation { get; set; } = null!;
+        public string GearType { get; set; } = null!; // เดิมคือ PrGeartype
+        public string Engine { get; set; } = null!; // เดิมคือ PrEngine
+        public string CoolingSystem { get; set; } = null!; // เดิมคือ PrCoolin
+        public string StartingSystem { get; set; } = null!; // เดิมคือ PrStartingsystem
+        public string FuelType { get; set; } = null!; // เดิมคือ PrFule
+        public string FuelDispensing { get; set; } = null!; // เดิมคือ PrFuledispensing
+        public string FuelTankCapacity { get; set; } = null!; // เดิมคือ PrFuletank
+        public string BrakeSystem { get; set; } = null!; // เดิมคือ PrBrake
+        public string Suspension { get; set; } = null!; // เดิมคือ PrSuspension
+        public string TireSize { get; set; } = null!; // เดิมคือ PrTriesize
+        public string Dimensions { get; set; } = null!; // เดิมคือ PrSize
+        public string VehicleWeight { get; set; } = null!; // เดิมคือ PrVehicleweight
 
-    public string PrGeartype { get; set; } = null!;
+        // --- Foreign Key to Branch ---
+        public int BranchId { get; set; } // เดิมคือ BrId
 
-    public string PrEngine { get; set; } = null!;
+        [ForeignKey("BranchId")]
+        public virtual Branch? Branch { get; set; }
 
-    public string PrCoolin { get; set; } = null!;
-
-    public string PrStartingsystem { get; set; } = null!;
-
-    public string PrFule { get; set; } = null!;
-
-    public string PrFuledispensing { get; set; } = null!;
-
-    public string PrFuletank { get; set; } = null!;
-
-    public string PrBrake { get; set; } = null!;
-
-    public string PrSuspension { get; set; } = null!;
-
-    public string PrTriesize { get; set; } = null!;
-
-    public string PrSize { get; set; } = null!;
-
-    public string PrVehicleweight { get; set; } = null!;
-
-    public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+        // --- Navigation Properties ---
+        public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    }
 }

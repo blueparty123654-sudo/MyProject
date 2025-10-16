@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyProject.Models;
-
-public partial class Giveaway
+namespace MyProject.Models
 {
-    public int GId { get; set; }
+    public class Giveaway
+    {
+        [Key] // 👈 ติดป้าย
+        public int GiveawayId { get; set; } // เดิมคือ GId
 
-    public string GName { get; set; } = null!;
-
-    public int GPointcost { get; set; }
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public string Name { get; set; } = null!; // เดิมคือ GName
+        public int PointCost { get; set; } // เดิมคือ GPointcost
+    }
 }

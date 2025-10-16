@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyProject.Models;
-
-public partial class Payment
+namespace MyProject.Models
 {
-    public int PayId { get; set; }
+    public class Payment
+    {
+        [Key] // 👈 ติดป้าย
+        public int PaymentId { get; set; } // เดิมคือ PayId
 
-    public string PayMethod { get; set; } = null!;
+        public decimal Amount { get; set; } // เดิมคือ PayAmount
+        public DateTime Date { get; set; } // เดิมคือ PayDate
+        public string Method { get; set; } = null!; // เดิมคือ PayMethod
+        public int OrderId { get; set; }
 
-    public decimal PayAmount { get; set; }
-
-    public DateTime PayDate { get; set; }
-
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        [ForeignKey("OrderId")]
+        public virtual Order? Order { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    }
 }

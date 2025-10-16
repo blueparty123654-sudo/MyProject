@@ -31,10 +31,15 @@ namespace MyProject.Controllers
                 var firstError = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).FirstOrDefault();
                 return Json(new { success = false, message = firstError ?? "ข้อมูลไม่ถูกต้อง" });
             }
-
-            if (await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == model.Email))
             {
                 return Json(new { success = false, message = "อีเมลนี้ถูกใช้งานแล้ว" });
+            }
+
+            var customerRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Customer");
+            if (customerRole == null)
+            {
+                return Json(new { success = false, message = "ไม่พบบทบาทเริ่มต้นสำหรับผู้ใช้" });
             }
 
             string uniqueFileName = "";
@@ -55,12 +60,13 @@ namespace MyProject.Controllers
 
             var user = new User
             {
-                UserName = model.UserName,
-                UserEmail = model.Email,
-                UserNo = model.PhoneNumber,
-                UserDob = birthDate,
-                UserPass = hashedPassword,
-                UserDrivingcard = uniqueFileName,
+                Name = model.UserName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                DateOfBirth = birthDate,
+                PasswordHash = hashedPassword,
+                DrivingLicenseImageUrl = uniqueFileName,
+                RoleId = customerRole.RoleId
             };
 
             _context.Users.Add(user);
@@ -79,17 +85,17 @@ namespace MyProject.Controllers
                 return Json(new { success = false, message = "กรุณากรอกข้อมูลให้ครบถ้วน" });
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == model.Email);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
 
-            if (user == null || user.UserPass != HashPassword(model.Password))
+            if (user == null || user.PasswordHash != HashPassword(model.Password))
             {
                 return Json(new { success = false, message = "อีเมลหรือรหัสผ่านไม่ถูกต้อง" });
             }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.UserEmail),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim("Points", user.UserPoint.ToString()),
                 new Claim("Status", user.Status ?? "N/A"),
             };
@@ -116,28 +122,23 @@ namespace MyProject.Controllers
             }
         }
 
-        // ===================================
-        // ==   ACTION: GET PROFILE DATA    ==
-        // ===================================
         [HttpGet]
         public async Task<IActionResult> GetProfile()
         {
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             if (userEmail == null) return Unauthorized();
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
             if (user == null) return NotFound();
 
             return Json(new
             {
-                userName = user.UserName,
-                email = user.UserEmail,
-                dateOfBirth = user.UserDob.ToString("yyyy-MM-dd")
+                userName = user.Name,
+                email = user.Email,
+                dateOfBirth = user.DateOfBirth.ToString("yyyy-MM-dd")
             });
         }
-        // ===================================
-        // ==   ACTION: UPDATE PROFILE      ==
-        // ===================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
@@ -149,48 +150,46 @@ namespace MyProject.Controllers
             }
 
             var currentUserEmail = User.FindFirstValue(ClaimTypes.Email);
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == currentUserEmail);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
             if (user == null) return Json(new { success = false, message = "ไม่พบผู้ใช้ในระบบ" });
 
-            if (user.UserEmail != model.Email && await _context.Users.AnyAsync(u => u.UserEmail == model.Email))
+            if (user.Email != model.Email && await _context.Users.AnyAsync(u => u.Email == model.Email))
             {
                 return Json(new { success = false, message = "อีเมลใหม่นี้ถูกใช้งานโดยบัญชีอื่นแล้ว" });
             }
 
-            user.UserName = model.UserName;
-            user.UserEmail = model.Email;
-            user.UserDob = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            user.Name = model.UserName;
+            user.Email = model.Email;
+            user.DateOfBirth = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
             if (!string.IsNullOrEmpty(model.NewPassword))
             {
-                if (string.IsNullOrEmpty(model.CurrentPassword) || user.UserPass != HashPassword(model.CurrentPassword))
+                if (string.IsNullOrEmpty(model.CurrentPassword) || user.PasswordHash != HashPassword(model.CurrentPassword))
                 {
                     return Json(new { success = false, message = "รหัสผ่านปัจจุบันไม่ถูกต้อง" });
                 }
-                user.UserPass = HashPassword(model.NewPassword);
+                user.PasswordHash = HashPassword(model.NewPassword);
             }
 
             if (model.NewDrivingLicenseFile != null)
             {
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses");
                 if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
-
-                if (!string.IsNullOrEmpty(user.UserDrivingcard))
+                if (!string.IsNullOrEmpty(user.DrivingLicenseImageUrl))
                 {
-                    var oldFilePath = Path.Combine(uploadsFolder, user.UserDrivingcard);
+                    var oldFilePath = Path.Combine(uploadsFolder, user.DrivingLicenseImageUrl);
                     if (System.IO.File.Exists(oldFilePath))
                     {
                         System.IO.File.Delete(oldFilePath);
                     }
                 }
-
                 string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.NewDrivingLicenseFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await model.NewDrivingLicenseFile.CopyToAsync(fileStream);
                 }
-                user.UserDrivingcard = uniqueFileName;
+                user.DrivingLicenseImageUrl = uniqueFileName;
             }
 
             _context.Users.Update(user);
@@ -198,12 +197,12 @@ namespace MyProject.Controllers
 
             await HttpContext.SignOutAsync("MyCookieAuth");
             var newClaims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.UserName),
-        new Claim(ClaimTypes.Email, user.UserEmail),
-        new Claim("Points", user.UserPoint.ToString()),
-        new Claim("Status", user.Status ?? "N/A"),
-    };
+            {
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("Points", user.UserPoint.ToString()),
+                new Claim("Status", user.Status ?? "N/A"),
+            };
             var claimsIdentity = new ClaimsIdentity(newClaims, "MyCookieAuth");
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);

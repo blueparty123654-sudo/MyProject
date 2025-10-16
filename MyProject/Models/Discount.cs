@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyProject.Models;
-
-public partial class Discount
+namespace MyProject.Models
 {
-    public int DcId { get; set; }
+    public class Discount
+    {
+        [Key] // 👈 ติดป้ายบอกว่านี่คือ Primary Key
+        public int DiscountId { get; set; } // เดิมคือ DcId
 
-    public DateOnly DcDate { get; set; }
-
-    public decimal DcRates { get; set; }
-
-    public string DcCode { get; set; } = null!;
-
-    public virtual ICollection<Order> Ods { get; set; } = new List<Order>();
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public string Code { get; set; } = null!; // เดิมคือ DcCode
+        public DateOnly Date { get; set; } // เดิมคือ DcDate
+        public decimal Rate { get; set; } // เดิมคือ DcRates
+    }
 }

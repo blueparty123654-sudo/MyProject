@@ -1,37 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MyProject.Models;
-
-public partial class User
+namespace MyProject.Models
 {
-    public int UserId { get; set; }
+    public partial class User
+    {
+        [Key]
+        public int UserId { get; set; }
 
-    public string UserName { get; set; } = null!;
+        [Required]
+        public string Name { get; set; } = null!; // เดิมคือ UserName
 
-    public string UserEmail { get; set; } = null!;
+        [Required]
+        public string Email { get; set; } = null!; // เดิมคือ UserEmail
 
-    public string UserNo { get; set; } = null!;
+        [Required]
+        public string PhoneNumber { get; set; } = null!; // เดิมคือ UserNo
 
-    public DateOnly UserDob { get; set; }
+        [Required]
+        public DateOnly DateOfBirth { get; set; } // เดิมคือ UserDob
 
-    public string UserPass { get; set; } = null!;
+        [Required]
+        public string PasswordHash { get; set; } = null!; // เดิมคือ UserPass (ชื่อใหม่ชัดเจนกว่า)
 
-    public string UserRole { get; set; } = null!;
+        public string? DrivingLicenseImageUrl { get; set; } // เดิมคือ UserDrivingcard
 
-    public int UserPoint { get; set; }
+        public int UserPoint { get; set; } = 0;
 
-    public string? UserDrivingcard { get; set; }
+        public string? Status { get; set; }
 
-    public string? Status { get; set; }
+        public int RoleId { get; set; } // Foreign Key
 
-    public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+        [ForeignKey("RoleId")]
+        public virtual Role? Role { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
-
-    public virtual ICollection<Discount> Dcs { get; set; } = new List<Discount>();
-
-    public virtual ICollection<Giveaway> GIds { get; set; } = new List<Giveaway>();
+        // --- Navigation Properties (ความสัมพันธ์กับตารางอื่น) ---
+        public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+        public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    }
 }
