@@ -1,7 +1,6 @@
 ﻿/* =================================== */
-/* ==      Global & Body Styles     == */
+/* ==      Global & Base Styles     == */
 /* =================================== */
-
 html {
     font-size: 14px;
     position: relative;
@@ -15,25 +14,134 @@ html {
 }
 
 body {
-    font-family: "Kanit", sans-serif;
-    margin-bottom: 60px;
-    background-color: #f8f9fa; /* สีพื้นหลังอ่อนๆ ที่สะอาดตา */
+    /* กฎหลักที่ใช้กับทุกหน้า มาจาก Index.css */
+    font-family: 'Kanit', sans-serif;
+    background: #f4f4f4;
+    color: #222;
+    padding-top: 76px; /* ระยะห่างสำหรับ Fixed Navbar */
+
+    min-height: 100vh; /* สูงอย่างน้อย 100% ของความสูงหน้าจอ */
+    display: flex;
+    flex-direction: column;
 }
 
 /* =================================== */
-/* ==        Navbar Styles          == */
+/* ==   Navbar Styles (From Index.css) == */
 /* =================================== */
-
-.navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+#custom-navbar {
+    background-color: #1e3a8a !important; /* 👈 สีน้ำเงินที่คุณต้องการ */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 0.75rem 1rem;
 }
 
+    #custom-navbar .navbar-brand,
+    #custom-navbar .nav-link {
+        color: white !important;
+    }
+
+        #custom-navbar .nav-link:hover {
+            color: #ffc107 !important; /* สีเหลืองตอน hover */
+        }
+
+/* --- ปุ่ม Login/Signup (ก่อน Login) --- */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+    .auth-buttons a {
+        text-decoration: none;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        border: 2px solid transparent;
+    }
+
+.btn-login {
+    color: white !important;
+}
+
+    .btn-login:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+.btn-signup {
+    background-color: #ffcc00;
+    border-color: #ffcc00;
+    color: #1e3a8a !important;
+}
+
+    .btn-signup:hover {
+        background-color: #e6b800;
+        border-color: #e6b800;
+        transform: translateY(-2px);
+    }
+
+/* --- ปุ่มเลือกภาษา --- */
+.lang-selector-container {
+    position: relative;
+    margin-right: 15px;
+}
+
+.btn-lang-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: white !important;
+    color: black !important;
+    padding: 6px 15px !important;
+    border-radius: 50px;
+    text-decoration: none !important;
+    transition: background-color 0.2s;
+}
+
+    .btn-lang-pill:hover {
+        background-color: #f0f0f0 !important;
+    }
+
+.lang-dropdown-custom {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0;
+    margin-top: 10px;
+    width: 160px;
+    z-index: 1000;
+}
+
+.lang-selector-container:hover .lang-dropdown-custom {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lang-dropdown-custom .dropdown-item {
+    color: black !important;
+    padding: 10px 20px;
+}
+
+    .lang-dropdown-custom .dropdown-item:hover {
+        background-color: #f0f0f0;
+    }
+
+
+/* --- User Profile Bar (หลัง Login) --- */
 .user-profile-bar {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    padding: 5px;
     gap: 10px;
 }
 
@@ -46,57 +154,52 @@ body {
     padding: 8px 15px;
     border-radius: 50px;
     transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
     .user-details-link:hover {
         background-color: rgba(255, 255, 255, 0.2);
-        color: white;
     }
 
     .user-details-link i {
-        color: #ffc107;
-        font-size: 1.1em;
+        color: #ffcc00;
     }
 
 .btn-logout-yellow {
-    background-color: #ffc107;
-    color: #212529 !important;
+    background-color: #ffcc00;
+    color: #1e3a8a !important;
     font-weight: bold;
     padding: 8px 20px;
     border-radius: 50px;
     text-decoration: none;
     transition: all 0.2s ease;
-    white-space: nowrap;
 }
 
     .btn-logout-yellow:hover {
-        background-color: #e0a800;
-        color: #212529 !important;
+        background-color: #e6b800;
     }
 
-/* =================================== */
-/* ==     Page Specific Titles      == */
-/* =================================== */
-h1.page-title {
-    text-align: center;
-    font-weight: 700;
-    color: #003366;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
 
 /* =================================== */
-/* ==      Reusable Card Styles     == */
-/* (ใช้ได้กับการ์ด Product, Giveaway, etc.) */
+/* ==      Main Content & Card      == */
+/* (ใช้สไตล์การ์ดใหม่ที่เราทำ) */
 /* =================================== */
+h1.page-title, .products-title {
+    text-align: center;
+    font-weight: 700;
+    color: #001347;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 28px;
+}
+
 .custom-card {
     background-color: #fff;
     border: none;
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -110,7 +213,9 @@ h1.page-title {
 .card-img-top {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #fff;
+    padding: 10px;
 }
 
 .card-body {
@@ -124,12 +229,13 @@ h1.page-title {
     font-weight: 700;
     color: #333;
     margin-bottom: 0.75rem;
+    font-size: 1.1rem;
 }
 
 .card-text {
     color: #666;
     font-size: 0.9rem;
-    flex-grow: 1; /* ทำให้ข้อความขยายเต็มพื้นที่ที่เหลือ */
+    flex-grow: 1;
 }
 
 .card-footer {
@@ -139,87 +245,157 @@ h1.page-title {
 }
 
 .btn-card-action {
-    background-color: #003366;
-    border-color: #003366;
+    background-color: #2a5298;
+    border-color: #2a5298;
     color: #fff;
     font-weight: 500;
     border-radius: 50px;
     padding: 0.5rem 1.5rem;
     width: 100%;
+    transition: 0.3s;
 }
 
     .btn-card-action:hover {
-        background-color: #002244;
-        border-color: #002244;
+        background-color: #1e3c72;
+        border-color: #1e3c72;
+        color: #fff;
+        transform: translateY(-3px);
+    }
+
+/* =================================== */
+/* ==        Custom Footer          == */
+/* =================================== */
+.footer-local {
+    background-color: #1e3a8a;
+    color: #adb5bd;
+    padding: 3rem 0;
+}
+
+    .footer-local h3 {
         color: #fff;
     }
 
+    .footer-local a {
+        color: #ffcc00;
+    }
+
+        .footer-local a:hover {
+            color: #fff;
+        }
+
+.footer-local__main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-local__map iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    border: 0;
+    border-radius: 8px;
+}
+
+.footer-local__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-local__social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-local__social a {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .footer-local__main {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-local__bottom {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
 
 /* =================================== */
 /* ==      Modal Styles (ALL)       == */
 /* =================================== */
-
 .modal-header {
-    justify-content: center;
-    border-bottom: 1px solid #dee2e6;
-    padding: 1.25rem 1.5rem;
+    background-color: #1e3a8a; /* สีน้ำเงินเดียวกับ Navbar */
+    color: white;
+    justify-content: center !important; /* 👈 (แก้ไข) บังคับให้อยู่กลาง */
+    border-bottom: none;
+    padding: 1.5rem;
+    position: relative; /* สำหรับจัดวางปุ่มปิด */
 }
+
+    .modal-header .btn-close {
+        position: absolute; /* 👈 (เพิ่ม) ย้ายปุ่มปิดไปมุมขวา */
+        top: 1.5rem;
+        right: 1.5rem;
+        filter: invert(1) grayscale(100%) brightness(200%); /* ทำให้ปุ่มเป็นสีขาว */
+    }
 
 .modal-title {
-    font-size: 1.6rem;
     font-weight: 500;
-    color: #003366;
+    font-size: 1.5rem;
 }
 
-.form-group {
+.modal-body {
+    padding: 2rem;
+}
+
+.form-group, .row.mb-3 {
     margin-bottom: 1.5rem;
 }
 
-label {
-    color: #003366;
+label, .col-form-label {
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    color: #333;
 }
 
-.form-control {
-    background-color: #f5f5f5;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+.form-control:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 0 0.2rem rgba(255, 204, 0, 0.25);
 }
-
-    .form-control:focus {
-        background-color: #fff;
-        border-color: #ffc107;
-        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
-    }
 
 .modal .btn-primary {
-    background-color: #ffc107 !important;
-    border-color: #ffc107 !important;
-    color: #003366 !important;
+    background-color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+    color: #1e3a8a !important;
     font-weight: bold;
-    width: 100%;
-    padding: 0.75rem 1rem;
     font-size: 1.1rem;
-    border-radius: 8px;
-    transition: background-color 0.2s ease-in-out;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 50px;
+    transition: all 0.2s ease;
 }
 
     .modal .btn-primary:hover {
-        background-color: #e0a800 !important;
+        background-color: #e6b800 !important;
         border-color: #d39e00 !important;
+        transform: translateY(-2px);
     }
-
 /* =================================== */
 /* ==        Alert Messages         == */
 /* =================================== */
 .floating-alert-container {
     position: fixed;
-    top: 80px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
-    width: 90%;
     max-width: 600px;
 }

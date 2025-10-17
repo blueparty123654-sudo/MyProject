@@ -167,9 +167,9 @@ C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\rjsmcshtml.dswa.
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\scopedcss\bundle\MyProject.styles.css
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\scopedcss\projectbundle\MyProject.bundle.scp.css
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\ryxoo9rih0-3r8b2a0bt1.gz
+C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\lx9r8pf48f-fhpk14ifgs.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\v4w2h1eygx-61n19gt1b8.gz
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-gl65xlv8vz.gz
+C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\rh6fwus35n-q2u0wrtbi3.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\fevv1rbui6-bqjiyaj88i.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\oulx5lev8l-c2jlpeoesf.gz
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\b55rm9h9vw-erw9l3u2r3.gz
@@ -242,7 +242,3 @@ C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\refint\MyProject
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.pdb
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\MyProject.genruntimeconfig.cache
 C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\ref\MyProject.dll
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\y9rv9yfizm-3r8b2a0bt1.gz
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\yeqq7984yy-3r8b2a0bt1.gz
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\y3qwz2iodl-5ipweew5fc.gz
-C:\Users\User\source\repos\MyProject\MyProject\obj\Debug\net9.0\compressed\lx9r8pf48f-tz9wv6pn2w.gz

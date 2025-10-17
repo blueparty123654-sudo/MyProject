@@ -1,141 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<MyProject.ViewModels.ProductViewModel>
+@{
+    ViewData["Title"] = "รายการรถมอเตอร์ไซค์";
 }
 
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700&family=Montserrat:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">  
-</head>
+<div class="container">
+    @* 👈 1. ติดป้ายให้หัวข้อหลัก *@
+    <h1 class="page-title">🏍️ เลือกรถที่ใช่สำหรับคุณ 🏍️</h1>
 
-<header class="hero-center">
-    <div class="hero-inner">
-        <h1 class="site-title" id="site-title">@Localizer["siteTitle"]</h1>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                @* 👈 2. ติดป้ายให้การ์ดหลัก *@
+                <div class="custom-card">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">
+                            <strong>@product.PricePerDay.ToString("N0")</strong> บาท/วัน <br>
+                            <strong>@product.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์ <br>
+                            <strong>@product.PricePerMonth.ToString("N0")</strong> บาท/เดือน
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        @* 👈 3. ติดป้ายให้ปุ่มกด *@
+                        <a href="#" class="btn btn-card-action">ดูรายละเอียด</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-</header>
-
-<!-- ✅ Products -->
-<section class="products-section">
-    <h2 class="products-title" id="products-title">Fitter</h2>
-    <div class="products">
-        <div class="product-card">
-            <img src="https://s359.thaicdn.net//pagebuilder/c35eb1f3-1097-43eb-b963-9cd854d0190f.jpg">
-            <h3>@Localizer["bike1"]</h3>
-            <p>@Localizer["bike1Price1"] | @Localizer["bike1Price2"] | @Localizer["bike1Price3"]</p>
-            <a href="Honda Wave 125 LED.html" class="select-button"
-               onclick="saveBike('@Localizer["bike1"]', 'https://s359.thaicdn.net//pagebuilder/c35eb1f3-1097-43eb-b963-9cd854d0190f.jpg', 300, 1600, 3000, 'Honda Wave 125 LED.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/gallery/c0/c049d7c166c4704f72901867ddff3944.jpg">
-            <h3>@Localizer["bike2"]</h3>
-            <p>@Localizer["bike2Price1"] | @Localizer["bike2Price2"] | @Localizer["bike2Price3"]</p>
-            <a href="Honda Pcx 160 ปี 2025.html" class="select-button"
-               onclick="saveBike('@Localizer["bike2"]', 'https://www.checkraka.com/uploaded/gallery/c0/c049d7c166c4704f72901867ddff3944.jpg', 550, 3200, 8000, 'Honda Pcx 160 ปี 2025.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/logo/05/05e930f976811fc8bc58e83b88b3ddd7.webp">
-            <h3>@Localizer["bike3"]</h3>
-            <p>@Localizer["bike3Price1"] | @Localizer["bike3Price2"] | @Localizer["bike3Price3"]</p>
-            <a href="Honda Scoopy ปี 2024.html" class="select-button"
-               onclick="saveBike('@Localizer["bike3"]', 'https://www.checkraka.com/uploaded/logo/05/05e930f976811fc8bc58e83b88b3ddd7.webp', 300, 1600, 3000, 'Honda Scoopy ปี 2024.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/gallery/fd/fd2d7b657c8cc5c8af81b81f2625a951.jpg">
-            <h3>@Localizer["bike4"]</h3>
-            <p>@Localizer["bike4Price1"] | @Localizer["bike4Price2"] | @Localizer["bike4Price3"]</p>
-            <a href="Yamaha Grand Filano ปี 2025.html" class="select-button"
-               onclick="saveBike('@Localizer["bike4"]', 'https://www.checkraka.com/uploaded/gallery/fd/fd2d7b657c8cc5c8af81b81f2625a951.jpg', 350, 2000, 3500, 'Yamaha Grand Filano ปี 2025.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/gallery/6a/6a6c9343bea75998517c314b342d266d.jpg">
-            <h3>@Localizer["bike5"]</h3>
-            <p>@Localizer["bike5Price1"] | @Localizer["bike5Price2"] | @Localizer["bike5Price3"]</p>
-            <a href="Yamaha NMAX TECH MAX ปี 2025.html" class="select-button"
-               onclick="saveBike('@Localizer["bike5"]', 'https://www.checkraka.com/uploaded/gallery/6a/6a6c9343bea75998517c314b342d266d.jpg', 550, 3200, 8000, 'Yamaha NMAX TECH MAX ปี 2025.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/gallery/83/83431996d43dfe5ebb8087c21c4078da.jpg">
-            <h3>@Localizer["bike6"]</h3>
-            <p>@Localizer["bike6Price1"] | @Localizer["bike6Price2"] | @Localizer["bike6Price3"]</p>
-            <a href="Yamaha Fazzio FILA Edition ปี 2024.html" class="select-button"
-               onclick="saveBike('@Localizer["bike6"]', 'https://www.checkraka.com/uploaded/gallery/83/83431996d43dfe5ebb8087c21c4078da.jpg', 300, 1600, 3000, 'Yamaha Fazzio FILA Edition ปี 2024.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-    </div>
-
-    <div class="products">
-        <div class="product-card">
-            <img src="https://www.checkraka.com/uploaded/gallery/65/65ac69d93374a543e11a11fa2783f5fb.jpg">
-            <h3>@Localizer["bike7"]</h3>
-            <p>@Localizer["bike7Price1"] | @Localizer["bike7Price2"] | @Localizer["bike7Price3"]</p>
-            <a href="Honda Click 160 Special Edition (2024).html" class="select-button"
-               onclick="saveBike('@Localizer["bike7"]', 'https://www.checkraka.com/uploaded/gallery/65/65ac69d93374a543e11a11fa2783f5fb.jpg', 400, 2200, 5500, 'Honda Click 160 Special Edition (2024).html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.superbikemag.com/wp-content/uploads/2025/03/2.-New-C125-KV-%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B9%88%E0%B8%AD-scaled.webp">
-            <h3>@Localizer["bike8"]</h3>
-            <p>@Localizer["bike8Price1"] | @Localizer["bike8Price2"] | @Localizer["bike8Price3"]</p>
-            <a href="Honda Super Cub C125 Custom Edition ปี 2025.html" class="select-button"
-               onclick="saveBike('@Localizer["bike8"]', 'https://www.superbikemag.com/wp-content/uploads/2025/03/2.-New-C125-KV-%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B9%88%E0%B8%AD-scaled.webp', 700, 4000, 10000, 'Honda Super Cub C125 Custom Edition ปี 2025.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.vtmotorbike.com/wp-content/uploads/2024/01/gt-bl.png">
-            <h3>@Localizer["bike9"]</h3>
-            <p>@Localizer["bike9Price1"] | @Localizer["bike9Price2"] | @Localizer["bike9Price3"]</p>
-            <a href="Yamaha GT125 (Standard) ปี 2023.html" class="select-button"
-               onclick="saveBike('@Localizer["bike9"]', 'https://www.vtmotorbike.com/wp-content/uploads/2024/01/gt-bl.png', 600, 3500, 9000, 'Yamaha GT125 (Standard) ปี 2023.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://charoenmotor.com/wp-content/uploads/2024/09/2-2024.png">
-            <h3>@Localizer["bike10"]</h3>
-            <p>@Localizer["bike10Price1"] | @Localizer["bike10Price2"] | @Localizer["bike10Price3"]</p>
-            <a href="Yamaha FINN UBS ปี 2024.html" class="select-button"
-               onclick="saveBike('@Localizer["bike10"]', 'https://charoenmotor.com/wp-content/uploads/2024/09/2-2024.png', 400, 2200, 5500, 'Yamaha FINN UBS ปี 2024.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://www.carmagazinethailand.com/wp-content/uploads/2022/07/Yamaha-Fazzio-Hybrid-1.png">
-            <h3>@Localizer["bike11"]</h3>
-            <p>@Localizer["bike11Price1"] | @Localizer["bike11Price2"] | @Localizer["bike11Price3"]</p>
-            <a href="Yamaha Fazzio SMART KEY ปี 2022.html" class="select-button"
-               onclick="saveBike('@Localizer["bike11"]', 'https://www.carmagazinethailand.com/wp-content/uploads/2022/07/Yamaha-Fazzio-Hybrid-1.png', 650, 3800, 9500, 'Yamaha Fazzio SMART KEY ปี 2022.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://likemocyc.com/wp-content/uploads/2023/08/Giorno-2023-9-13-42-AM.jpg">
-            <h3>@Localizer["bike12"]</h3>
-            <p>@Localizer["bike12Price1"] | @Localizer["bike12Price2"] | @Localizer["bike12Price3"]</p>
-            <a href="Honda Giorno+ ABS ปี 2024.html" class="select-button"
-               onclick="saveBike('@Localizer["bike12"]', 'https://likemocyc.com/wp-content/uploads/2023/08/Giorno-2023-9-13-42-AM.jpg', 350, 2000, 4800, 'Honda Giorno+ ABS ปี 2024.html')">
-                @Localizer["select"]
-            </a>
-        </div>
-    </div>
-</section>
+</div>
