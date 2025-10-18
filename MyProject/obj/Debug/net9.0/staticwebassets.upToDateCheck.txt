@@ -1,3 +1,4 @@
+wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\giveaways\Adidas_Lite_Racer_RBN_2.0_FW3890_Shoes.png
 wwwroot\images\giveaways\Backpack.png
@@ -37,6 +38,9 @@ wwwroot\images\product\Yamaha_GT125_2023.png
 wwwroot\images\product\Yamaha_GT125_2023_2.png
 wwwroot\images\product\Yamaha_NMAX_TECH_MAX_2025.png
 wwwroot\images\product\Yamaha_NMAX_TECH_MAX_2025_2.png
+wwwroot\js\auth.js
+wwwroot\js\layout.js
+wwwroot\js\reviews.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -98,6 +102,7 @@ wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\uploads\driving_licenses\0101b10a-1e62-4818-a18b-5cb37ab95ae3_Screenshot 2025-10-13 163848.png
+wwwroot\uploads\driving_licenses\1807e213-565f-4571-8603-c3892bffe123_bishop.png
 wwwroot\uploads\driving_licenses\20c0c2be-3481-4a4d-b3fb-8efe70cbf288_bishop.png
 wwwroot\uploads\driving_licenses\2623dc3b-f317-4be9-8383-b8b153c00cc5_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\315e5957-b4ba-4a02-8cf9-72055438a55c_Screenshot 2025-10-13 163848.png
@@ -113,9 +118,10 @@ wwwroot\uploads\driving_licenses\b1a68e26-f85f-482c-8b9b-e233273f4460_Screenshot
 wwwroot\uploads\driving_licenses\c10b14d4-1efe-4846-bc4b-730cc1d9350b_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\c5aad5ec-fce3-4371-b8db-01d8041263b6_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
-wwwroot\css\site.css
-wwwroot\js\site.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\site.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\favicon.ico
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\auth.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\layout.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
@@ -175,5 +181,4 @@ C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.sl
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\site.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\site.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\reviews.js

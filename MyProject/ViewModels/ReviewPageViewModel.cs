@@ -5,6 +5,9 @@ namespace MyProject.ViewModels
     // ViewModel สำหรับแสดงผลรีวิวแต่ละอัน
     public class ReviewItemViewModel
     {
+        public int ReviewId { get; set; }
+        public bool IsOwner { get; set; }
+
         public string UserName { get; set; } = string.Empty;
         public string? ProductName { get; set; }
         public string? BranchName { get; set; }
@@ -19,5 +22,7 @@ namespace MyProject.ViewModels
         public List<SelectListItem> Products { get; set; } = new();
         public List<SelectListItem> Branches { get; set; } = new();
         public List<ReviewItemViewModel> Reviews { get; set; } = new();
+        public int TotalReviewCount { get; set; }
+        public int ReviewsCurrentlyDisplayed { get; set; }
     }
 }

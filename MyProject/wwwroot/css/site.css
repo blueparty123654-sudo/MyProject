@@ -558,3 +558,28 @@ label, .col-form-label {
     line-height: 1.6;
     margin-top: 1rem;
 }
+
+.review-header {
+    align-items: flex-start; /* จัดให้อยู่บนสุดเผื่อชื่อยาว */
+}
+
+.review-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* ระยะห่างระหว่าง เวลา กับ ปุ่มลบ */
+    margin-left: auto; /* ดันไปทางขวา */
+}
+
+.btn-delete-review {
+    color: #dc3545; /* สีแดง */
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+    .btn-delete-review:hover {
+        opacity: 1;
+        color: #a71d2a;
+        transform: scale(1.1);
+    }

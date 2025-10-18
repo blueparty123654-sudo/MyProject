@@ -6,7 +6,8 @@
 <div class="review-container">
     <h1 class="page-title">📝 เขียนรีวิวของคุณ</h1>
 
-    <form id="reviewForm" class="review-form">
+    <form id="reviewForm" class="review-form" method="post">
+        @Html.AntiForgeryToken()
         <div class="form-row">
             <div class="form-group">
                 <label for="ProductId">เลือกรถ (ถ้ามี):</label>
@@ -47,10 +48,18 @@
 
         @foreach (var review in Model.Reviews)
         {
-            <div class="review-card">
+            <div class="review-card" id="review-@review.ReviewId">
                 <div class="review-header">
                     <span class="review-author">@review.UserName</span>
-                    <span class="review-time">@review.PostedAgo</span>
+                    <div class="review-header-actions">
+                        <span class="review-time">@review.PostedAgo</span>
+                        @if (review.IsOwner)
+                        {
+                            <a href="#" class="btn-delete-review" data-id="@review.ReviewId" title="ลบรีวิวนี้">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        }
+                    </div>
                 </div>
                 <div class="review-body">
                     <div class="review-rating">
@@ -77,4 +86,27 @@
             </div>
         }
     </div>
+
+    <div id="reviewList" class="review-list">
+    </div> @if (Model.ReviewsCurrentlyDisplayed < Model.TotalReviewCount)
+    {
+        <div class="load-more-container">
+            <button id="btnLoadMoreReviews" class="btn-submit-review" style="background-color: #1e3a8a; color: #fff;">
+                โหลดรีวิวเพิ่มเติม
+            </button>
+        </div>
+    }
+
+    @section Scripts {
+        <style>
+            .load-more-container {
+                text-align: center;
+                margin-top: 2rem;
+            }
+
+                .load-more-container .btn-submit-review:hover {
+                    background-color: #1a306d !important;
+                }
+        </style>
+    }
 </div>

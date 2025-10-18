@@ -1,7 +1,5 @@
-﻿// This is the complete and final version of site.js
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
-    // --- Section 1: Modal Opening Logic ---
     // Handles clicking the 'Log in', 'Sign up', and Profile buttons
 
     $('.show-auth-modal').on('click', function (e) {
@@ -42,24 +40,7 @@ $(document).ready(function () {
         });
     });
 
-    // --- Section 2: Datepicker Configuration ---
-    // Sets up all datepickers with Thai language and correct format
 
-    $('.datepicker-register, .datepicker-profile').datepicker({
-        format: "yyyy-mm-dd",
-        language: currentCulture,
-        autoclose: true,
-        todayHighlight: true,
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "c-100:c" // Show 100 years back from the current year
-    }).on('changeDate', function (e) {
-        // สั่งให้ jQuery Validation ตรวจสอบความถูกต้องของช่องนี้ทันที
-        $(this).valid();
-    });
-
-
-    // --- Section 3: AJAX Form Submission Logic ---
     // This function handles Login, Register, and Profile forms
 
     function handleFormSubmit(form) {
@@ -122,30 +103,4 @@ $(document).ready(function () {
         e.preventDefault();
         handleFormSubmit($(this));
     });
-
-    // --- Section 4: Floating Alert (from TempData) Manager ---
-    // Makes the top floating alert disappear after 5 seconds
-    if ($('.floating-alert-container .alert').length) {
-        setTimeout(function () {
-            $('.floating-alert-container .alert').fadeOut('slow');
-        }, 5000);
-    }
-
-    // --- Section 5: Review Page Logic (New Version for Font Awesome) ---
-    if ($('#reviewForm').length) {
-
-        const stars = $('.star-wrapper i');
-        const ratingInput = $('#Rating');
-
-        // Logic สำหรับ Click
-        stars.on('click', function () {
-            const value = $(this).data('value');
-            ratingInput.val(value); // อัปเดตค่าใน input ที่ซ่อนอยู่
-
-            // เพิ่ม/ลบ class 'selected' เพื่อให้ CSS ทำงาน
-            stars.removeClass('selected');
-            $(this).addClass('selected');
-        });
-    }
-
 });
