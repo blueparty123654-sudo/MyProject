@@ -9,14 +9,14 @@ public partial class MyBookstoreDbContext : DbContext
 
     // --- DbSets ทั้งหมด ---
     public virtual DbSet<Branch> Branches { get; set; }
-    public virtual DbSet<BranchProduct> BranchProducts { get; set; } // 👈 (เพิ่ม)
+    public virtual DbSet<BranchProduct> BranchProducts { get; set; }
     public virtual DbSet<Discount> Discounts { get; set; }
     public virtual DbSet<Favorite> Favorites { get; set; }
     public virtual DbSet<Giveaway> Giveaways { get; set; }
     public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<Payment> Payments { get; set; }
     public virtual DbSet<Product> Products { get; set; }
-    public virtual DbSet<Redemption> Redemptions { get; set; } // 👈 (เพิ่ม)
+    public virtual DbSet<Redemption> Redemptions { get; set; }
     public virtual DbSet<Review> Reviews { get; set; }
     public virtual DbSet<Role> Roles { get; set; }
     public virtual DbSet<User> Users { get; set; }

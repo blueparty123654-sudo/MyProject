@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script src="https://kit.fontawesome.com/5ea815c1d0.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -32,7 +34,7 @@
                             <a href="#footer-section" class="scroll-button nav-link">@Localizer["contact"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Review">@Localizer["review"]</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Reviews">@Localizer["review"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="RedeemPoints">@Localizer["insurance"]</a>
@@ -167,14 +169,22 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-datepicker/1.12.1/i18n/datepicker-en-GB.min.js"></script>
+
+    <script>
+        var currentCulture = '@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName';
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/locales/bootstrap-datepicker.th.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     
     @await RenderSectionAsync("Scripts", required: false)
 
-    <partial name="_ValidationScriptsPartial" />
     <partial name="_RegisterModalPartial" model="new MyProject.ViewModels.RegisterViewModel()" />
     <partial name="_LoginModalPartial" model="new MyProject.ViewModels.LoginViewModel()" />
     <partial name="_ProfileModalPartial" model="new MyProject.ViewModels.ProfileViewModel()" />

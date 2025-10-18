@@ -1,4 +1,0 @@
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\contact.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Index.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\RedeemPoints.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\Review.css

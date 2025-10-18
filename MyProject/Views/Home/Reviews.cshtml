@@ -1,0 +1,80 @@
+﻿@model MyProject.ViewModels.ReviewPageViewModel
+@{
+    ViewData["Title"] = "รีวิวจากลูกค้า";
+}
+
+<div class="review-container">
+    <h1 class="page-title">📝 เขียนรีวิวของคุณ</h1>
+
+    <form id="reviewForm" class="review-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="ProductId">เลือกรถ (ถ้ามี):</label>
+                <select id="ProductId" name="ProductId" class="form-control" asp-items="@(new SelectList(Model.Products, "Value", "Text"))">
+                    <option value="">-- ไม่ระบุ --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="BranchId">เลือกสาขา (ถ้ามี):</label>
+                <select id="BranchId" name="BranchId" class="form-control" asp-items="@(new SelectList(Model.Branches, "Value", "Text"))">
+                    <option value="">-- ไม่ระบุ --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group rating-group">
+            <label>ให้คะแนน:</label>
+            <div class="star-wrapper">
+                <i class="fas fa-star s5" data-value="5"></i>
+                <i class="fas fa-star s4" data-value="4"></i>
+                <i class="fas fa-star s3" data-value="3"></i>
+                <i class="fas fa-star s2" data-value="2"></i>
+                <i class="fas fa-star s1" data-value="1"></i>
+            </div>
+            <input type="hidden" id="Rating" name="Rating" value="0" />
+        </div>
+
+        <div class="form-group">
+            <label for="Comment">แสดงความคิดเห็น:</label>
+            <textarea id="Comment" name="Comment" class="form-control" placeholder="เขียนความคิดเห็นของคุณที่นี่..." rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit-review">ส่งรีวิว</button>
+    </form>
+
+    <div id="reviewList" class="review-list">
+        <h2 class="page-title" style="margin-top: 4rem;">💬 รีวิวล่าสุดจากลูกค้า</h2>
+
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-author">@review.UserName</span>
+                    <span class="review-time">@review.PostedAgo</span>
+                </div>
+                <div class="review-body">
+                    <div class="review-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star @(i <= review.Rating ? "filled" : "")">★</span>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(review.ProductName) || !string.IsNullOrEmpty(review.BranchName))
+                    {
+                        <div class="review-context">
+                            @if (!string.IsNullOrEmpty(review.ProductName))
+                            {
+                                <span><strong>รถ:</strong> @review.ProductName</span>
+                            }
+                            @if (!string.IsNullOrEmpty(review.BranchName))
+                            {
+                                <span><strong>สาขา:</strong> @review.BranchName</span>
+                            }
+                        </div>
+                    }
+                    <p class="review-comment">"@review.Comment"</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

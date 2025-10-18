@@ -399,3 +399,162 @@ label, .col-form-label {
     z-index: 9999;
     max-width: 600px;
 }
+
+/* =================================== */
+/* ==       Review Page Styles      == */
+/* =================================== */
+
+.review-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.review-form .form-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.review-form .form-group {
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.review-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.review-form .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.rating-group {
+    /* (เพิ่ม) ทำให้ star-wrapper จัดตำแหน่งได้ถูกต้อง */
+    position: relative;
+    min-height: 60px; /* กันพื้นที่สำหรับดาว */
+}
+
+.star-wrapper {
+    /* (แก้ไข) ไม่ใช้ position absolute แต่จัดให้อยู่ใน form ปกติ */
+    direction: rtl; 
+    display: inline-block;
+}
+
+    .star-wrapper i { 
+        font-size: 2.5em; 
+        color: #ced4da;
+        text-decoration: none;
+        transition: all 0.3s;
+        margin: 0 2px;
+        cursor: pointer;
+    }
+
+        /* --- ส่วน Logic การ Hover ที่คุณให้มา --- */
+        .star-wrapper i:hover {
+            color: gold;
+            transform: scale(1.2);
+        }
+
+.s1:hover ~ i,
+.s2:hover ~ i,
+.s3:hover ~ i,
+.s4:hover ~ i,
+.s5:hover ~ i {
+    color: gold;
+}
+
+/* --- (เพิ่ม) ส่วน Logic สำหรับการ Click (จาก JavaScript) --- */
+.star-wrapper i.selected,
+.star-wrapper i.selected ~ i {
+    color: gold;
+}
+
+.btn-submit-review {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #1e3a8a;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .btn-submit-review:hover {
+        background-color: #e6b800;
+        transform: translateY(-2px);
+    }
+
+.review-list {
+    margin-top: 3rem;
+}
+
+.review-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.75rem;
+}
+
+.review-author {
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+.review-time {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.review-rating .star {
+    font-size: 1.2rem;
+    color: #dee2e6; /* สีดาวว่าง */
+}
+
+    .review-rating .star.filled {
+        color: #ffc107; /* สีดาวที่ถูกเติม */
+    }
+
+.review-context {
+    font-size: 0.9rem;
+    color: #495057;
+    margin: 0.75rem 0;
+    padding: 0.5rem 0.75rem;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}
+
+    .review-context span {
+        margin-right: 1rem;
+    }
+
+
+.review-comment {
+    color: #343a40;
+    font-style: italic;
+    line-height: 1.6;
+    margin-top: 1rem;
+}

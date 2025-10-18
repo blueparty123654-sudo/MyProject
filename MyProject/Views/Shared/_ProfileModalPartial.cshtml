@@ -42,7 +42,7 @@
                     <div class="row mb-3 align-items-center">
                         <label asp-for="CurrentPassword" class="col-md-4 col-form-label text-md-end">รหัสผ่านปัจจุบัน</label>
                         <div class="col-md-7">
-                            <input asp-for="CurrentPassword" type="password" class="form-control" />
+                            <input asp-for="CurrentPassword" type="password" class="form-control" autocomplete="new-password" />
                             <span asp-validation-for="CurrentPassword" class="text-danger"></span>
                         </div>
                     </div>

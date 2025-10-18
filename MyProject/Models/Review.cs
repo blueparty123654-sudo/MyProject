@@ -1,19 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyProject.Models
 {
     public class Review
     {
-        [Key] // 👈 ติดป้าย
-        public int ReviewId { get; set; } // เดิมคือ RvId
-
+        [Key]
+        public int ReviewId { get; set; }
         public int UserId { get; set; }
-        public int ProductId { get; set; } // เดิมคือ PrId
-        public int Rating { get; set; } // เดิมคือ RvRating
-        public string? Text { get; set; } // เดิมคือ RvText
+        public int? ProductId { get; set; }
+        public int? BranchId { get; set; }
+
+        [Required]
+        [Range(1, 5)]
+        public int Rating { get; set; }
+
+        [Required]
+        [StringLength(1000)]
+        public string Comment { get; set; } = null!;
+
+        public DateTime ReviewDate { get; set; }
 
         // Navigation Properties
-        public virtual User? User { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; } = null!;
+        [ForeignKey("ProductId")]
         public virtual Product? Product { get; set; }
+        [ForeignKey("BranchId")]
+        public virtual Branch? Branch { get; set; }
     }
 }

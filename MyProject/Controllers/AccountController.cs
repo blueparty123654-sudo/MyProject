@@ -27,16 +27,17 @@ namespace MyProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            // 1. ตรวจสอบว่าอีเมลนี้ถูกใช้งานแล้วหรือยัง (Server-side validation)
-            if (await _context.Users.AnyAsync(u => u.Email == model.Email))
-            {
-                ModelState.AddModelError("Email", "อีเมลนี้ถูกใช้งานแล้ว");
-            }
-
-            // 2. ตรวจสอบ Validation ทั้งหมด (รวมถึงข้อ 1)
+            // 1. ตรวจสอบ Validation ทั้งหมด (รวมถึงข้อ 2)
             if (!ModelState.IsValid)
             {
                 // ส่งรายการ Error ทั้งหมดกลับไปให้ AJAX จัดการ
+                return Json(new { success = false, errors = ModelStateToDictionary() });
+            }
+
+            // 2. ตรวจสอบว่าอีเมลนี้ถูกใช้งานแล้วหรือยัง (Server-side validation)
+            if (await _context.Users.AnyAsync(u => u.Email == model.Email))
+            {
+                ModelState.AddModelError("Email", "อีเมลนี้ถูกใช้งานแล้ว");
                 return Json(new { success = false, errors = ModelStateToDictionary() });
             }
 
@@ -128,7 +129,7 @@ namespace MyProject.Controllers
             {
                 userName = user.Name,
                 email = user.Email,
-                dateOfBirth = user.DateOfBirth.ToString("yyyy-MM-dd")
+                dateOfBirth = user.DateOfBirth.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
             });
         }
 
