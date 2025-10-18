@@ -1,33 +1,242 @@
-﻿@model IEnumerable<MyProject.ViewModels.ProductViewModel>
+﻿@model MyProject.ViewModels.HomePageViewModel
 @{
-    ViewData["Title"] = "รายการรถมอเตอร์ไซค์";
+    ViewData["Title"] = "หน้าหลัก";
 }
 
 <div class="container">
-    @* 👈 1. ติดป้ายให้หัวข้อหลัก *@
-    <h1 class="page-title">🏍️ เลือกรถที่ใช่สำหรับคุณ 🏍️</h1>
 
-    <div class="row">
-        @foreach (var product in Model)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                @* 👈 2. ติดป้ายให้การ์ดหลัก *@
-                <div class="custom-card">
-                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">
-                            <strong>@product.PricePerDay.ToString("N0")</strong> บาท/วัน <br>
-                            <strong>@product.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์ <br>
-                            <strong>@product.PricePerMonth.ToString("N0")</strong> บาท/เดือน
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        @* 👈 3. ติดป้ายให้ปุ่มกด *@
-                        <a href="#" class="btn btn-card-action">ดูรายละเอียด</a>
-                    </div>
-                </div>
+    @* (1) กล่องข้อความ - อยู่ใน container *@
+    <div class="hero-background"> 
+        <div class="container mt-4 mb-4">
+            <div class="hero-text-container">
+                <h1 class="hero-title">The Best Motor bike near you</h1>
             </div>
-        }
+            @if (!string.IsNullOrEmpty(Model.SelectedFilterName))
+            {
+                <p class="selected-filter-display">(สาขา: @Model.SelectedFilterName)</p>
+            }
+        </div>
+    </div>
+
+    @* (2) Filter Slider - อยู่นอก container เพื่อให้เต็มความกว้าง *@
+    <div class="filter-slider">
+        <button class="arrow-btn left" onclick="scrollFiltersLeft()">&#10094;</button>
+        <div class="filter-container" id="filterContainer">
+            
+            @* วนลูป Filter Items *@
+            @foreach (var branch in Model.FilterBranches)
+            {
+                <div class="filter-item @(Model.SelectedBranchId == branch.BranchId ? "active" : "")" data-filter-type="branch" data-filter-value="@branch.BranchId">
+                    <div class="circle"><img src="~/images/product/Filter.png" alt="@branch.Name"></div>
+                    <p>@branch.Name</p>
+                </div>
+            }
+        </div>
+        <button class="arrow-btn right" onclick="scrollFiltersRight()">&#10095;</button>
+    </div>
+
+    @* (3) รายการรถ - กลับเข้ามาอยู่ใน container *@
+    <div class="container mt-4">
+        @* เปิด container ใหม่ หรือใช้ container เดิมถ้ายังไม่ปิด *@
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="productListContainer">
+            @* (ลบ mt-4 ถ้าไม่ต้องการเว้นระยะห่างจาก Filter) *@
+            @if (Model.Products.Any())
+            {
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="custom-card h-100 @(!product.IsAvailable ? "out-of-stock" : "")">
+
+                            @* (เพิ่ม) Overlay ถ้า Out of Stock *@
+                            @if (!product.IsAvailable)
+                            {
+                                <div class="stock-overlay">
+                                    <span>สินค้าหมด</span>
+                                </div>
+                            }
+
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">
+                                    <strong>@product.PricePerDay.ToString("N0")</strong> บาท/วัน <br>
+                                    <strong>@product.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์ <br>
+                                    <strong>@product.PricePerMonth.ToString("N0")</strong> บาท/เดือน
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                @if (product.IsAvailable)
+                                {
+                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-card-action">ดูรายละเอียด</a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-card-action disabled" disabled>สินค้าหมด</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center mt-5">
+                    <p style="color: #888;">-- ไม่พบรถที่ตรงกับสาขาที่เลือก --</p>
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const filterSlider = $('.filter-slider');
+            const filterContainer = $('#filterContainer');
+            // สำคัญ: เลือกเฉพาะ item ต้นฉบับ (ที่ไม่ใช่ clone) ตอนเริ่มต้น
+            const filterItems = filterContainer.find('.filter-item:not(.clone)');
+            const leftArrow = filterSlider.find('.arrow-btn.left');
+            const rightArrow = filterSlider.find('.arrow-btn.right');
+            const totalItems = filterItems.length;
+
+            // --- Configuration ---
+            const itemWidth = 120;       // ความกว้าง .filter-item จาก CSS
+            const gap = 20;            // gap จาก CSS
+            const itemOuterWidth = itemWidth + gap; // ความกว้างรวม gap = 140
+            const visibleItems = 4;     // จำนวนที่แสดง
+            const animationDuration = 300; // ms
+            let isAnimating = false;    // Flag ป้องกันการกดรัวๆ
+
+            // --- Function to handle filter item clicks (loads new page) ---
+            function attachFilterClickHandler() {
+                // ใช้ Event Delegation บน Container, ไม่ต้องใช้ :not(.clone) ที่นี่
+                // เพราะถึงคลิก clone ก็ใช้ data-filter-value เดียวกัน
+                filterContainer.off('click', '.filter-item').on('click', '.filter-item', function() {
+                    const branchId = $(this).data('filter-value');
+                    console.log("Filter Clicked:", branchId);
+
+                    const currentUrl = window.location.pathname;
+                    let newUrl = currentUrl;
+                    let searchParams = new URLSearchParams(window.location.search);
+
+                    // ตรวจสอบค่า branchId ก่อน set/delete
+                    if (branchId !== undefined && branchId !== "") { // Branch selected
+                        if (searchParams.get('branchId') === branchId.toString()) {
+                            console.log("Already selected. No navigation.");
+                            return; // Don't reload if clicking the current filter
+                        }
+                        searchParams.set('branchId', branchId);
+                    } else { // "All" selected
+                        if (!searchParams.has('branchId')) {
+                            console.log("Already showing all. No navigation.");
+                            return; // Don't reload if clicking "All" when already showing all
+                        }
+                        searchParams.delete('branchId');
+                    }
+
+                    let queryString = searchParams.toString();
+                    if (queryString) { newUrl += '?' + queryString; }
+
+                    console.log("Navigating to:", newUrl);
+                    window.location.href = newUrl; // Navigate to the new URL
+                });
+                console.log("Filter click handler attached.");
+            }
+
+            // --- Setup Slider (Only if enough items) ---
+            if (totalItems <= visibleItems) {
+                // Not enough items to slide, hide arrows and center items
+                leftArrow.hide();
+                rightArrow.hide();
+                filterContainer.css('justify-content', 'center');
+                attachFilterClickHandler(); // Still need to handle clicks
+                return; // Stop execution, no need for cloning/sliding logic
+            }
+
+            // --- Clone items for infinite loop effect ---
+            // Clone last 'visibleItems' to the beginning
+            filterItems.slice(-visibleItems).clone().addClass('clone').prependTo(filterContainer);
+            // Clone first 'visibleItems' to the end
+            filterItems.slice(0, visibleItems).clone().addClass('clone').appendTo(filterContainer);
+
+            // --- Set Initial Scroll Position ---
+            // Start scrolling after the prepended clones
+            const initialScroll = itemOuterWidth * visibleItems; // e.g., 140 * 4 = 560
+            filterContainer.scrollLeft(initialScroll);
+            console.log("Initial scrollLeft:", initialScroll);
+
+            // --- Right Arrow Click Handler ---
+            window.scrollFiltersRight = function() {
+                if (isAnimating) return; // Prevent clicking during animation
+                isAnimating = true;
+
+                const currentScroll = filterContainer.scrollLeft();
+                // Calculate the target scroll position (move one item width to the right)
+                // Round current position to nearest item start, then add one item width
+                const targetScroll = Math.round(currentScroll / itemOuterWidth) * itemOuterWidth + itemOuterWidth;
+                console.log("Right -> Target:", targetScroll);
+
+                filterContainer.animate({ scrollLeft: targetScroll }, animationDuration, 'swing', function() {
+                    const currentExactScroll = filterContainer.scrollLeft(); // Get position after animation
+
+                    // Threshold: Position right after the last original item
+                    // = initialScroll + (itemOuterWidth * totalItems)
+                    const loopThreshold = initialScroll + (itemOuterWidth * totalItems);
+                    console.log("Right -> After animate Exact:", currentExactScroll, "Target:", targetScroll, "Threshold:", loopThreshold);
+
+                    // If the *target* position is at or past the threshold, jump back instantly
+                    if (targetScroll >= loopThreshold) {
+                         console.log("Loop Right: Jumping back to start:", initialScroll);
+                         filterContainer.scrollLeft(initialScroll); // Jump to the start of original items
+                    } else {
+                         // Force the final position if animation wasn't exact (allow small tolerance)
+                         if (Math.abs(currentExactScroll - targetScroll) > 1) {
+                             console.log("Right: Forcing position to target:", targetScroll);
+                             filterContainer.scrollLeft(targetScroll);
+                         }
+                    }
+                    isAnimating = false; // Re-enable clicking
+                });
+            }
+
+            // --- Left Arrow Click Handler ---
+            window.scrollFiltersLeft = function() {
+                 if (isAnimating) return; // Prevent clicking during animation
+                 isAnimating = true;
+
+                const currentScroll = filterContainer.scrollLeft();
+                // Calculate the target scroll position (move one item width to the left)
+                 // Round current position to nearest item start, then subtract one item width
+                const targetScroll = Math.round(currentScroll / itemOuterWidth) * itemOuterWidth - itemOuterWidth;
+                console.log("Left -> Target:", targetScroll);
+
+                filterContainer.animate({ scrollLeft: targetScroll }, animationDuration, 'swing', function() {
+                    const currentExactScroll = filterContainer.scrollLeft(); // Get position after animation
+
+                    // Threshold: Position right at the start of the first original item
+                     const loopThreshold = initialScroll;
+                     console.log("Left -> After animate Exact:", currentExactScroll, "Target:", targetScroll, "Threshold:", loopThreshold);
+
+                     // If the *target* position is before the threshold, jump to the end instantly
+                     if (targetScroll < loopThreshold) {
+                         // Position of the last original item (before the end clones start)
+                         const endScrollTarget = initialScroll + (itemOuterWidth * totalItems) - itemOuterWidth;
+                         console.log("Loop Left: Jumping back to end:", endScrollTarget);
+                         filterContainer.scrollLeft(endScrollTarget); // Jump to the end of original items
+                     } else {
+                         // Force the final position if animation wasn't exact
+                         if (Math.abs(currentExactScroll - targetScroll) > 1) {
+                             console.log("Left: Forcing position to target:", targetScroll);
+                             filterContainer.scrollLeft(targetScroll);
+                         }
+                     }
+                    isAnimating = false; // Re-enable clicking
+                });
+            }
+
+            // --- Attach Filter Click Handler ---
+            attachFilterClickHandler();
+
+        }); // end document ready
+    </script>
+}

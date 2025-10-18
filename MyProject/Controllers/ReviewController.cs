@@ -24,7 +24,7 @@ namespace MyProject.Controllers
 
         // --- Action Reviews ---
         // (วางโค้ด Reviews() ที่ตัดมา)
-        public async Task<IActionResult> Reviews()
+        public async Task<IActionResult> Reviews(int? filterProductId = null, int? filterBranchId = null, int? filterRating = null)
         {
             var viewModel = new ReviewPageViewModel();
 
@@ -33,6 +33,13 @@ namespace MyProject.Controllers
                 .Select(p => new SelectListItem { Value = p.ProductId.ToString(), Text = p.Name }).ToListAsync();
             viewModel.Branches = await _context.Branches.OrderBy(b => b.Name)
                 .Select(b => new SelectListItem { Value = b.BranchId.ToString(), Text = b.Name }).ToListAsync();
+
+            // --- (เพิ่ม) ส่วนเตรียม Query กรองข้อมูล ---
+            var query = _context.Reviews.AsQueryable();
+            if (filterProductId.HasValue) { query = query.Where(r => r.ProductId == filterProductId.Value); }
+            if (filterBranchId.HasValue) { query = query.Where(r => r.BranchId == filterBranchId.Value); }
+            if (filterRating.HasValue && filterRating.Value >= 1 && filterRating.Value <= 5) { query = query.Where(r => r.Rating >= filterRating.Value); }
+            // --- จบส่วนเตรียม Query ---
 
             // 2. ดึงข้อมูลผู้ใช้ปัจจุบัน (เหมือนเดิม)
             var currentUserId = 0;
@@ -44,10 +51,10 @@ namespace MyProject.Controllers
             }
 
             // 3. (แก้ไข) นับจำนวนรีวิวทั้งหมด
-            viewModel.TotalReviewCount = await _context.Reviews.CountAsync();
+            viewModel.TotalReviewCount = await query.CountAsync();
 
-            // 4. (แก้ไข) ดึงข้อมูลดิบมาแค่ 5 อันแรก
-            var rawReviews = await _context.Reviews
+            // 4. (แก้ไข) ดึงข้อมูลดิบมาแค่ 3 อันแรก
+            var rawReviews = await query
                 .Include(r => r.User)
                 .Include(r => r.Product)
                 .Include(r => r.Branch)
@@ -81,6 +88,10 @@ namespace MyProject.Controllers
 
             // 6. (เพิ่ม) บันทึกว่าเราแสดงผลไปแล้วกี่อัน
             viewModel.ReviewsCurrentlyDisplayed = viewModel.Reviews.Count;
+
+            ViewBag.FilterProductId = filterProductId;
+            ViewBag.FilterBranchId = filterBranchId;
+            ViewBag.FilterRating = filterRating;
 
             return View(viewModel);
         }
@@ -198,9 +209,14 @@ namespace MyProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> LoadMoreReviews(int skip)
+        public async Task<IActionResult> LoadMoreReviews(int skip, int? filterProductId = null, int? filterBranchId = null, int? filterRating = null)
         {
-            int take = 3; // โหลดทีละ 5 อัน
+            int take = 3;
+
+            var query = _context.Reviews.AsQueryable();
+            if (filterProductId.HasValue) { query = query.Where(r => r.ProductId == filterProductId.Value); }
+            if (filterBranchId.HasValue) { query = query.Where(r => r.BranchId == filterBranchId.Value); }
+            if (filterRating.HasValue && filterRating.Value >= 1 && filterRating.Value <= 5) { query = query.Where(r => r.Rating >= filterRating.Value); }
 
             // ดึงข้อมูลผู้ใช้ปัจจุบัน (เพื่อเช็ค IsOwner)
             var currentUserId = 0;
@@ -212,11 +228,11 @@ namespace MyProject.Controllers
             }
 
             // 1. ดึงข้อมูลดิบชุดถัดไป
-            var rawReviews = await _context.Reviews
+            var rawReviews = await query
                 .Include(r => r.User).Include(r => r.Product).Include(r => r.Branch)
                 .OrderByDescending(r => r.ReviewDate)
-                .Skip(skip) // 👈 ข้ามอันที่แสดงไปแล้ว
-                .Take(take) // 👈 ดึงมา 5 อันใหม่
+                .Skip(skip) 
+                .Take(take) 
                 .Select(r => new {
                     ReviewId = r.ReviewId,
                     AuthorUserId = r.UserId,

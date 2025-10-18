@@ -43,6 +43,50 @@
         <button type="submit" class="btn-submit-review">ส่งรีวิว</button>
     </form>
 
+    <hr class="my-4" /> <div class="review-filters mb-4">
+        <h3 style="font-size: 1.2rem; color: #555; margin-bottom: 1rem;">🔍 กรองรีวิวตาม:</h3>
+        <div class="row gx-3 gy-2 align-items-center">
+            <div class="col-sm-4">
+                <label class="visually-hidden" for="filterProduct">รถ</label>
+                <select id="filterProduct" class="form-select form-select-sm">
+                    <option value="">-- รถทั้งหมด --</option>
+                    @* วนลูป Products จาก Model *@
+                    @foreach (var item in Model.Products)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label class="visually-hidden" for="filterBranch">สาขา</label>
+                <select id="filterBranch" class="form-select form-select-sm">
+                    <option value="">-- ทุกสาขา --</option>
+                    @* วนลูป Branches จาก Model *@
+                    @foreach (var item in Model.Branches)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label class="visually-hidden" for="filterRating">คะแนน</label>
+                <select id="filterRating" class="form-select form-select-sm">
+                    <option value="">-- ทุกคะแนน --</option>
+                    <option value="5">★★★★★ (5 ดาว)</option>
+                    <option value="4">★★★★☆ (4 ดาวขึ้นไป)</option>
+                    <option value="3">★★★☆☆ (3 ดาวขึ้นไป)</option>
+                    <option value="2">★★☆☆☆ (2 ดาวขึ้นไป)</option>
+                    <option value="1">★☆☆☆☆ (1 ดาวขึ้นไป)</option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <button id="resetFilters" class="btn btn-outline-secondary btn-sm w-100" title="ล้างตัวกรอง">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="reviewList" class="review-list">
         <h2 class="page-title" style="margin-top: 4rem;">💬 รีวิวล่าสุดจากลูกค้า</h2>
 

@@ -118,53 +118,77 @@
         @RenderBody()
     </main>
 
-    <footer id="footer-section" class="footer-local" role="contentinfo">
+    <footer id="footer-section" class="footer-local">
+        @* หรือชื่อคลาส Footer เดิมของคุณ *@
         <div class="container">
             <div class="footer-local__main">
-                <div class="footer-local__details">
-                    <h3>The Best Motor bike near you</h3>
-                    <p>
-                        📍 ที่อยู่:<br>
-                        16 / 8 ซอยประชาอุทิศ 79 แยก 15 ถนนประชาอุทิศ<br>
-                        แขวงทุ่งครุ เขตทุ่งครุ กรุงเทพมหานคร 10140
-                    </p>
-                    <p>
-                        <strong>📞 โทรศัพท์:</strong>
-                        <a href="tel:0641522888">064-152-2888</a> /
-                        <a href="tel:0864714850">086-471-4850</a><br>
-                        <strong>📧 อีเมล:</strong> <a href="mailto:rentnewalphard24@hotmail.com">rentnewalphard24@hotmail.com</a>
-                    </p>
-                </div>
-                <div class="footer-local__map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.352535593903!2d100.51153957513958!3d13.6363065999569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a3cec27a70e3%3A0xe15856f02834583e!2s85%2F16%20Soi%20Pracha%20Uthit%2079%2C%20Khwaeng%20Thung%20Khru%2C%20Khet%20Thung%20Khru%2C%20Krung%20Thep%20Maha%20Nakhon%2010140!5e0!3m2!1sen!2sth!4v1760294038522!5m2!1sen!2sth"
-                            allowfullscreen="" loading="lazy"
-                            aria-label="Location of The Best Motor bike near you">
-                    </iframe>
-                </div>
-            </div>
-            <div class="footer-local__bottom">
-                <p class="footer-local__copyright">© 2025 The Best Motor bike near you (THAILAND).</p>
 
-                <nav class="footer-local__social" aria-label="Social media">
-                    <ul>
-                        <li>
-                            <a href="#" aria-label="Our Facebook Page">
-                                <i class="fa-brands fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" aria-label="Our Instagram Profile">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" aria-label="Our Line Profile">
-                                <i class="fa-brands fa-line"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                @* --- ส่วนข้อมูลสาขา (แก้ไข) --- *@
+                <div class="footer-local__info">
+                    @{
+                        // ดึงข้อมูลจาก ViewBag มาเก็บในตัวแปร และตรวจสอบ null
+                        var branchDetails = ViewBag.BranchDetailsForLayout as MyProject.ViewModels.SelectedBranchDetailsViewModel;
+                    }
+
+                    @if (branchDetails != null) // ถ้ามีข้อมูลสาขาจาก ViewBag (แสดงว่าอยู่หน้า Index ที่มี Filter)
+                    {
+                        <h3>The Best Motor bike near you</h3>
+                        <h3>(สาขา @branchDetails.Name)</h3>
+                        <p>
+                            <br><strong>ที่อยู่: </strong> @(branchDetails.Address ?? "N/A")
+                            <br><strong>อีเมล:</strong> <a href="mailto:rentnewalpha124@hotmail.com">rentnewalpha124@hotmail.com</a>
+                            <br><strong>เบอร์โทร: </strong>
+                            @if (!string.IsNullOrEmpty(branchDetails.PhoneNumber))
+                            {
+                                <a href="tel:@branchDetails.PhoneNumber">@branchDetails.PhoneNumber</a>
+                            }
+                            else
+                            {
+                                <span>N/A</span>
+                            }
+                        </p>      
+                    }
+                    else // ถ้าไม่มีข้อมูล (เช่น อยู่หน้าอื่น หรือโหลด Index ครั้งแรกสุดๆ ไม่มี Default)
+                    {
+                        <h3>The Best Motor bike near you</h3> @* แสดงข้อความ Default *@
+                        <br>
+                        <p>
+                            <br><strong>ที่อยู่: 999 หมู่ 1 ถนนบางนา-ตราด หนองปรือ บางพลี สมุทรปราการ 10540</strong>
+                            <br><strong>อีเมล:</strong> <a href="mailto:rentnewalpha124@hotmail.com">rentnewalpha124@hotmail.com</a>
+                            <br><strong>เบอร์โทร:</strong> <a href="tel:0641522888">064-152-2888</a>, <a href="tel:0864714850">086-471-4850</a>
+                        </p>
+                    }
+                </div>
+
+                @* --- ส่วนแผนที่ (แก้ไข) --- *@
+                <div class="footer-local__map">
+                    @if (branchDetails != null && !string.IsNullOrEmpty(branchDetails.MapUrl)) // เช็คข้อมูล MapUrl จาก ViewBag ด้วย
+                    {
+                        <iframe src="@branchDetails.MapUrl"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    }
+                    else // ถ้าไม่มีข้อมูลแผนที่ (หน้าอื่น หรือ สาขาไม่มี MapUrl)
+                    {
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.200189912534!2d100.74555137591605!3d13.64273899933808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311d604253685a7d%3A0x1334139ce35b1350!2sSuvarnabhumi%20Airport!5e0!3m2!1sen!2sth!4v1668589988123!5m2!1sen!2sth"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    }
+                </div>
             </div>
+
+            @* --- ส่วน Bottom (Copyright/Social) - อาจจะเหมือนเดิม --- *@
+            <div class="footer-local__bottom">
+                <span>&copy; @DateTime.Now.Year The Best Motor bike near you (THAILAND)</span>
+                <div class="footer-local__social">
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li> @* ต้องมี Font Awesome *@
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-line"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     </footer>
 

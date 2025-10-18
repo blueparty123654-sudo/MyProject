@@ -1,0 +1,243 @@
+﻿@model MyProject.ViewModels.ProductDetailsViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-5 product-details-page">
+
+    @* --- แสดง TempData Messages --- *@
+    @if (TempData["BookingError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["BookingError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["BookingWarning"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @TempData["BookingWarning"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["BookingSuccess"] != null) @* อาจจะไม่เห็นถ้า Redirect เร็วไป *@
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["BookingSuccess"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <div class="row">
+        @* ----- ส่วนรูปภาพ ----- *@
+        <div class="col-md-6 mb-4">
+            <div class="image-gallery">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl)) { /* ... แสดง ImageUrl ... */ }
+                @if (!string.IsNullOrEmpty(Model.ImageUrl2)) { /* ... แสดง ImageUrl2 ... */ }
+            </div>
+        </div>
+
+        @* ----- ส่วนฟอร์มจองและราคา ----- *@
+        <div class="col-md-6 mb-4">
+            <div class="booking-form-container p-4 rounded shadow-sm bg-light">
+                <h2 class="product-title mb-3">@Model.Name</h2>
+                <div class="pricing-info mb-4">
+                    <p><strong>@Model.PricePerDay.ToString("N0")</strong> บาท/วัน</p>
+                    <p><strong>@Model.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์</p>
+                    <p><strong>@Model.PricePerMonth.ToString("N0")</strong> บาท/เดือน</p>
+                </div>
+
+                <form asp-action="Create" asp-controller="Booking" method="post" id="bookingForm">
+                    @Html.AntiForgeryToken() @* เพิ่ม AntiForgeryToken *@
+                    <input type="hidden" asp-for="ProductId" />
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label asp-for="PickupDate" class="form-label"></label>
+                            <input asp-for="PickupDate" type="date" class="form-control" required>
+                            <span asp-validation-for="PickupDate" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="ReturnDate" class="form-label"></label>
+                            <input asp-for="ReturnDate" type="date" class="form-control" required>
+                            <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="DiscountCode" class="form-label"></label>
+                        <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด">
+                    </div>
+                    <div id="estimatedPrice" class="mb-3">---</div>
+                    <button type="submit" class="btn btn-confirm-booking w-100 mt-3" disabled>
+                        กรุณาเลือกวันที่
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @* ----- ส่วนรายละเอียด Spec ----- *@
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="specifications-container p-4 rounded shadow-sm bg-light">
+                <h3 class="spec-title mb-4"><i class="fas fa-clipboard-list"></i> สเปค @Model.Name</h3>
+                <table class="table table-striped table-hover spec-table">
+                    <tbody>
+                        @* --- แสดงผล Spec (ใช้ชื่อ Property ที่ตรงกับ ViewModel) --- *@
+                        @if (!string.IsNullOrEmpty(Model.ModelYear)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Gear)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Engine)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Cooling)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Starter)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.CC)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Fuel)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.FuelSystem)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.FuelCapacity)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Suspension)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Brake)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Wheels)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Tires)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Dimensions)) { /* ... */ }
+                        @if (!string.IsNullOrEmpty(Model.Weight)) { /* ... */ }
+                        @* --- เพิ่ม/แก้ไขแถวอื่นๆ --- *@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @* ----- ปุ่มกลับหน้าหลัก ----- *@
+    @* ... *@
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* เพิ่ม Script Validation *@
+    <script>
+        $(document).ready(function() {
+            // --- Cache Elements ---
+            const pickupDateInput = $('#PickupDate');
+            const returnDateInput = $('#ReturnDate');
+            const priceDisplay = $('#estimatedPrice');
+            const confirmButton = $('.btn-confirm-booking');
+            const bookingForm = $('#bookingForm'); // Get the form
+
+            // --- Prices from Model ---
+            const pricePerDay = parseFloat('@Model.PricePerDay'); // Use parseFloat
+
+            // --- Function to Calculate Price and Validate ---
+            function validateAndCalculate() {
+                const pickupDateStr = pickupDateInput.val();
+                const returnDateStr = returnDateInput.val();
+                let isValid = true; // Flag for overall validity
+
+                // Clear previous states
+                priceDisplay.text('---').removeClass('text-success text-danger');
+                confirmButton.prop('disabled', true).text('กรุณาเลือกวันที่');
+                // Clear manual validation messages (if any)
+                pickupDateInput.removeClass('is-invalid');
+                returnDateInput.removeClass('is-invalid');
+
+                // --- Date Presence Check ---
+                if (!pickupDateStr || !returnDateStr) {
+                    // Let required attribute handle this, button remains disabled
+                    console.log("Dates incomplete");
+                    isValid = false; // Not fully valid yet
+                    // No need to set button text here, default is fine
+                    // return; // Don't return yet, allow further checks if one date is set
+                }
+
+                // --- Date Logic Check (only if both dates are present) ---
+                let estimatedTotal = 0;
+                let daysDiff = 0;
+                if(pickupDateStr && returnDateStr) {
+                    const pickupDate = new Date(pickupDateStr);
+                    const returnDate = new Date(returnDateStr);
+
+                     // Client-side validation: return date must be after pickup date
+                     if (returnDate <= pickupDate) {
+                         priceDisplay.html('<span class="text-danger">วันที่คืนต้องหลังวันที่รับ</span>');
+                         confirmButton.text('วันที่ไม่ถูกต้อง');
+                         returnDateInput.addClass('is-invalid'); // Add Bootstrap invalid class
+                         isValid = false;
+                     } else {
+                         // Calculate number of days
+                         const timeDiff = returnDate.getTime() - pickupDate.getTime();
+                         daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+
+                         if (daysDiff <= 0) {
+                             priceDisplay.html('<span class="text-danger">คำนวณวันผิดพลาด</span>');
+                             confirmButton.text('Error');
+                             isValid = false;
+                         } else {
+                             // --- Price Calculation ---
+                             estimatedTotal = daysDiff * pricePerDay;
+                             priceDisplay.html(`ประมาณ <strong>${estimatedTotal.toLocaleString('th-TH')}</strong> บาท (${daysDiff} วัน)`)
+                                         .addClass('text-success');
+                         }
+                     }
+                } else {
+                     isValid = false; // If only one date is selected, it's not valid to book yet
+                }
+
+
+                // --- Enable/Disable Button ---
+                if (isValid) {
+                    confirmButton.prop('disabled', false).text('ยืนยันการจอง');
+                }
+                // No need for else here, button is disabled by default or by errors
+
+            } // end validateAndCalculate
+
+            // --- Event Listeners ---
+            pickupDateInput.on('change', validateAndCalculate);
+            returnDateInput.on('change', validateAndCalculate);
+
+             // --- Discount Code (No effect on button/price yet) ---
+             $('#DiscountCode').on('input', function() { console.log("Discount:", $(this).val()); });
+
+            // --- Initial State ---
+            validateAndCalculate(); // Run once on load
+
+        }); // end document ready
+    </script>
+
+    <style>
+        /* ... CSS เดิม ... */
+        /* (ปรับปรุง) */
+        #estimatedPrice { /* ... */
+            text-align: right;
+        }
+
+            #estimatedPrice.text-success strong {
+                color: #198754;
+                font-size: 1.4rem;
+            }
+
+        .btn-confirm-booking {
+            background-color: #ffcc00;
+            border-color: #ffcc00;
+            color: #1e3a8a; /* ... */
+        }
+
+            .btn-confirm-booking:hover:not(:disabled) { /* ... */
+            }
+
+            .btn-confirm-booking:disabled {
+                background-color: #6c757d !important;
+                border-color: #6c757d !important;
+                color: white !important;
+                cursor: not-allowed;
+                opacity: 0.65;
+            }
+        /* (เพิ่ม) Bootstrap validation style */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+
+    </style>
+}

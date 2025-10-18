@@ -19,10 +19,11 @@ body {
     background: #f4f4f4;
     color: #222;
     padding-top: 76px; /* ระยะห่างสำหรับ Fixed Navbar */
-
+    margin: 0;
     min-height: 100vh; /* สูงอย่างน้อย 100% ของความสูงหน้าจอ */
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 /* =================================== */
@@ -273,6 +274,7 @@ h1.page-title, .products-title {
 
     .footer-local h3 {
         color: #fff;
+        margin-bottom: 0.5rem;
     }
 
     .footer-local a {
@@ -582,4 +584,375 @@ label, .col-form-label {
         opacity: 1;
         color: #a71d2a;
         transform: scale(1.1);
+    }
+
+
+/* =================================== */
+/* ==      Filter Slider Styles     == */
+/* =================================== */
+
+.filter-slider-background {
+    background-color: #e9ecef;
+    padding: 20px 0;
+    margin: 2.5rem 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.filter-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 40px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.filter-container {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    padding: 10px 0px;
+    flex-grow: 1;
+    width: calc((120px * 4) + (20px * 3)); /* = 540px */
+    box-sizing: content-box;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+    .filter-container::-webkit-scrollbar {
+        display: none;
+    }
+
+/* วงกลม + ข้อความ */
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    flex: 0 0 auto; /* ไม่ยืด/หด */
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.85; /* จางลงเล็กน้อย */
+    width: 120px; /* กำหนดความกว้าง */
+    flex-shrink: 0;
+}
+
+    .filter-item:hover {
+        transform: translateY(-3px);
+        opacity: 1; /* เข้มขึ้นเมื่อ hover */
+    }
+
+    .filter-item.active { /* สไตล์ตอนถูกเลือก */
+        opacity: 1;
+    }
+
+        .filter-item.active p {
+            font-weight: bold;
+            color: #1e3a8a; /* สีน้ำเงินเข้ม */
+        }
+
+/* วงกลม */
+.circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+    .circle img { /* รูป Default */
+        width: 65%;
+        height: 65%;
+        object-fit: contain; /* ให้เห็นรูปทั้งหมด */
+    }
+
+.filter-item:hover .circle { /* Effect ตอน hover */
+    background: #eaf2ff;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.filter-item.active .circle { /* สไตล์วงกลมตอนถูกเลือก */
+    background: #ddeaff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid #a8c7fa; /* เพิ่มเส้นขอบ */
+}
+
+/* ข้อความใต้ไอคอน */
+.filter-item p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+    line-height: 1.3;
+    max-width: 100px;
+    word-wrap: break-word; /* ตัดคำ */
+}
+
+/* ปุ่มลูกศร */
+.arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    color: #555;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .arrow-btn.left {
+        left: 5px;
+    }
+
+    .arrow-btn.right {
+        right: 5px;
+    }
+
+    .arrow-btn:hover {
+        background: #f0f0f0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .arrow-btn:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+
+    .arrow-btn.disabled { /* สไตล์ตอนเลื่อนสุด */
+        opacity: 0.3;
+        cursor: default;
+        pointer-events: none;
+    }
+
+/* =================================== */
+/* ==      Hero Text Container      == */
+/* =================================== */
+
+.hero-background {
+    background: linear-gradient(135deg, rgb(0, 0, 0) 0%, rgb(32, 49, 75) 45%, rgb(53, 53, 53) 100%);
+    padding: 2rem 0 1rem 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    margin-bottom: 18px;
+    margin-top: -15px;
+}
+
+.hero-text-container {
+    background-color: rgba(45, 52, 69, 0.85); /* สีพื้นหลังเข้มเกือบดำ โปร่งแสงเล็กน้อย */
+    border-radius: 25px; /* ความโค้งมนของขอบ */
+    padding: 2.5rem 2rem; /* ระยะห่างภายใน (แนวตั้ง แนวนอน) */
+    margin: 0 auto;
+    max-width: 800px; /* จำกัดความกว้างสูงสุด */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+    text-align: center; /* จัดข้อความกลาง */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+}
+
+.hero-title {
+    color: #ffffff; /* สีข้อความขาว */
+    font-size: 2.2rem; /* ขนาดตัวอักษร */
+    font-weight: 600; /* ความหนา */
+    margin: 0; /* ลบ margin เริ่มต้นของ h1 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); /* เพิ่มเงาให้ข้อความเล็กน้อย */
+}
+
+.selected-filter-display {
+    text-align: center;
+    margin-top: 0.75rem; /* ดึงขึ้นไปใกล้กล่องข้อความ */
+    margin-bottom: 1.5rem; /* ระยะห่างก่อน Filter Slider */
+    font-size: 1.1rem;
+    color: #E8E8E8; /* หรือสีอื่นที่ต้องการ */
+    font-weight: 500;
+    /* Optional: Responsive adjustments */
+}
+
+
+    @media (max-width: 768px) {
+        .hero-text-container {
+            padding: 2rem 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+        }
+    }
+
+/* =================================== */
+/* ==          Out Of Stock         == */
+/* =================================== */
+
+.custom-card.out-of-stock {
+    position: relative; /* สำหรับจัดตำแหน่ง Overlay */
+    opacity: 0.7; /* ทำให้การ์ดจางลง */
+}
+
+.stock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0); /* พื้นหลังขาวโปร่งแสง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none; /* ไม่ให้บังการคลิก (ถ้ามี) */
+    border-radius: 20px; /* ทำให้โค้งตามการ์ด */
+}
+
+    .stock-overlay span {
+        background-color: rgba(220, 53, 69, 0.85); /* พื้นหลังแดง */
+        color: white;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+/* (เพิ่ม) สไตล์ปุ่ม Disabled */
+.btn-card-action.disabled,
+.btn-card-action:disabled { /* เพิ่ม :disabled เพื่อความชัวร์ */
+    background-color: #6c757d !important; /* สีเทา */
+    border-color: #6c757d !important;
+    cursor: not-allowed;
+    opacity: 0.65;
+    pointer-events: none; /* ไม่ให้คลิกได้ */
+}
+
+    .btn-card-action.disabled:hover,
+    .btn-card-action:disabled:hover { /* ไม่ให้มี Hover effect */
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        transform: none;
+    }
+
+
+/* =================================== */
+/* ==        Product Details        == */
+/* =================================== */
+
+.product-details-page .product-title {
+    color: #1e3a8a;
+    font-weight: 700;
+}
+
+.product-details-page .pricing-info p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.product-details-page .pricing-info strong {
+    color: #dc3545; /* สีแดงสำหรับราคา */
+    font-size: 1.3rem;
+}
+
+.booking-form-container, .specifications-container {
+    background-color: #ffffff; /* เปลี่ยนเป็นสีขาว */
+    border: 1px solid #e9ecef;
+}
+
+    .specifications-container .spec-title {
+        color: #1e3a8a;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.75rem;
+    }
+
+.spec-table th {
+    width: 35%; /* ให้หัวข้อกว้างขึ้นเล็กน้อย */
+    font-weight: 600;
+    color: #555;
+    vertical-align: top;
+}
+
+.spec-table td {
+    color: #333;
+}
+
+.spec-icon {
+    color: #6c757d; /* สีไอคอนเทาๆ */
+    margin-right: 8px;
+    width: 1.2em; /* จัดให้ตรงกัน */
+    text-align: center;
+}
+
+.btn-confirm-booking {
+    background-color: #ffcc00; /* สีเหลือง */
+    border-color: #ffcc00;
+    color: #1e3a8a; /* น้ำเงินเข้ม */
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+
+    .btn-confirm-booking:hover:not(:disabled) { /* เพิ่ม :not(:disabled) */
+        background-color: #e6b800;
+        border-color: #d39e00;
+        transform: translateY(-2px);
+    }
+
+    .btn-confirm-booking:disabled { /* ใช้สไตล์ .disabled เดิมก็ได้ */
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        color: white !important;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+.btn-back-to-list {
+    background-color: #343a40;
+    color: white;
+    border-radius: 50px;
+    padding: 0.6rem 1.8rem;
+}
+
+    .btn-back-to-list:hover {
+        background-color: #23272b;
+        color: white;
+    }
+
+.product-detail-img {
+    max-height: 400px; /* จำกัดความสูงรูป */
+    object-fit: contain;
+    width: 100%;
+}
+
+#estimatedPrice {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #6c757d; /* สีเทาเริ่มต้น */
+    margin-top: 1rem;
+    text-align: right; /* ชิดขวา */
+}
+
+    #estimatedPrice.text-success strong {
+        color: #198754; /* สีเขียว */
+        font-size: 1.4rem;
     }

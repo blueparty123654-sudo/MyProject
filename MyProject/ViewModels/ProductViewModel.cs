@@ -8,5 +8,7 @@
         public decimal PricePerWeek { get; set; }
         public decimal PricePerMonth { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
+
+        public bool IsAvailable { get; set; } = true;
     }
 }
