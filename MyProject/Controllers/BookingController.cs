@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyProject.Data;
-using MyProject.Models; // *** ตรวจสอบว่า Models มีครบ: Order, OrderDetail, Discount, BranchProduct, User ***
+using MyProject.Models;
 using MyProject.ViewModels;
 using System;
 using System.Linq;
@@ -31,16 +31,17 @@ namespace MyProject.Controllers
             _logger.LogInformation("Booking Create POST received for ProductId: {ProductId}", model.ProductId);
 
             // --- 1. Basic & Date Validation ---
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.ReturnDate <= model.PickupDate)
             {
-                TempData["BookingError"] = "ข้อมูลไม่ครบถ้วน กรุณาเลือกวันที่รับและคืนรถ";
-                _logger.LogWarning("Booking failed: ModelState invalid for ProductId: {ProductId}", model.ProductId);
+                TempData["BookingError"] = !ModelState.IsValid ? "ข้อมูลไม่ครบถ้วน" : "วันที่คืนรถต้องอยู่หลังวันที่รับรถ";
+                _logger.LogWarning("Booking validation failed for ProductId: {ProductId}", model.ProductId);
                 return RedirectToAction("Details", "Product", new { id = model.ProductId });
             }
-            if (model.ReturnDate <= model.PickupDate)
+
+            if (model.PickupDate.Date < DateTime.Today)
             {
-                TempData["BookingError"] = "วันที่คืนรถต้องอยู่หลังวันที่รับรถ";
-                _logger.LogWarning("Booking failed: ReturnDate <= PickupDate for ProductId: {ProductId}", model.ProductId);
+                TempData["BookingError"] = "วันที่รับรถต้องไม่ใช่วันในอดีต";
+                _logger.LogWarning("Booking failed: PickupDate is in the past for ProductId: {ProductId}", model.ProductId);
                 return RedirectToAction("Details", "Product", new { id = model.ProductId });
             }
 
@@ -90,59 +91,74 @@ namespace MyProject.Controllers
             // TODO: (Advance) Check for existing bookings overlapping the selected dates
 
             // --- 5. Validate Discount & Calculate Price ---
-            decimal discountAmount = 0; decimal discountPercentage = 0; Discount? appliedDiscount = null;
+            Discount? appliedDiscount = null; // เก็บ Discount object ที่ใช้ได้
             if (!string.IsNullOrWhiteSpace(model.DiscountCode))
             {
+                DateOnly today = DateOnly.FromDateTime(DateTime.Today);
                 appliedDiscount = await _context.Discounts.AsNoTracking()
-                    .FirstOrDefaultAsync(d => d.Code == model.DiscountCode && d.ExpiryDate >= DateTime.Today && d.IsActive); // *** ตรวจสอบ Property Code, ExpiryDate, IsActive ***
-                if (appliedDiscount != null)
+                    .FirstOrDefaultAsync(d => d.Code == model.DiscountCode && d.Date >= today);
+                if (appliedDiscount == null)
                 {
-                    discountPercentage = appliedDiscount.Percentage ?? 0; // *** ตรวจสอบ Property Percentage ***
-                    discountAmount = appliedDiscount.Amount ?? 0;       // *** ตรวจสอบ Property Amount ***
-                    _logger.LogInformation("Applied discount code: {Code}, Percentage: {Perc}, Amount: {Amt}", appliedDiscount.Code, discountPercentage, discountAmount);
+                    // โค้ดผิด/หมดอายุ -> **ป้องกันการจอง**
+                    TempData["BookingError"] = $"รหัสส่วนลด '{model.DiscountCode}' ไม่ถูกต้องหรือหมดอายุ (กรุณาลบหรือแก้ไข)";
+                    _logger.LogWarning("Booking failed: Invalid discount code {Code} submitted.", model.DiscountCode);
+                    return RedirectToAction("Details", "Product", new { id = model.ProductId });
                 }
-                else
+                _logger.LogInformation("Valid discount code {Code} confirmed server-side.", appliedDiscount.Code);
+            }
+
+            // --- 6. Calculate Original Price (Optimized) & Points ---
+            TimeSpan duration = model.ReturnDate - model.PickupDate;
+            int numberOfDays = duration.Days + 1; // นับวันแรกด้วย
+
+            // --- (เพิ่ม) Logic คำนวณราคาแบบ Optimize (เดือน/สัปดาห์/วัน) สำหรับ basePrice ---
+            decimal basePrice = 0;
+            int remainingDays = numberOfDays;
+            int months = 0, weeks = 0, days = 0;
+            const int daysInMonth = 30; // สมมติฐาน
+            const int daysInWeek = 7;
+
+            if (product.PricePerMonth > 0 && remainingDays >= daysInMonth)
+            {
+                months = (int)Math.Floor((decimal)remainingDays / daysInMonth);
+                basePrice += months * product.PricePerMonth;
+                remainingDays %= daysInMonth;
+            }
+            if (product.PricePerWeek > 0 && remainingDays >= daysInWeek)
+            {
+                // เช็คความคุ้มค่า
+                if (product.PricePerWeek < product.PricePerDay * daysInWeek)
                 {
-                    TempData["BookingWarning"] = $"รหัสส่วนลด '{model.DiscountCode}' ไม่ถูกต้องหรือหมดอายุ";
-                    _logger.LogWarning("Invalid discount code attempted: {Code}", model.DiscountCode);
+                    weeks = (int)Math.Floor((decimal)remainingDays / daysInWeek);
+                    basePrice += weeks * product.PricePerWeek;
+                    remainingDays %= daysInWeek;
                 }
             }
-            TimeSpan duration = model.ReturnDate - model.PickupDate; int numberOfDays = duration.Days + 1;
-            decimal basePrice = numberOfDays * product.PricePerDay; // *** ตรวจสอบ Property PricePerDay ***
-            decimal finalPrice = basePrice;
-            if (discountPercentage > 0) { finalPrice = basePrice * (1 - (discountPercentage / 100)); }
-            if (discountAmount > 0) { finalPrice = Math.Max(0, finalPrice - discountAmount); }
-            _logger.LogInformation("Calculated Price - Base: {Base}, Final: {Final}, Days: {Days}", basePrice, finalPrice, numberOfDays);
+            if (remainingDays > 0)
+            {
+                days = remainingDays;
+                basePrice += days * product.PricePerDay;
+            }
+            // --- จบ Logic คำนวณราคา Optimize ---
 
+            // --- (เพิ่ม) คำนวณ Point (ปัดขึ้น) ---
+            int calculatedPoints = (int)Math.Ceiling(basePrice / 100);
 
-            // --- 6. Create Order ---
+            _logger.LogInformation("Calculated Base Price: {BasePrice}, Points: {Points}, Days: {Days}", basePrice, calculatedPoints, numberOfDays);
+
+            // --- 7. Create Order ---
             var order = new Order
             {
-                UserId = userId,                  // *** ตรวจสอบ Property UserId ***
-                OrderDate = DateTime.Now,         // *** ตรวจสอบ Property OrderDate ***
-                PickupDate = model.PickupDate,    // *** ตรวจสอบ Property PickupDate ***
-                ReturnDate = model.ReturnDate,    // *** ตรวจสอบ Property ReturnDate ***
-                TotalPrice = finalPrice,          // *** ตรวจสอบ Property TotalPrice ***
-                Status = "Pending",               // *** ตรวจสอบ Property Status ***
-                BranchId = branchIdToCheck,       // *** ตรวจสอบ Property BranchId ***
-                DiscountId = appliedDiscount?.DiscountId // *** ตรวจสอบ Property DiscountId ***
+                UserId = userId,
+                ProductId = model.ProductId,
+                DateReceipt = DateOnly.FromDateTime(model.PickupDate),
+                DateReturn = DateOnly.FromDateTime(model.ReturnDate),
+                Price = basePrice,              // *** ใช้ราคาก่อนหักส่วนลด ***
+                Point = calculatedPoints,       // *** ใส่ Point ที่คำนวณแล้ว ***
+                DiscountId = appliedDiscount?.DiscountId // เก็บ ID ส่วนลด (ถ้ามี)
+                                                         // ตรวจสอบ Property อื่นๆ ที่จำเป็นใน Model Order ของคุณ
             };
             _context.Orders.Add(order);
-            await _context.SaveChangesAsync(); // Save Order first to get OrderId
-
-            _logger.LogInformation("Created Order ID: {OrderId}", order.OrderId); // *** ตรวจสอบ Property OrderId ***
-
-            // --- 7. Create OrderDetail ---
-            var orderDetail = new OrderDetail
-            {
-                OrderId = order.OrderId,         // *** ตรวจสอบ Property OrderId ***
-                ProductId = model.ProductId,    // *** ตรวจสอบ Property ProductId ***
-                Quantity = 1,                 // *** ตรวจสอบ Property Quantity ***
-                Price = product.PricePerDay     // *** ตรวจสอบ Property Price ***
-                                                // หรือ Price = finalPrice ถ้าเก็บราคารวมรายการ
-            };
-            // *** ตรวจสอบ DbSet OrderDetails ใน DbContext ***
-            _context.OrderDetails.Add(orderDetail);
 
 
             // --- 8. Update Stock ---
@@ -164,12 +180,28 @@ namespace MyProject.Controllers
 
 
             // --- 9. Save Changes ---
-            await _context.SaveChangesAsync(); // Save OrderDetail & Stock update
+            try
+            {
+                await _context.SaveChangesAsync(); // Save all changes together
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Error saving booking changes for ProductId {ProductId}", model.ProductId);
+                TempData["BookingError"] = "เกิดข้อผิดพลาดในการบันทึกข้อมูลการจอง";
+                return RedirectToAction("Details", "Product", new { id = model.ProductId });
+            }
 
             // --- 10. Redirect ---
-            TempData["BookingSuccess"] = $"การจองรถ {product.Name} สำเร็จ! (Order ID: {order.OrderId})";
-            _logger.LogInformation("Booking successful for Order ID: {OrderId}", order.OrderId);
-            return RedirectToAction("Index", "Home"); // Redirect ไปหน้าหลัก
+            if (branchProduct == null || branchProduct.StockQuantity <= 0)
+            {
+                TempData["BookingError"] = $"ขออภัย รถ {product.Name} หมดในสาขา {defaultBranch.Name} ชั่วคราว";
+                TempData["SkipViewCount"] = true; // <--- (เพิ่ม) ส่ง Flag บอกว่าไม่ต้องนับ View
+                _logger.LogWarning("Booking failed: Out of stock...");
+                return RedirectToAction("Details", "Product", new { id = model.ProductId });
+            }
+            TempData["BookingSuccess"] = $"การจองรถ {product.Name} สำเร็จ!"; // อาจจะไม่ต้องแสดง Order ID ถ้าไม่จำเป็น
+            _logger.LogInformation("Booking successful for ProductId: {ProductId}, UserId: {UserId}", model.ProductId, userId);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -119,6 +119,7 @@ wwwroot\uploads\driving_licenses\b1a68e26-f85f-482c-8b9b-e233273f4460_Screenshot
 wwwroot\uploads\driving_licenses\c10b14d4-1efe-4846-bc4b-730cc1d9350b_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\c5aad5ec-fce3-4371-b8db-01d8041263b6_Screenshot 2025-10-13 163848.png
 wwwroot\uploads\driving_licenses\cf6c17f0-c02e-4ce9-9ec6-27174f68e0fa_er-diagram_Chen's Notation (5).jpg
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.js
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.min.js
@@ -174,12 +175,11 @@ C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bo
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.map
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\layout.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\auth.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\reviews.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\layout.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\favicon.ico
 C:\Users\User\source\repos\MyProject\MyProject\wwwroot\css\site.css
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.js
-C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\LICENSE.txt
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\js\auth.js
+C:\Users\User\source\repos\MyProject\MyProject\wwwroot\lib\jquery\dist\jquery.slim.min.map

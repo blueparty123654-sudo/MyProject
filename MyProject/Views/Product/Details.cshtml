@@ -6,69 +6,75 @@
 <div class="container mt-5 product-details-page">
 
     @* --- แสดง TempData Messages --- *@
-    @if (TempData["BookingError"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["BookingError"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-    @if (TempData["BookingWarning"] != null)
-    {
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            @TempData["BookingWarning"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-    @if (TempData["BookingSuccess"] != null) @* อาจจะไม่เห็นถ้า Redirect เร็วไป *@
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["BookingSuccess"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
+    @if (TempData["BookingError"] != null) { <div class="alert alert-danger alert-dismissible fade show" role="alert">@TempData["BookingError"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div> }
+    @if (TempData["BookingWarning"] != null) { <div class="alert alert-warning alert-dismissible fade show" role="alert">@TempData["BookingWarning"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div> }
+    @if (TempData["BookingSuccess"] != null) { <div class="alert alert-success alert-dismissible fade show" role="alert">@TempData["BookingSuccess"]<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div> }
 
+    @* ----- Section 1: ชื่อ, ราคา, และฟอร์มจอง ----- *@
+    <div class="row justify-content-center"> @* จัดให้อยู่กลาง *@
+        <div class="col-lg-8 col-md-10"> @* จำกัดความกว้าง *@
+            <div class="booking-form-container p-4 rounded shadow-sm mb-4"> @* ใช้ card style *@
 
-    <div class="row">
-        @* ----- ส่วนรูปภาพ ----- *@
-        <div class="col-md-6 mb-4">
-            <div class="image-gallery">
-                @if (!string.IsNullOrEmpty(Model.ImageUrl)) { /* ... แสดง ImageUrl ... */ }
-                @if (!string.IsNullOrEmpty(Model.ImageUrl2)) { /* ... แสดง ImageUrl2 ... */ }
-            </div>
-        </div>
+                <h2 class="product-title text-center mb-3">@Model.Name</h2> @* ชื่อรถ ตัวใหญ่ ตรงกลาง *@
+                <hr />
 
-        @* ----- ส่วนฟอร์มจองและราคา ----- *@
-        <div class="col-md-6 mb-4">
-            <div class="booking-form-container p-4 rounded shadow-sm bg-light">
-                <h2 class="product-title mb-3">@Model.Name</h2>
-                <div class="pricing-info mb-4">
-                    <p><strong>@Model.PricePerDay.ToString("N0")</strong> บาท/วัน</p>
-                    <p><strong>@Model.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์</p>
-                    <p><strong>@Model.PricePerMonth.ToString("N0")</strong> บาท/เดือน</p>
+                @* --- ส่วนแสดงรูปภาพ 2 รูป (ซ้าย-ขวา) --- *@
+                <div class="product-images-block mb-4">
+                    @* ใช้คลาสใหม่เพื่อจัดสไตล์ *@
+                    <div class="row gx-2">
+                        @* ใช้ gx-2 เพื่อลดระยะห่างระหว่างรูป *@
+                        <div class="col-6 text-center">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@Model.ImageUrl" alt="@Model.Name - ภาพที่ 1" class="img-fluid rounded product-block-img">
+                            }
+                        </div>
+                        <div class="col-6 text-center">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl2))
+                            {
+                                <img src="@Model.ImageUrl2" alt="@Model.Name - ภาพที่ 2" class="img-fluid rounded product-block-img">
+                            }
+                        </div>
+                    </div>
                 </div>
+                <hr />
 
-                <form asp-action="Create" asp-controller="Booking" method="post" id="bookingForm">
-                    @Html.AntiForgeryToken() @* เพิ่ม AntiForgeryToken *@
+                @* --- ราคา --- *@
+                <div class="pricing-info text-center my-4"> @* จัดกลาง *@
+                     <span class="price-tag"><strong>@Model.PricePerDay.ToString("N0")</strong> บาท/วัน</span>
+                     <span class="price-tag"><strong>@Model.PricePerWeek.ToString("N0")</strong> บาท/สัปดาห์</span>
+                     <span class="price-tag"><strong>@Model.PricePerMonth.ToString("N0")</strong> บาท/เดือน</span>
+                </div>
+                <hr />
+
+                @* --- ฟอร์มจอง --- *@
+                <form asp-action="Create" asp-controller="Booking" method="post" id="bookingForm" class="mt-4">
+                    @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="ProductId" />
 
+                     <p class="text-center mb-3 fw-bold">เลือกช่วงเวลาที่ต้องการเช่า:</p> @* เพิ่มคำอธิบาย *@
+
                     <div class="row mb-3">
-                        <div class="col">
+                        <div class="col-sm-6 mb-2 mb-sm-0"> @* จัด layout วันที่ *@
                             <label asp-for="PickupDate" class="form-label"></label>
                             <input asp-for="PickupDate" type="date" class="form-control" required>
                             <span asp-validation-for="PickupDate" class="text-danger"></span>
                         </div>
-                        <div class="col">
+                        <div class="col-sm-6">
                             <label asp-for="ReturnDate" class="form-label"></label>
                             <input asp-for="ReturnDate" type="date" class="form-control" required>
                             <span asp-validation-for="ReturnDate" class="text-danger"></span>
                         </div>
                     </div>
+
                     <div class="mb-3">
                         <label asp-for="DiscountCode" class="form-label"></label>
-                        <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด">
+                        <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด (ถ้ามี)">
                     </div>
-                    <div id="estimatedPrice" class="mb-3">---</div>
+
+                    <div id="estimatedPrice" class="mb-3 fw-bold text-end">---</div> @* แสดงราคาประมาณ *@
+                    <div id="estimatedPoints" class="mb-3 small text-muted text-end" style="margin-top: -0.5rem;"></div> @* แสดง Point *@
+
                     <button type="submit" class="btn btn-confirm-booking w-100 mt-3" disabled>
                         กรุณาเลือกวันที่
                     </button>
@@ -77,30 +83,26 @@
         </div>
     </div>
 
-    @* ----- ส่วนรายละเอียด Spec ----- *@
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="specifications-container p-4 rounded shadow-sm bg-light">
-                <h3 class="spec-title mb-4"><i class="fas fa-clipboard-list"></i> สเปค @Model.Name</h3>
+    @* ----- Section 2: รายละเอียด Spec ----- *@
+    <div class="row justify-content-center mt-2"> @* จัดกลาง *@
+         <div class="col-lg-8 col-md-10"> @* จำกัดความกว้าง *@
+            <div class="specifications-container p-4 rounded shadow-sm">
+                <h3 class="spec-title mb-4"><i class="fas fa-clipboard-list"></i> สเปครถ @Model.Name</h3>
                 <table class="table table-striped table-hover spec-table">
                     <tbody>
                         @* --- แสดงผล Spec (ใช้ชื่อ Property ที่ตรงกับ ViewModel) --- *@
-                        @if (!string.IsNullOrEmpty(Model.ModelYear)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Gear)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Engine)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Cooling)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Starter)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.CC)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Fuel)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.FuelSystem)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.FuelCapacity)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Suspension)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Brake)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Wheels)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Tires)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Dimensions)) { /* ... */ }
-                        @if (!string.IsNullOrEmpty(Model.Weight)) { /* ... */ }
-                        @* --- เพิ่ม/แก้ไขแถวอื่นๆ --- *@
+                        @if (!string.IsNullOrEmpty(Model.GearType)) { <tr><th scope="row"><i class="fas fa-cogs spec-icon"></i> ระบบเกียร์</th><td>@Model.GearType</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.Engine)) { <tr><th scope="row"><i class="fas fa-gas-pump spec-icon"></i> เครื่องยนต์</th><td>@Model.Engine</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.CoolingSystem)) { <tr><th scope="row"><i class="fas fa-wind spec-icon"></i> ระบบระบายความร้อน</th><td>@Model.CoolingSystem</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.StartingSystem)) { <tr><th scope="row"><i class="fas fa-bolt spec-icon"></i> ระบบสตาร์ท</th><td>@Model.StartingSystem</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.FuelType)) { <tr><th scope="row"><i class="fas fa-tint spec-icon"></i> น้ำมันเชื้อเพลิง</th><td>@Model.FuelType</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.FuelDispensing)) { <tr><th scope="row"><i class="fas fa-atom spec-icon"></i> ระบบจ่ายน้ำมัน</th><td>@Model.FuelDispensing</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.FuelTankCapacity)) { <tr><th scope="row"><i class="fas fa-fill-drip spec-icon"></i> ความจุถังน้ำมัน</th><td>@Model.FuelTankCapacity ลิตร</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.BrakeSystem)) { <tr><th scope="row"><i class="fas fa-compact-disc spec-icon"></i> ระบบเบรก</th><td>@Model.BrakeSystem</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.Suspension)) { <tr><th scope="row"><i class="fas fa-road spec-icon"></i> ระบบกันสะเทือน</th><td>@Model.Suspension</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.TireSize)) { <tr><th scope="row"><i class="fas fa-ring spec-icon"></i> ขนาดยาง</th><td>@Model.TireSize</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.Dimensions)) { <tr><th scope="row"><i class="fas fa-ruler-combined spec-icon"></i> ขนาด (ยาวxกว้างxสูง)</th><td>@Model.Dimensions มม.</td></tr> }
+                        @if (!string.IsNullOrEmpty(Model.VehicleWeight)) { <tr><th scope="row"><i class="fas fa-weight-hanging spec-icon"></i> น้ำหนักตัวรถ</th><td>@Model.VehicleWeight กก.</td></tr> }
                     </tbody>
                 </table>
             </div>
@@ -108,7 +110,13 @@
     </div>
 
     @* ----- ปุ่มกลับหน้าหลัก ----- *@
-    @* ... *@
+     <div class="row mt-4 mb-5">
+        <div class="col-12 text-center">
+            <a asp-action="Index" asp-controller="Home" class="btn btn-back-to-list">
+                <i class="fas fa-arrow-left"></i> กลับหน้ารายการ
+            </a>
+        </div>
+     </div>
 
 </div>
 
@@ -116,128 +124,219 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    @* เพิ่ม Script Validation *@
     <script>
         $(document).ready(function() {
-            // --- Cache Elements ---
+            // --- Cache Elements (เหมือนเดิม) ---
             const pickupDateInput = $('#PickupDate');
             const returnDateInput = $('#ReturnDate');
             const priceDisplay = $('#estimatedPrice');
+            const pointsDisplay = $('#estimatedPoints');
             const confirmButton = $('.btn-confirm-booking');
-            const bookingForm = $('#bookingForm'); // Get the form
+            const bookingForm = $('#bookingForm');
+            // (เพิ่ม) ส่วนแสดงผลส่วนลด
+            const discountCodeInput = $('#DiscountCode');
+            const applyDiscountBtn = $('#applyDiscountBtn'); // ปุ่ม Apply Code
+            const discountMessage = $('#discountMessage'); // Span แสดงผล
+            let appliedDiscountRate = 0; // เก็บ % ส่วนลดที่ใช้ได้
+            let appliedDiscountCode = ''; // เก็บ Code ที่ใช้ได้
+            let isDiscountValidOrNotApplicable = true;
 
             // --- Prices from Model ---
-            const pricePerDay = parseFloat('@Model.PricePerDay'); // Use parseFloat
+            const pricePerDay = parseFloat('@Model.PricePerDay');
+            const pricePerWeek = parseFloat('@Model.PricePerWeek');
+            const pricePerMonth = parseFloat('@Model.PricePerMonth'); // ใช้ .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) ถ้ามีปัญหา format
 
-            // --- Function to Calculate Price and Validate ---
-            function validateAndCalculate() {
-                const pickupDateStr = pickupDateInput.val();
-                const returnDateStr = returnDateInput.val();
-                let isValid = true; // Flag for overall validity
+            // --- Function to Calculate Optimized Price ---
+            function calculateOptimizedPrice(totalDays) {
+                if (totalDays <= 0) return { price: 0, breakdown: "0 วัน" };
 
-                // Clear previous states
+                let remainingDays = totalDays;
+                let months = 0;
+                let weeks = 0;
+                let days = 0;
+                let totalPrice = 0;
+                let breakdown = "";
+
+                // สมมติว่า 1 เดือน = 30 วัน, 1 สัปดาห์ = 7 วัน (ปรับได้ตามนโยบาย)
+                const daysInMonth = 30;
+                const daysInWeek = 7;
+
+                // คำนวณเดือน
+                if (pricePerMonth > 0 && remainingDays >= daysInMonth) {
+                    months = Math.floor(remainingDays / daysInMonth);
+                    totalPrice += months * pricePerMonth;
+                    remainingDays %= daysInMonth;
+                }
+
+                // คำนวณสัปดาห์
+                if (pricePerWeek > 0 && remainingDays >= daysInWeek) {
+                    // เช็คว่าราคาเหมาสัปดาห์ถูกกว่าคิดรายวัน 7 วันหรือไม่
+                    if (pricePerWeek < pricePerDay * daysInWeek) {
+                        weeks = Math.floor(remainingDays / daysInWeek);
+                        totalPrice += weeks * pricePerWeek;
+                        remainingDays %= daysInWeek;
+                    }
+                }
+
+                // คำนวณวันที่เหลือ (อาจต้องเช็คว่าถูกกว่าเหมาสัปดาห์/เดือน หรือไม่ ถ้า Logic ซับซ้อนกว่านี้)
+                if (remainingDays > 0) {
+                    days = remainingDays;
+                    totalPrice += days * pricePerDay;
+                }
+
+                // สร้างข้อความ Breakdown
+                let breakdownParts = [];
+                if (months > 0) breakdownParts.push(`${months} เดือน`);
+                if (weeks > 0) breakdownParts.push(`${weeks} สัปดาห์`);
+                if (days > 0) breakdownParts.push(`${days} วัน`);
+                breakdown = breakdownParts.join(', ');
+                if (!breakdown) breakdown = `${totalDays} วัน`; // กรณีคิดเป็นวันทั้งหมด
+
+                const points = Math.ceil(totalPrice / 10);
+
+
+                return {
+                    originalPrice: totalPrice, // <--- ราคา Original (ก่อนลด)
+                    breakdown: breakdown,
+                    points: points // <--- Point ที่คำนวณได้
+                };
+            }
+
+
+            // --- Function to Validate Dates and Display Info ---
+            function validateAndDisplay() {
+                // --- Reset State ---
                 priceDisplay.text('---').removeClass('text-success text-danger');
+                pointsDisplay.text(''); // (เพิ่ม) Clear points
                 confirmButton.prop('disabled', true).text('กรุณาเลือกวันที่');
-                // Clear manual validation messages (if any)
                 pickupDateInput.removeClass('is-invalid');
                 returnDateInput.removeClass('is-invalid');
+                // Don't reset discount message here
+                let isDateValid = true; // Flag for date validity only
+
+                // --- Get Today ---
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const pickupDateStr = pickupDateInput.val();
+                const returnDateStr = returnDateInput.val();
 
                 // --- Date Presence Check ---
                 if (!pickupDateStr || !returnDateStr) {
-                    // Let required attribute handle this, button remains disabled
-                    console.log("Dates incomplete");
-                    isValid = false; // Not fully valid yet
-                    // No need to set button text here, default is fine
-                    // return; // Don't return yet, allow further checks if one date is set
+                    isDateValid = false;
                 }
 
-                // --- Date Logic Check (only if both dates are present) ---
-                let estimatedTotal = 0;
+                let calculatedPriceInfo = null;
                 let daysDiff = 0;
                 if(pickupDateStr && returnDateStr) {
                     const pickupDate = new Date(pickupDateStr);
                     const returnDate = new Date(returnDateStr);
 
-                     // Client-side validation: return date must be after pickup date
-                     if (returnDate <= pickupDate) {
+                     // --- Check Past Date ---
+                     if (pickupDate < today) {
+                         // (แก้ไข) แสดง Error ที่ Price Display และใส่ Invalid Class
+                         priceDisplay.html('<span class="text-danger">วันที่รับต้องไม่ใช่วันในอดีต</span>');
+                         confirmButton.text('วันที่ไม่ถูกต้อง');
+                         pickupDateInput.addClass('is-invalid'); // ใส่กรอบแดง
+                         isDateValid = false;
+                     }
+                     // --- Check Date Order ---
+                     else if (returnDate <= pickupDate) {
                          priceDisplay.html('<span class="text-danger">วันที่คืนต้องหลังวันที่รับ</span>');
                          confirmButton.text('วันที่ไม่ถูกต้อง');
-                         returnDateInput.addClass('is-invalid'); // Add Bootstrap invalid class
-                         isValid = false;
+                         returnDateInput.addClass('is-invalid'); // ใส่กรอบแดง
+                         isDateValid = false;
                      } else {
-                         // Calculate number of days
+                         // --- Calculate Days, Price, Points ---
                          const timeDiff = returnDate.getTime() - pickupDate.getTime();
                          daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
 
                          if (daysDiff <= 0) {
                              priceDisplay.html('<span class="text-danger">คำนวณวันผิดพลาด</span>');
                              confirmButton.text('Error');
-                             isValid = false;
+                             isDateValid = false;
                          } else {
-                             // --- Price Calculation ---
-                             estimatedTotal = daysDiff * pricePerDay;
-                             priceDisplay.html(`ประมาณ <strong>${estimatedTotal.toLocaleString('th-TH')}</strong> บาท (${daysDiff} วัน)`)
+                             calculatedPriceInfo = calculateOptimizedPrice(daysDiff);
+                             // (แก้ไข) แสดง Original Price และ Points
+                             priceDisplay.html(`ราคาประมาณ: <strong>${calculatedPriceInfo.originalPrice.toLocaleString('th-TH')}</strong> บาท (${calculatedPriceInfo.breakdown})`)
                                          .addClass('text-success');
+                             pointsDisplay.text(`(สะสม ${calculatedPriceInfo.points.toLocaleString('th-TH')} พอยท์)`); // แสดง Point
                          }
                      }
                 } else {
-                     isValid = false; // If only one date is selected, it's not valid to book yet
+                     isDateValid = false; // ยังเลือกไม่ครบ
                 }
-
 
                 // --- Enable/Disable Button ---
-                if (isValid) {
+                // ปุ่มกดได้เมื่อ: วันที่ถูกต้อง และ (ไม่มีโค้ด หรือ โค้ดถูก หรือ กำลังรอเช็ค)
+                if (isDateValid && isDiscountValidOrNotApplicable) {
                     confirmButton.prop('disabled', false).text('ยืนยันการจอง');
+                } else if (isDateValid && !isDiscountValidOrNotApplicable) {
+                     confirmButton.prop('disabled', true).text('รหัสส่วนลดไม่ถูกต้อง');
                 }
-                // No need for else here, button is disabled by default or by errors
+                // ถ้า isDateValid = false ปุ่มจะถูก disable ไว้
+            }
 
-            } // end validateAndCalculate
+            // --- Apply Discount Button Click ---
+            applyDiscountBtn.on('click', function() {
+                const code = discountCodeInput.val().trim();
+                if (!code) {
+                    discountMessage.text('กรุณากรอกรหัส').removeClass('text-success').addClass('text-danger');
+                    isDiscountValidOrNotApplicable = true; // ถือว่ายังไม่มีส่วนลด (ให้จองได้ถ้าวันที่ถูก)
+                    validateAndDisplay(); // Update button state
+                    return;
+                }
 
-            // --- Event Listeners ---
-            pickupDateInput.on('change', validateAndCalculate);
-            returnDateInput.on('change', validateAndCalculate);
+                discountMessage.text('กำลังตรวจสอบ...').removeClass('text-success text-danger');
+                applyDiscountBtn.prop('disabled', true);
+                isDiscountValidOrNotApplicable = false; // Assume invalid while checking
+                validateAndDisplay(); // Disable booking button while checking
 
-             // --- Discount Code (No effect on button/price yet) ---
-             $('#DiscountCode').on('input', function() { console.log("Discount:", $(this).val()); });
+                $.ajax({
+                    url: '@Url.Action("ValidateDiscount", "Booking")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ code: code }),
+                    headers: { RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+                    success: function(response) {
+                        if (response.isValid) {
+                            // appliedDiscountRate = response.rate; // ไม่ต้องเก็บ Rate แล้ว
+                            appliedDiscountCode = code;
+                            discountMessage.text(`✓ ${response.message}`).removeClass('text-danger').addClass('text-success');
+                            isDiscountValidOrNotApplicable = true; // Set flag to VALID
+                        } else {
+                            // appliedDiscountRate = 0;
+                            appliedDiscountCode = '';
+                            discountMessage.text(`✗ ${response.message}`).removeClass('text-success').addClass('text-danger');
+                            isDiscountValidOrNotApplicable = false; // Set flag to INVALID
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error:", textStatus, errorThrown);
+                        discountMessage.text('✗ เกิดข้อผิดพลาดในการตรวจสอบ').removeClass('text-success').addClass('text-danger');
+                         appliedDiscountCode = '';
+                         isDiscountValidOrNotApplicable = false; // Assume invalid on error
+                    },
+                    complete: function() {
+                        applyDiscountBtn.prop('disabled', false);
+                        // Re-validate and update button state AFTER check completes
+                        validateAndDisplay();
+                    }
+                });
+            });
 
-            // --- Initial State ---
-            validateAndCalculate(); // Run once on load
+             // --- Clear discount status if code is changed ---
+             discountCodeInput.on('input', function() {
+                 appliedDiscountCode = ''; // Clear validated code
+                 discountMessage.text(''); // Clear message
+                 isDiscountValidOrNotApplicable = true; // Reset flag (allow booking if dates are ok)
+                 validateAndDisplay(); // Update button state
+             });
 
+            // --- Event Listeners & Initial State ---
+            pickupDateInput.on('change', validateAndDisplay);
+            returnDateInput.on('change', validateAndDisplay);
+            validateAndDisplay(); // Run once on load
         }); // end document ready
     </script>
-
-    <style>
-        /* ... CSS เดิม ... */
-        /* (ปรับปรุง) */
-        #estimatedPrice { /* ... */
-            text-align: right;
-        }
-
-            #estimatedPrice.text-success strong {
-                color: #198754;
-                font-size: 1.4rem;
-            }
-
-        .btn-confirm-booking {
-            background-color: #ffcc00;
-            border-color: #ffcc00;
-            color: #1e3a8a; /* ... */
-        }
-
-            .btn-confirm-booking:hover:not(:disabled) { /* ... */
-            }
-
-            .btn-confirm-booking:disabled {
-                background-color: #6c757d !important;
-                border-color: #6c757d !important;
-                color: white !important;
-                cursor: not-allowed;
-                opacity: 0.65;
-            }
-        /* (เพิ่ม) Bootstrap validation style */
-        .is-invalid {
-            border-color: #dc3545 !important;
-        }
-
-    </style>
 }

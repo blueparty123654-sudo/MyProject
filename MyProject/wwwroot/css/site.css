@@ -856,94 +856,62 @@ label, .col-form-label {
 /* ==        Product Details        == */
 /* =================================== */
 
+/* Container and Titles */
 .product-details-page .product-title {
-    color: #1e3a8a;
+    color: #1e3a8a; /* สีน้ำเงินเข้ม */
     font-weight: 700;
 }
 
+/* Pricing Info */
 .product-details-page .pricing-info p {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #333; /* สีเทาเข้ม */
 }
 
 .product-details-page .pricing-info strong {
-    color: #dc3545; /* สีแดงสำหรับราคา */
+    color: #dc3545; /* สีแดง */
     font-size: 1.3rem;
 }
 
-.booking-form-container, .specifications-container {
-    background-color: #ffffff; /* เปลี่ยนเป็นสีขาว */
-    border: 1px solid #e9ecef;
+/* Containers for Booking Form and Specs */
+.booking-form-container,
+.specifications-container {
+    background-color: #ffffff; /* สีขาว */
+    border: 1px solid #e9ecef; /* เส้นขอบเทาอ่อน */
+    border-radius: 15px; /* ขอบมน */
+    padding: 1.5rem; /* ระยะห่างภายใน (ปรับตามชอบ) */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* เงาบางๆ (ปรับตามชอบ) */
 }
 
+    /* Specifications Table */
     .specifications-container .spec-title {
-        color: #1e3a8a;
-        border-bottom: 2px solid #e9ecef;
+        color: #1e3a8a; /* สีน้ำเงินเข้ม */
+        border-bottom: 2px solid #e9ecef; /* เส้นใต้ */
         padding-bottom: 0.75rem;
+        margin-bottom: 1rem; /* ระยะห่างใต้หัวข้อ */
     }
 
-.spec-table th {
-    width: 35%; /* ให้หัวข้อกว้างขึ้นเล็กน้อย */
+.spec-table th { /* หัวข้อ Spec */
+    width: 35%; /* ความกว้างหัวข้อ */
     font-weight: 600;
-    color: #555;
+    color: #555; /* สีเทา */
     vertical-align: top;
+    padding-right: 1rem; /* ระยะห่างจากข้อมูล */
 }
 
-.spec-table td {
-    color: #333;
+.spec-table td { /* ข้อมูล Spec */
+    color: #333; /* สีเทาเข้ม */
 }
 
-.spec-icon {
-    color: #6c757d; /* สีไอคอนเทาๆ */
+.spec-icon { /* ไอคอนหน้าหัวข้อ Spec */
+    color: #6c757d; /* สีเทา */
     margin-right: 8px;
     width: 1.2em; /* จัดให้ตรงกัน */
     text-align: center;
 }
 
-.btn-confirm-booking {
-    background-color: #ffcc00; /* สีเหลือง */
-    border-color: #ffcc00;
-    color: #1e3a8a; /* น้ำเงินเข้ม */
-    padding: 0.75rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    transition: all 0.2s ease;
-}
-
-    .btn-confirm-booking:hover:not(:disabled) { /* เพิ่ม :not(:disabled) */
-        background-color: #e6b800;
-        border-color: #d39e00;
-        transform: translateY(-2px);
-    }
-
-    .btn-confirm-booking:disabled { /* ใช้สไตล์ .disabled เดิมก็ได้ */
-        background-color: #6c757d !important;
-        border-color: #6c757d !important;
-        color: white !important;
-        cursor: not-allowed;
-        opacity: 0.65;
-    }
-
-.btn-back-to-list {
-    background-color: #343a40;
-    color: white;
-    border-radius: 50px;
-    padding: 0.6rem 1.8rem;
-}
-
-    .btn-back-to-list:hover {
-        background-color: #23272b;
-        color: white;
-    }
-
-.product-detail-img {
-    max-height: 400px; /* จำกัดความสูงรูป */
-    object-fit: contain;
-    width: 100%;
-}
-
+/* Estimated Price Display */
 #estimatedPrice {
     font-size: 1.2rem;
     font-weight: 500;
@@ -952,7 +920,120 @@ label, .col-form-label {
     text-align: right; /* ชิดขวา */
 }
 
-    #estimatedPrice.text-success strong {
+    #estimatedPrice.text-success strong { /* ราคาที่คำนวณได้ */
         color: #198754; /* สีเขียว */
         font-size: 1.4rem;
     }
+    /* For validation error message on dates */
+    #estimatedPrice .text-danger {
+        font-size: 1rem; /* ทำให้ข้อความ Error เล็กลง */
+        font-weight: normal;
+    }
+
+
+/* Booking Button */
+.btn-confirm-booking {
+    background-color: #ffcc00; /* สีเหลือง */
+    border-color: #ffcc00;
+    color: #1e3a8a; /* สีน้ำเงินเข้ม */
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    width: 100%; /* เต็มความกว้าง */
+}
+
+    .btn-confirm-booking:hover:not(:disabled) { /* ตอน Hover (เมื่อกดได้) */
+        background-color: #e6b800;
+        border-color: #d39e00;
+        transform: translateY(-2px);
+    }
+
+    .btn-confirm-booking:disabled { /* ตอน Disable (กดไม่ได้) */
+        background-color: #6c757d !important; /* สีเทา */
+        border-color: #6c757d !important;
+        color: white !important;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+/* Back Button */
+.btn-back-to-list {
+    background-color: #343a40; /* สีเทาเข้ม */
+    color: white;
+    border-radius: 50px;
+    padding: 0.6rem 1.8rem;
+    text-decoration: none; /* เอาเส้นใต้ออก */
+    display: inline-flex; /* จัดไอคอนกับข้อความ */
+    align-items: center;
+    gap: 0.5rem; /* ระยะห่างไอคอนกับข้อความ */
+    transition: background-color 0.2s ease;
+}
+
+    .btn-back-to-list:hover {
+        background-color: #23272b; /* สีเข้มขึ้น */
+        color: white;
+    }
+
+    .btn-back-to-list i { /* ไอคอนในปุ่ม Back */
+        font-size: 0.9em; /* ขนาดไอคอน */
+    }
+
+
+/* Product Images */
+.product-detail-img {
+    max-height: 400px; /* จำกัดความสูงรูปหลัก */
+    object-fit: contain; /* ให้เห็นรูปเต็ม ไม่ล้น */
+    width: 100%;
+    display: block; /* ป้องกันช่องว่างใต้รูป */
+    margin-left: auto; /* จัดกลาง (ถ้า container ไม่เต็ม) */
+    margin-right: auto;
+    background-color: #fff; /* พื้นหลังรูป (ถ้าเป็น png) */
+}
+
+.secondary-image img {
+    max-height: 200px; /* รูปที่สองเล็กกว่า */
+}
+
+/* Bootstrap Validation Style */
+.is-invalid {
+    border-color: #dc3545 !important; /* กรอบแดง */
+}
+
+.text-danger { /* ข้อความ Validation */
+    font-size: 0.875em; /* ขนาดข้อความ */
+}
+
+/* Responsive Adjustments (ตัวอย่าง) */
+@media (max-width: 767.98px) {
+    .spec-table th {
+        width: auto; /* ให้ความกว้าง Auto บนจอเล็ก */
+        display: block; /* อาจจะทำให้เรียงบน-ล่างแทน */
+        margin-bottom: 0.2rem;
+    }
+
+    .spec-table td {
+        display: block; /* อาจจะทำให้เรียงบน-ล่างแทน */
+        margin-bottom: 0.8rem;
+    }
+
+    .spec-table tr {
+        border-bottom: 1px solid #eee; /* เพิ่มเส้นคั่นระหว่างรายการบนจอเล็ก */
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+}
+
+.pricing-info .price-tag {
+    margin: 0 0.75rem; /* ระยะห่างซ้ายขวา */
+    display: inline-block; /* ทำให้ margin ทำงาน */
+}
+
+    .pricing-info .price-tag strong {
+        font-size: 1.3rem; /* ขนาดราคา */
+        color: #dc3545; /* สีแดง */
+    }
+
+/* =================================== */

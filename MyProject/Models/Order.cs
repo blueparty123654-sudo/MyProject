@@ -16,7 +16,6 @@ namespace MyProject.Models
         [Column(TypeName = "decimal(10, 2)")]
         public decimal Price { get; set; } // เดิมคือ OdPrice
         public int Point { get; set; } // เดิมคือ OdPoint
-        public string RentalType { get; set; } = null!;
 
         // Navigation Properties
         public virtual User? User { get; set; }
