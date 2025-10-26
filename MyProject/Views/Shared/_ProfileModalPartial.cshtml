@@ -73,10 +73,17 @@
                         </div>
                     </div>
 
-                    <div class="row mt-4">
-                        <div class="col-md-7 offset-md-4">
-                            <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
-                        </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-info me-2" id="viewBookingHistoryBtn">
+                            <i class="fas fa-history me-1"></i> ดูประวัติการจอง
+                        </button>
+
+                        <button type="button" class="btn btn-warning me-2" id="viewPointHistoryBtn" disabled>
+                            @* <-- เพิ่ม disabled ไว้ก่อน *@
+                            <i class="fas fa-gift me-1"></i> ดูประวัติแลกคะแนน
+                        </button>
+
+                        <button type="submit" form="profileForm" class="btn btn-primary">บันทึก</button>
                     </div>
                 </form>
             </div>

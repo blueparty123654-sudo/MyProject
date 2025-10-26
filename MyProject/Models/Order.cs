@@ -8,11 +8,17 @@ namespace MyProject.Models
         [Key] // 👈 ติดป้าย
         public int OrderId { get; set; } // เดิมคือ OdId
         public int UserId { get; set; }
+        [Required]
         public int ProductId { get; set; } // เดิมคือ PrId
+        [Required]
+        public int BranchId { get; set; }
         public int? DiscountId { get; set; }
 
-        public DateOnly DateReceipt { get; set; } // เดิมคือ OdDateReceipt
-        public DateOnly DateReturn { get; set; } // เดิมคือ OdDateReturn
+        [Required]
+        public DateOnly DateReceipt { get; set; }
+        [Required]
+        public DateOnly DateReturn { get; set; }
+        [Required]
         [Column(TypeName = "decimal(10, 2)")]
         public decimal Price { get; set; } // เดิมคือ OdPrice
         public int Point { get; set; } // เดิมคือ OdPoint
@@ -20,6 +26,7 @@ namespace MyProject.Models
         // Navigation Properties
         public virtual User? User { get; set; }
         public virtual Product? Product { get; set; }
+        public virtual Branch? Branch { get; set; }
         public virtual Payment? Payment { get; set; }
         public virtual Discount? Discount { get; set; }
     }

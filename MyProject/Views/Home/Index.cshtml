@@ -67,7 +67,7 @@
                             <div class="card-footer">
                                 @if (product.IsAvailable)
                                 {
-                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-card-action">ดูรายละเอียด</a>
+                                    <a asp-controller="Booking" asp-action="Create" asp-route-productId="@product.ProductId" asp-route-branchId="@Model.SelectedBranchId" class="btn btn-card-action">ดูรายละเอียด</a>
                                 }
                                 else
                                 {

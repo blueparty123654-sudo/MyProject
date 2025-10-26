@@ -1,0 +1,287 @@
+﻿@* กำหนด ViewModel ที่ Controller ส่งมา *@
+@model MyProject.ViewModels.BookingEditViewModel
+@{
+    // ตั้ง Title ของหน้าเว็บ
+    ViewData["Title"] = $"แก้ไขรายการจอง #{Model.OrderId}";
+
+    // (ต้องมี!) ดึงราคา Product จาก ViewBag ที่ Controller ส่งมา
+    var productPrices = ViewBag.ProductPrices as Tuple<decimal, decimal, decimal>;
+    var pricePerDay = productPrices?.Item1 ?? 0;
+    var pricePerWeek = productPrices?.Item2 ?? 0;
+    var pricePerMonth = productPrices?.Item3 ?? 0;
+}
+
+<div class="container mt-5 booking-edit-page">
+    <h2 class="text-center mb-4">✏️ แก้ไขรายการจอง #{Model.OrderId}</h2>
+
+    @* --- แสดง TempData Error (ถ้ามีตอน POST กลับมา) --- *@
+    @if (TempData["EditBookingError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["EditBookingError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="booking-form-container p-4 rounded shadow-sm mb-4">
+
+                @* --- แสดงข้อมูลรถและสาขา (อ่านอย่างเดียว) --- *@
+                <h4 class="product-title text-center mb-1">@Model.ProductName</h4>
+                <p class="text-center text-muted mb-3">(สาขา @Model.BranchName)</p>
+                <hr />
+                @* --- จบส่วนข้อมูลรถ --- *@
+
+                @* --- ฟอร์มแก้ไข --- *@
+                <form asp-action="Edit" asp-controller="Booking" method="post" id="editBookingForm">
+                    @Html.AntiForgeryToken() @* ป้องกัน CSRF *@
+                    <input type="hidden" asp-for="OrderId" /> @* <-- Hidden OrderId *@
+                    <input type="hidden" asp-for="ProductId" /> @* <-- Hidden ProductId *@
+
+                    <p class="text-center mb-3 fw-bold">แก้ไขช่วงเวลาที่ต้องการเช่า:</p>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-6 mb-2 mb-sm-0">
+                            <label asp-for="PickupDate" class="form-label"></label>
+                            @* Input จะมีค่าเดิมจาก Model โดยอัตโนมัติ *@
+                            <input asp-for="PickupDate" type="date" class="form-control" required>
+                            <span asp-validation-for="PickupDate" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="ReturnDate" class="form-label"></label>
+                            @* Input จะมีค่าเดิมจาก Model โดยอัตโนมัติ *@
+                            <input asp-for="ReturnDate" type="date" class="form-control" required>
+                            <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DiscountCode" class="form-label"></label>
+                        <div class="input-group">
+                            @* Input จะมีค่าเดิมจาก Model โดยอัตโนมัติ *@
+                            <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด (ถ้ามี)">
+                            <button class="btn btn-outline-primary" type="button" id="applyDiscountBtnEdit">
+                                <i class="fas fa-check"></i> ตรวจสอบ
+                            </button>
+                        </div>
+                        <span id="discountMessageEdit" class="d-block mt-1 small"></span>
+                        @* แสดง Validation Error สำหรับ Discount Code จาก Server *@
+                        <span asp-validation-for="DiscountCode" class="text-danger"></span>
+                    </div>
+
+                    @* --- แสดงราคาประมาณการใหม่ --- *@
+                    <div id="estimatedPriceEdit" class="mb-3 fw-bold text-end">---</div>
+                    <div id="estimatedPointsEdit" class="mb-3 small text-muted text-end" style="margin-top: -0.5rem;"></div>
+
+                    @* --- ปุ่ม ยกเลิก และ บันทึกการแก้ไข --- *@
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        @* ปุ่มยกเลิก: พาไปยังหน้า Details ของ Order นี้ *@
+                        <a asp-action="Details" asp-controller="Booking" asp-route-orderId="@Model.OrderId" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i> ยกเลิก
+                        </a>
+                        @* ปุ่ม Submit *@
+                        <button type="submit" class="btn btn-warning" id="saveChangesBtn">
+                            <i class="fas fa-save me-1"></i> บันทึกการแก้ไข
+                        </button>
+                    </div>
+                </form> @* ปิด Form *@
+            </div> @* ปิด booking-form-container *@
+        </div> @* ปิด col *@
+    </div> @* ปิด row *@
+
+</div> @* ปิด container *@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            // --- Cache Elements (ใช้ ID ใหม่) ---
+            const pickupDateInput = $('#PickupDate');
+            const returnDateInput = $('#ReturnDate');
+            const priceDisplay = $('#estimatedPriceEdit');
+            const pointsDisplay = $('#estimatedPointsEdit');
+            const saveButton = $('#saveChangesBtn');
+            const editForm = $('#editBookingForm'); // ID ของ form
+            const discountCodeInput = $('#DiscountCode');
+            const applyDiscountBtn = $('#applyDiscountBtnEdit');
+            const discountMessage = $('#discountMessageEdit');
+            let isDiscountValidOrNotApplicable = true; // Assume valid initially or if no code
+            let appliedDiscountCode = '@(Model.DiscountCode ?? "")'; // Store initial code
+
+            // --- Prices from Product (Read from ViewBag passed by Controller) ---
+            const pricePerDay = parseFloat('@pricePerDay');
+            const pricePerWeek = parseFloat('@pricePerWeek');
+            const pricePerMonth = parseFloat('@pricePerMonth');
+
+            console.log("Initial Prices:", pricePerDay, pricePerWeek, pricePerMonth); // Debug
+
+            // --- Function Calculate Optimized Price (Same as Create page) ---
+             function calculateOptimizedPrice(totalDays) {
+                 // Return { originalPrice: ..., breakdown: ..., points: ... }
+                 // (Paste the function code here - same as the one in previous answer)
+                 if (totalDays <= 0 || pricePerDay <= 0) return { originalPrice: 0, breakdown: "0 วัน", points: 0 };
+                 let remainingDays = totalDays;
+                 let months = 0, weeks = 0, days = 0;
+                 let totalPrice = 0;
+                 let breakdown = "";
+                 const daysInMonth = 30;
+                 const daysInWeek = 7;
+                 if (pricePerMonth > 0 && remainingDays >= daysInMonth) { months = Math.floor(remainingDays / daysInMonth); totalPrice += months * pricePerMonth; remainingDays %= daysInMonth; }
+                 if (pricePerWeek > 0 && remainingDays >= daysInWeek) { if (pricePerWeek < pricePerDay * daysInWeek) { weeks = Math.floor(remainingDays / daysInWeek); totalPrice += weeks * pricePerWeek; remainingDays %= daysInWeek; } }
+                 if (remainingDays > 0) { days = remainingDays; totalPrice += days * pricePerDay; }
+                 let breakdownParts = [];
+                 if (months > 0) breakdownParts.push(`${months} เดือน`);
+                 if (weeks > 0) breakdownParts.push(`${weeks} สัปดาห์`);
+                 if (days > 0) breakdownParts.push(`${days} วัน`);
+                 breakdown = breakdownParts.join(', ') || `${totalDays} วัน`;
+                 const points = Math.ceil(totalPrice / 10);
+                 return { originalPrice: totalPrice, breakdown: breakdown, points: points };
+            }
+
+            // --- Function Validate Dates and Display Info ---
+            function validateAndDisplayEdit() {
+                priceDisplay.text('---').removeClass('text-success text-danger');
+                pointsDisplay.text('');
+                saveButton.prop('disabled', true).html('<i class="fas fa-calendar-alt me-1"></i> กรุณาเลือกวันที่');
+                pickupDateInput.removeClass('is-invalid');
+                returnDateInput.removeClass('is-invalid');
+                 // Also clear server-side validation messages for dates if any
+                 $('span[data-valmsg-for="PickupDate"]').text('');
+                 $('span[data-valmsg-for="ReturnDate"]').text('');
+
+                let isDateValid = true;
+                const today = new Date(); today.setHours(0, 0, 0, 0);
+                const pickupDateStr = pickupDateInput.val();
+                const returnDateStr = returnDateInput.val();
+
+                if (!pickupDateStr || !returnDateStr) { isDateValid = false; }
+
+                let calculatedPriceInfo = null;
+                let daysDiff = 0;
+                if(pickupDateStr && returnDateStr) {
+                    const pickupDate = new Date(pickupDateStr);
+                    const returnDate = new Date(returnDateStr);
+
+                    if (pickupDate < today) {
+                        priceDisplay.html('<span class="text-danger">วันที่รับต้องไม่ใช่วันในอดีต</span>');
+                        saveButton.html('<i class="fas fa-times-circle me-1"></i> วันที่ไม่ถูกต้อง');
+                        pickupDateInput.addClass('is-invalid');
+                        isDateValid = false;
+                    } else if (returnDate <= pickupDate) {
+                        priceDisplay.html('<span class="text-danger">วันที่คืนต้องหลังวันที่รับ</span>');
+                        saveButton.html('<i class="fas fa-times-circle me-1"></i> วันที่ไม่ถูกต้อง');
+                        returnDateInput.addClass('is-invalid');
+                        isDateValid = false;
+                    } else {
+                        const timeDiff = returnDate.getTime() - pickupDate.getTime();
+                        daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24)) + 1; // Count first day
+
+                        if (daysDiff <= 0) {
+                             priceDisplay.html('<span class="text-danger">คำนวณวันผิดพลาด</span>');
+                             saveButton.html('<i class="fas fa-exclamation-circle me-1"></i> Error');
+                             isDateValid = false;
+                        } else {
+                            if (pricePerDay > 0) { // Check if prices are available
+                                calculatedPriceInfo = calculateOptimizedPrice(daysDiff);
+                                priceDisplay.html(`ราคาประมาณใหม่: <strong>${calculatedPriceInfo.originalPrice.toLocaleString('th-TH')}</strong> บาท (${calculatedPriceInfo.breakdown})`)
+                                            .addClass('text-success');
+                                pointsDisplay.text(`(สะสม ${calculatedPriceInfo.points.toLocaleString('th-TH')} พอยท์)`);
+                            } else {
+                                 priceDisplay.html('<span class="text-warning">ไม่สามารถคำนวณราคาได้ (รอข้อมูลราคา)</span>');
+                                 // Don't disable button just for price calculation failure if dates are okay
+                            }
+                        }
+                    }
+                } else { isDateValid = false; }
+
+                // --- Enable/Disable Save Button ---
+                 if (isDateValid && isDiscountValidOrNotApplicable) {
+                     saveButton.prop('disabled', false).html('<i class="fas fa-save me-1"></i> บันทึกการแก้ไข');
+                 } else if (isDateValid && !isDiscountValidOrNotApplicable) {
+                     saveButton.prop('disabled', true).html('<i class="fas fa-tag me-1"></i> รหัสส่วนลดไม่ถูกต้อง');
+                 }
+                 // If isDateValid is false, button is already disabled with a date error message.
+            }
+
+            // --- Apply Discount Button Click ---
+            applyDiscountBtn.on('click', function() {
+                const code = discountCodeInput.val().trim();
+                // Clear server-side validation message for discount
+                 $('span[data-valmsg-for="DiscountCode"]').text('');
+
+                if (!code) {
+                    discountMessage.text('กรุณากรอกรหัส').removeClass('text-success').addClass('text-danger');
+                    isDiscountValidOrNotApplicable = true;
+                    appliedDiscountCode = '';
+                    validateAndDisplayEdit();
+                    return;
+                }
+
+                discountMessage.text('กำลังตรวจสอบ...').removeClass('text-success text-danger');
+                applyDiscountBtn.prop('disabled', true);
+                isDiscountValidOrNotApplicable = false; // Assume invalid while checking
+                validateAndDisplayEdit(); // Update save button state
+
+                $.ajax({
+                    url: '@Url.Action("ValidateDiscount", "Booking")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ code: code }),
+                    // headers: { ... }, // Add AntiForgeryToken if needed by ValidateDiscount
+                    success: function(response) {
+                        if (response.isValid) {
+                            appliedDiscountCode = code;
+                            discountMessage.text(`✓ ${response.message}`).removeClass('text-danger').addClass('text-success');
+                            isDiscountValidOrNotApplicable = true;
+                        } else {
+                            appliedDiscountCode = '';
+                            discountMessage.text(`✗ ${response.message}`).removeClass('text-success').addClass('text-danger');
+                            isDiscountValidOrNotApplicable = false;
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("AJAX Error validating discount:", textStatus, errorThrown);
+                        discountMessage.text('✗ เกิดข้อผิดพลาด').removeClass('text-success').addClass('text-danger');
+                        appliedDiscountCode = '';
+                        isDiscountValidOrNotApplicable = false;
+                    },
+                    complete: function() {
+                        applyDiscountBtn.prop('disabled', false);
+                        validateAndDisplayEdit(); // Re-evaluate save button state
+                    }
+                });
+            });
+
+             // --- Clear discount status if code is manually changed ---
+             discountCodeInput.on('input', function() {
+                 const currentCode = $(this).val().trim();
+                 // If the code is different from the last validated one, reset status
+                 if(currentCode !== appliedDiscountCode) {
+                     appliedDiscountCode = ''; // Needs re-validation
+                     discountMessage.text(''); // Clear message
+                     isDiscountValidOrNotApplicable = true; // Allow saving (until validation fails)
+                      $('span[data-valmsg-for="DiscountCode"]').text(''); // Clear server validation
+                     validateAndDisplayEdit(); // Update button state
+                 }
+             });
+
+            // --- Initial Setup & Event Listeners ---
+            pickupDateInput.on('change', validateAndDisplayEdit);
+            returnDateInput.on('change', validateAndDisplayEdit);
+
+            // Set initial discount status based on pre-filled code
+            if (discountCodeInput.val()) {
+                 isDiscountValidOrNotApplicable = true; // Assume initially valid if pre-filled, user must re-validate if changed
+                 // Optionally, you could trigger validation on load if needed
+                 // applyDiscountBtn.trigger('click'); // Uncomment to validate initial code on load
+            } else {
+                 isDiscountValidOrNotApplicable = true; // No code, so valid state
+            }
+
+            validateAndDisplayEdit(); // Run once on load
+        });
+    </script>
+}

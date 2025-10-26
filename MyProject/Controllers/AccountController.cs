@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace MyProject.Controllers
 {
@@ -15,11 +16,13 @@ namespace MyProject.Controllers
     {
         private readonly MyBookstoreDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(MyBookstoreDbContext context, IWebHostEnvironment webHostEnvironment)
+        public AccountController(MyBookstoreDbContext context, IWebHostEnvironment webHostEnvironment, ILogger<AccountController> logger)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         // --- Action สำหรับการสมัครสมาชิก ---
@@ -139,19 +142,19 @@ namespace MyProject.Controllers
         public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
         {
             var currentUserEmail = User.FindFirstValue(ClaimTypes.Email);
-            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
 
-            if (user == null) return Json(new { success = false, message = "ไม่พบผู้ใช้ในระบบ" });
+            if (userToUpdate == null) return Json(new { success = false, message = "ไม่พบผู้ใช้ในระบบ" });
 
             // ตรวจสอบ Validation ต่างๆ แล้วเพิ่ม Error เข้าไปใน ModelState
-            if (user.Email != model.Email && await _context.Users.AnyAsync(u => u.Email == model.Email))
+            if (userToUpdate.Email != model.Email && await _context.Users.AnyAsync(u => u.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "อีเมลใหม่นี้ถูกใช้งานโดยบัญชีอื่นแล้ว");
             }
 
             if (!string.IsNullOrEmpty(model.NewPassword))
             {
-                if (string.IsNullOrEmpty(model.CurrentPassword) || user.PasswordHash != HashPassword(model.CurrentPassword))
+                if (string.IsNullOrEmpty(model.CurrentPassword) || userToUpdate.PasswordHash != HashPassword(model.CurrentPassword)) // สมมติว่า HashPassword ใช้ Verify ได้ด้วย
                 {
                     ModelState.AddModelError("CurrentPassword", "รหัสผ่านปัจจุบันไม่ถูกต้อง");
                 }
@@ -162,37 +165,62 @@ namespace MyProject.Controllers
                 return Json(new { success = false, errors = ModelStateToDictionary() });
             }
 
+            bool changed = false;
+
             // อัปเดตข้อมูล
-            user.Name = model.UserName;
-            user.Email = model.Email;
-            user.DateOfBirth = DateOnly.ParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            if (userToUpdate.Name != model.UserName) { userToUpdate.Name = model.UserName; changed = true; }
+            if (userToUpdate.Email != model.Email) { userToUpdate.Email = model.Email; changed = true; }
+
+            // (แก้ไข) แปลง DateOfBirth ให้ปลอดภัยขึ้น
+            if (DateOnly.TryParseExact(model.DateOfBirth, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly dob))
+            {
+                if (userToUpdate.DateOfBirth != dob) { userToUpdate.DateOfBirth = dob; changed = true; }
+            }
 
             if (!string.IsNullOrEmpty(model.NewPassword))
             {
-                user.PasswordHash = HashPassword(model.NewPassword);
+                userToUpdate.PasswordHash = HashPassword(model.NewPassword); // สมมติว่าผ่าน Validation มาแล้ว
+                changed = true;
             }
 
             if (model.NewDrivingLicenseFile != null)
             {
                 // (ถ้ามี) ลบไฟล์เก่าก่อนอัปโหลดไฟล์ใหม่
-                if (!string.IsNullOrEmpty(user.DrivingLicenseImageUrl))
+                if (!string.IsNullOrEmpty(userToUpdate.DrivingLicenseImageUrl))
                 {
-                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses", user.DrivingLicenseImageUrl);
+                    var oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/driving_licenses", userToUpdate.DrivingLicenseImageUrl);
                     if (System.IO.File.Exists(oldFilePath))
                     {
                         System.IO.File.Delete(oldFilePath);
                     }
                 }
-                user.DrivingLicenseImageUrl = await UploadFileAsync(model.NewDrivingLicenseFile, "driving_licenses");
+                userToUpdate.DrivingLicenseImageUrl = await UploadFileAsync(model.NewDrivingLicenseFile, "driving_licenses");
             }
 
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // ถ้ามีการเปลี่ยนแปลง EF Core จะสร้าง UPDATE ถ้าไม่มี จะไม่ทำอะไรเลย
+                int affectedRows = await _context.SaveChangesAsync();
+                _logger.LogInformation("Profile update saved. Rows affected: {Count}", affectedRows);
 
-            // อัปเดตคุกกี้เพื่อให้ข้อมูลบน Navbar ถูกต้องทันที
-            await UpdateUserClaims(user);
+                // ถ้ามีการเปลี่ยนแปลงจริง ค่อยอัปเดตคุกกี้
+                if (changed)
+                {
+                    // ดึง Role มาเพื่อ Update Claims (ถ้าจำเป็นต้องใช้ Role ล่าสุด)
+                    var userWithRole = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == userToUpdate.UserId);
+                    if (userWithRole != null)
+                    {
+                        await UpdateUserClaims(userWithRole); // ส่ง user ที่มี Role ไป
+                    }
+                }
 
-            return Json(new { success = true, message = "อัปเดตโปรไฟล์สำเร็จ! ข้อมูลของคุณถูกบันทึกแล้ว", redirectUrl = Url.Action("Index", "Home") });
+                return Json(new { success = true, message = "อัปเดตโปรไฟล์สำเร็จ!", redirectUrl = Url.Action("Index", "Home") });
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Error saving profile changes for user {UserId}", userToUpdate.UserId);
+                return Json(new { success = false, message = "เกิดข้อผิดพลาดในการบันทึกข้อมูล" });
+            }
         }
 
 

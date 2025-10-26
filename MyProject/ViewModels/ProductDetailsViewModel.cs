@@ -15,6 +15,9 @@ namespace MyProject.ViewModels
         public string? ImageUrl { get; set; }
         public string? ImageUrl2 { get; set; }
 
+        public int BranchId { get; set; }
+        public string? BranchName { get; set; }
+
         // --- Specifications (ใช้ชื่อเดียวกับ Product.cs ที่แก้แล้ว) ---
         public string? GearType { get; set; }
         public string? Engine { get; set; }

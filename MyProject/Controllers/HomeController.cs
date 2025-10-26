@@ -6,6 +6,7 @@ using MyProject.ViewModels;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MyProject.Controllers
 {
@@ -31,69 +32,74 @@ namespace MyProject.Controllers
                     BranchId = b.BranchId,
                     Name = b.Name
                 })
+                .AsNoTracking()
                 .ToListAsync();
 
-            int actualBranchIdToShow = branchId ?? filterBranches.FirstOrDefault()?.BranchId ?? 0;
+            int actualBranchIdToShow;
+            if (branchId.HasValue)
+            {
+                // ถ้ามีการส่ง ID มาทาง URL (คลิก Filter) ให้ใช้ ID นั้น
+                actualBranchIdToShow = branchId.Value;
+            }
+            else
+            {
+                // ถ้าไม่ได้ส่ง ID มา (โหลดครั้งแรก) ให้พยายามใช้ BranchId = 1 เป็น Default
+                actualBranchIdToShow = filterBranches.Any(b => b.BranchId == 1)
+                                        ? 1 // ถ้ามี ให้ใช้ 1
+                                        : filterBranches.FirstOrDefault()?.BranchId ?? 0;
+            }
 
             SelectedBranchDetailsViewModel? selectedBranchForFooter = null;
             if (actualBranchIdToShow > 0)
             {
                 selectedBranchForFooter = await _context.Branches
                     .Where(b => b.BranchId == actualBranchIdToShow)
-                    .Select(b => new SelectedBranchDetailsViewModel 
+                    .Select(b => new SelectedBranchDetailsViewModel
                     {
                         BranchId = b.BranchId,
                         Name = b.Name,
-                        Address = b.Address,         
+                        Address = b.Address,
                         PhoneNumber = b.PhoneNumber,
                         MapUrl = b.MapUrl
                     })
+                    .AsNoTracking()
                     .FirstOrDefaultAsync();
             }
+            // ----- จบส่วนที่เพิ่ม -----
 
+            // ----- (เพิ่ม) กำหนดค่า ViewBag สำหรับ Layout -----
             ViewBag.BranchDetailsForLayout = selectedBranchForFooter;
 
             string? selectedNameForDisplay = null;
-
-            if (branchId.HasValue)
+            if (selectedBranchForFooter != null) // ใช้ selectedBranchForFooter
             {
-                // ถ้ามีการคลิก ให้หาชื่อสาขาที่ตรงกับ branchId ที่ส่งมา
-                selectedNameForDisplay = filterBranches.FirstOrDefault(b => b.BranchId == branchId.Value)?.Name;
-                // ถ้าหาไม่เจอ (อาจเกิดได้ยาก) ให้ใช้ค่าสำรอง
-                if (string.IsNullOrEmpty(selectedNameForDisplay))
-                {
-                    selectedNameForDisplay = "สาขาที่เลือก";
-                }
+                selectedNameForDisplay = selectedBranchForFooter.Name;
             }
-
-            if (actualBranchIdToShow == 0 && !filterBranches.Any())
-            {
-                selectedNameForDisplay = "ไม่มีสาขา"; // แสดงข้อความพิเศษนี้
-            }
-
-            var productQuery = _context.Products.AsQueryable();
-            if (actualBranchIdToShow > 0) // กรองตามสาขาเสมอ (ถ้ามีสาขา)
-            {
-                productQuery = productQuery
-                    .Where(p => _context.BranchProducts
-                                    .Any(bp => bp.BranchId == actualBranchIdToShow && bp.ProductId == p.ProductId));
-            }
-   
+            else if (branchId.HasValue) { selectedNameForDisplay = "สาขาที่เลือก (ไม่พบ)"; }
+            else if (actualBranchIdToShow == 0 && !filterBranches.Any()) { selectedNameForDisplay = "ไม่มีสาขา"; }
 
             // 4. ดึงข้อมูล Product (ที่กรองแล้ว)
-            var products = await productQuery
-                .Select(p => new ProductViewModel
+            // ----- (แก้ไข) กำหนดค่าให้ products ที่ประกาศไว้ข้างนอก -----
+            List<ProductViewModel> products = new List<ProductViewModel>();
+
+            products = await _context.Products // <--- ไม่ต้องใช้ productQuery แล้ว เริ่มจาก _context.Products ได้เลย
+                .Join(
+                    _context.BranchProducts.Where(bp => bp.BranchId == actualBranchIdToShow),
+                    product => product.ProductId,
+                    branchProduct => branchProduct.ProductId,
+                    (product, branchProduct) => new { product, branchProduct.StockQuantity } // ส่ง product ทั้ง object ไปเลยง่ายกว่า
+                )
+                .Select(joined => new ProductViewModel // แปลงเป็น ViewModel
                 {
-                    ProductId = p.ProductId,
-                    Name = p.Name,
-                    PricePerDay = p.PricePerDay,
-                    PricePerWeek = p.PricePerWeek,
-                    PricePerMonth = p.PricePerMonth,
-                    ImageUrl = p.ImageUrl,
-                    IsAvailable = (actualBranchIdToShow > 0)
-                          ? _context.BranchProducts
-                          .Any(bp => bp.BranchId == actualBranchIdToShow && bp.ProductId == p.ProductId && bp.StockQuantity > 0) : false
+                    ProductId = joined.product.ProductId,
+                    Name = joined.product.Name,
+                    PricePerDay = joined.product.PricePerDay,
+                    PricePerWeek = joined.product.PricePerWeek,
+                    PricePerMonth = joined.product.PricePerMonth,
+                    ImageUrl = joined.product.ImageUrl,
+                    IsAvailable = joined.StockQuantity > 0
                 })
+                .AsNoTracking()
                 .ToListAsync();
 
             var viewModel = new HomePageViewModel
@@ -102,7 +108,6 @@ namespace MyProject.Controllers
                 FilterBranches = filterBranches,
                 SelectedBranchId = actualBranchIdToShow > 0 ? actualBranchIdToShow : (int?)null,
                 SelectedFilterName = selectedNameForDisplay,
-                SelectedBranchDetails = selectedBranchForFooter // ข้อมูลสำหรับ Footer
             };
 
             // ส่ง ViewModel ไปที่ View

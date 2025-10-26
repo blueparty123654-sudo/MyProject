@@ -8,6 +8,8 @@ namespace MyProject.ViewModels
     {
         [Required]
         public int ProductId { get; set; }
+        [Required]
+        public int BranchId { get; set; }
 
         [Required(ErrorMessage = "กรุณาเลือกวันที่รับรถ")]
         [DataType(DataType.Date)]

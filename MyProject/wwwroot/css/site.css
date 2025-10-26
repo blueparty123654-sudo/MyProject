@@ -160,6 +160,7 @@ body {
 
     .user-details-link:hover {
         background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
     }
 
     .user-details-link i {
@@ -178,7 +179,13 @@ body {
 
     .btn-logout-yellow:hover {
         background-color: #e6b800;
+        transform: translateY(-2px);
     }
+
+a.btn.disabled, button.btn:disabled { /* ทำให้ปุ่ม/Link ที่ disable ดูจางลงและคลิกไม่ได้ */
+    pointer-events: none;
+    opacity: 0.65;
+}
 
 
 /* =================================== */
@@ -230,12 +237,12 @@ h1.page-title, .products-title {
     font-weight: 700;
     color: #333;
     margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 
 .card-text {
     color: #666;
-    font-size: 0.9rem;
+    font-size: 1rem;
     flex-grow: 1;
 }
 
@@ -853,7 +860,7 @@ label, .col-form-label {
 
 
 /* =================================== */
-/* ==        Product Details        == */
+/* ==         CreateBooking         == */
 /* =================================== */
 
 /* Container and Titles */
@@ -1037,3 +1044,58 @@ label, .col-form-label {
     }
 
 /* =================================== */
+/* ==            Details            == */
+/* =================================== */
+
+.booking-summary-page .card {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* สไตล์สำหรับปุ่ม */
+.booking-summary-page .card-footer .btn {
+    margin-top: 2rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem; /* ปรับให้ขอบมนขึ้น */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+    transition: all 0.2s ease-in-out;
+}
+
+    .booking-summary-page .card-footer .btn:hover {
+        transform: translateY(-2px); /* ยกขึ้นเล็กน้อยเมื่อ Hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+/* CSS เดิมที่คุณให้มา (ปรับเล็กน้อย) */
+.booking-summary-page .card-title {
+    color: var(--bs-primary, #0d6efd);
+}
+
+.pricing-details hr {
+    border-color: rgba(0,0,0,.1);
+}
+
+.img-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 100%;
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    color: #6c757d;
+}
+
+.booking-summary-page .card-body i,
+.booking-summary-page .card-header i,
+.booking-summary-page .card-footer .btn i { /* เพิ่ม .card-footer .btn i */
+    width: 1.25em;
+    text-align: center;
+    margin-right: 0.25rem;
+}
+
+.card-header strong {
+    font-size: 1.2rem;
+}

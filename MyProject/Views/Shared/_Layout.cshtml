@@ -201,18 +201,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/locales/bootstrap-datepicker.th.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <partial name="_ValidationScriptsPartial" />
 
     <script src="~/js/layout.js" asp-append-version="true"></script>
     <script src="~/js/auth.js" asp-append-version="true"></script>
     <script src="~/js/reviews.js" asp-append-version="true"></script>
+    <script src="~/js/profile-modal.js" asp-append-version="true"></script>
     
     @await RenderSectionAsync("Scripts", required: false)
 
     <partial name="_RegisterModalPartial" model="new MyProject.ViewModels.RegisterViewModel()" />
     <partial name="_LoginModalPartial" model="new MyProject.ViewModels.LoginViewModel()" />
     <partial name="_ProfileModalPartial" model="new MyProject.ViewModels.ProfileViewModel()" />
+    <partial name="_BookingHistoryModalPartial" />
 
 </body>
 </html>

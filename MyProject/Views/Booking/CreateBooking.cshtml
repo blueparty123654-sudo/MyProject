@@ -16,6 +16,7 @@
             <div class="booking-form-container p-4 rounded shadow-sm mb-4"> @* ใช้ card style *@
 
                 <h2 class="product-title text-center mb-3">@Model.Name</h2> @* ชื่อรถ ตัวใหญ่ ตรงกลาง *@
+                <p class="text-center text-muted mb-3">(สาขา @Model.BranchName)</p>
                 <hr />
 
                 @* --- ส่วนแสดงรูปภาพ 2 รูป (ซ้าย-ขวา) --- *@
@@ -51,6 +52,7 @@
                 <form asp-action="Create" asp-controller="Booking" method="post" id="bookingForm" class="mt-4">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="ProductId" />
+                    <input type="hidden" asp-for="BranchId" />
 
                      <p class="text-center mb-3 fw-bold">เลือกช่วงเวลาที่ต้องการเช่า:</p> @* เพิ่มคำอธิบาย *@
 
@@ -69,14 +71,25 @@
 
                     <div class="mb-3">
                         <label asp-for="DiscountCode" class="form-label"></label>
-                        <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด (ถ้ามี)">
+                        <div class="input-group">
+                            @* <-- เพิ่ม input-group *@
+                            <input asp-for="DiscountCode" type="text" class="form-control" placeholder="กรอกรหัสส่วนลด (ถ้ามี)">
+                            @* --- (เพิ่ม) ปุ่มตรวจสอบ --- *@
+                            <button class="btn btn-outline-primary" type="button" id="applyDiscountBtn">
+                                <i class="fas fa-check"></i> ตรวจสอบ
+                            </button>
+                            @* --- จบ ปุ่มตรวจสอบ --- *@
+                        </div>
+                        @* --- (เพิ่ม) Span แสดงผล --- *@
+                        <span id="discountMessage" class="d-block mt-1 small"></span>
+                        @* --- จบ Span แสดงผล --- *@
                     </div>
 
                     <div id="estimatedPrice" class="mb-3 fw-bold text-end">---</div> @* แสดงราคาประมาณ *@
                     <div id="estimatedPoints" class="mb-3 small text-muted text-end" style="margin-top: -0.5rem;"></div> @* แสดง Point *@
 
                     <button type="submit" class="btn btn-confirm-booking w-100 mt-3" disabled>
-                        กรุณาเลือกวันที่
+                        @(User.Identity.IsAuthenticated ? "กรุณาเลือกวันที่" : "กรุณาเข้าสู่ระบบเพื่อจอง")
                     </button>
                 </form>
             </div>
@@ -146,6 +159,9 @@
             const pricePerWeek = parseFloat('@Model.PricePerWeek');
             const pricePerMonth = parseFloat('@Model.PricePerMonth'); // ใช้ .ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) ถ้ามีปัญหา format
 
+            // --- (เพิ่ม) Check Login Status ---
+            const isLoggedIn = @(User.Identity?.IsAuthenticated ?? false ? "true" : "false")
+
             // --- Function to Calculate Optimized Price ---
             function calculateOptimizedPrice(totalDays) {
                 if (totalDays <= 0) return { price: 0, breakdown: "0 วัน" };
@@ -208,7 +224,8 @@
                 // --- Reset State ---
                 priceDisplay.text('---').removeClass('text-success text-danger');
                 pointsDisplay.text(''); // (เพิ่ม) Clear points
-                confirmButton.prop('disabled', true).text('กรุณาเลือกวันที่');
+                confirmButton.prop('disabled', true)
+                             .text(isLoggedIn ? 'กรุณาเลือกวันที่' : 'กรุณาเข้าสู่ระบบเพื่อจอง');
                 pickupDateInput.removeClass('is-invalid');
                 returnDateInput.removeClass('is-invalid');
                 // Don't reset discount message here
@@ -268,13 +285,17 @@
                 }
 
                 // --- Enable/Disable Button ---
-                // ปุ่มกดได้เมื่อ: วันที่ถูกต้อง และ (ไม่มีโค้ด หรือ โค้ดถูก หรือ กำลังรอเช็ค)
-                if (isDateValid && isDiscountValidOrNotApplicable) {
+                if (isDateValid && isDiscountValidOrNotApplicable && isLoggedIn) { // <--- เพิ่ม && isLoggedIn
+                    // Case 1: Dates OK, Discount OK (or N/A), Logged In -> Enable Booking
                     confirmButton.prop('disabled', false).text('ยืนยันการจอง');
+                } else if (isDateValid && isDiscountValidOrNotApplicable && !isLoggedIn) {
+                    // Case 2: Dates OK, Discount OK (or N/A), NOT Logged In -> Disable, Show Login Msg
+                    confirmButton.prop('disabled', true).text('กรุณาเข้าสู่ระบบเพื่อจอง'); // <--- แสดงข้อความ Login
                 } else if (isDateValid && !isDiscountValidOrNotApplicable) {
-                     confirmButton.prop('disabled', true).text('รหัสส่วนลดไม่ถูกต้อง');
+                     // Case 3: Dates OK, Discount WRONG -> Disable, Show Discount Msg
+                    confirmButton.prop('disabled', true).text('รหัสส่วนลดไม่ถูกต้อง');
                 }
-                // ถ้า isDateValid = false ปุ่มจะถูก disable ไว้
+                // Else (isDateValid is false): Button remains disabled with initial/error message ("กรุณาเลือกวันที่" or "วันที่ไม่ถูกต้อง")
             }
 
             // --- Apply Discount Button Click ---

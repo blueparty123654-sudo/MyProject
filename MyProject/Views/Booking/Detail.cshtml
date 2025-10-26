@@ -1,0 +1,116 @@
+﻿@* กำหนด ViewModel ที่ Controller ส่งมา *@
+@model MyProject.ViewModels.BookingDetailsViewModel
+@{
+    ViewData["Title"] = $"สรุปรายการจอง #{Model.OrderId}"; // ตั้งชื่อ Title ของหน้าเว็บ
+}
+
+<div class="container mt-5 booking-summary-page">
+    <h2 class="text-center mb-4">📄 สรุปรายการจองของคุณ</h2>
+
+    @* แสดงข้อความ Success ถ้ามี *@
+    @if (TempData["BookingSuccessMessageForDetailsPage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["BookingSuccessMessageForDetailsPage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @* ----- การ์ดแสดงข้อมูลหลัก ----- *@
+    <div class="card shadow-sm mb-4">
+        <div class="row g-0">
+            @* --- ส่วนรูปภาพ --- *@
+            <div class="col-md-4 text-center p-3 d-flex align-items-center justify-content-center" style="background-color: #FFFFFF;">
+                @* <--- เปลี่ยนเป็นสีขาวตรงนี้ *@
+                @if (!string.IsNullOrEmpty(Model.ProductImageUrl))
+                {
+                    <img src="@Model.ProductImageUrl" class="img-fluid rounded-start" alt="@Model.ProductName" style="max-height: 200px; object-fit: contain;">
+                }
+                else
+                {
+                    @* แสดงข้อความ Placeholder ถ้าไม่มีรูป *@
+                    <div class="text-muted">[ ไม่มีรูปภาพ ]</div>
+                }
+            </div>
+            @* --- ส่วนรายละเอียด --- *@
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h4 class="card-title">@Model.ProductName</h4>
+                    <p class="card-text text-muted mb-2">
+                        <i class="fas fa-map-marker-alt me-1"></i> สาขา: @(Model.BranchName ?? "N/A")
+                    </p>
+                    <hr />
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <small class="text-muted d-block"><i class="fas fa-calendar-alt me-1"></i> วันที่เริ่มเช่า:</small>
+                            <strong>@Model.PickupDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("th-TH"))</strong>
+                        </div>
+                        <div class="col-sm-6 mb-2">
+                            <small class="text-muted d-block"><i class="fas fa-calendar-check me-1"></i> วันที่คืน:</small>
+                            <strong>@Model.ReturnDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("th-TH"))</strong>
+                        </div>
+                    </div>
+                    <p class="card-text">
+                        <small class="text-muted"><i class="fas fa-clock me-1"></i> จำนวนวันเช่า:</small> <strong>@Model.NumberOfDays วัน</strong>
+                    </p>
+                    <p class="card-text mt-3">
+                        <small class="text-muted"><i class="fas fa-user me-1"></i> ผู้จอง:</small> <strong>@(Model.UserName ?? "N/A")</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* ----- การ์ดสรุปค่าใช้จ่าย ----- *@
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            @* <--- ปรับ Header ให้เป็นสีธีม *@
+            <strong class="text-white"><i class="fas fa-file-invoice-dollar me-1"></i> สรุปค่าใช้จ่าย</strong>
+        </div>
+        <div class="card-body pricing-details">
+            @* --- ราคาปกติ --- *@
+            <div class="d-flex justify-content-between mb-2">
+                <span>ราคาปกติ (@Model.NumberOfDays วัน):</span>
+                <span>@Model.OriginalPrice.ToString("N2") บาท</span>
+            </div>
+
+            @* --- ส่วนลด (ถ้ามี) --- *@
+            @if (Model.DiscountAmount > 0)
+            {
+                <div class="d-flex justify-content-between text-danger mb-2">
+                    <span>
+                        <i class="fas fa-tags me-1"></i> ส่วนลด
+                        @if (!string.IsNullOrEmpty(Model.DiscountCode))
+                        {
+                            <small>(@Model.DiscountCode - @Model.DiscountRate?.ToString("N0")%)</small>
+                        }
+                        :
+                    </span>
+                    <span>- @Model.DiscountAmount.ToString("N2") บาท</span>
+                </div>
+                <hr style="border-style: dashed; margin-top: 0.5rem; margin-bottom: 0.5rem;" />
+            }
+            else
+            {
+                <hr style="border-style: dashed; margin-top: 0.5rem; margin-bottom: 0.5rem;" />
+            }
+
+            @* --- ยอดรวม --- *@
+            <div class="d-flex justify-content-between fw-bold h5 mt-2">
+                <span>ยอดรวมที่ต้องชำระ:</span>
+                <span class="text-success">@Model.FinalPrice.ToString("N2") บาท</span>
+            </div>
+            @* --- คะแนนสะสม --- *@
+            <div class="d-flex justify-content-between text-muted small">
+                <span><i class="fas fa-star me-1"></i> คะแนนสะสมที่จะได้รับ:</span>
+                <span>@Model.PointsEarned.ToString("N0") พอยท์ ✨</span>
+            </div>
+        </div>
+        @* --- ปุ่ม Footer ใหม่ --- *@
+        <div class="card-footer text-center d-flex justify-content-around gap-2 bg-light">
+            <a href="#" class="btn btn-success flex-fill"> <i class="fas fa-credit-card me-1"></i> เลือกวิธีการชำระเงิน</a> @* ยังไม่มีระบบชำระเงิน *@
+            <a asp-action="Edit" asp-controller="Booking" asp-route-orderId="@Model.OrderId" class="btn btn-warning flex-fill">แก้ไขการจอง</a>
+            <a asp-action="Index" asp-controller="Home" class="btn btn-primary flex-fill"> <i class="fas fa-arrow-left me-1"></i> กลับหน้าหลัก</a>
+        </div>
+    </div>
+</div>
