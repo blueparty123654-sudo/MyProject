@@ -18,5 +18,9 @@ namespace MyProject.ViewModels
         public decimal FinalPrice { get; set; }
         public int PointsEarned { get; set; }
         public string? UserName { get; set; }
+
+
+        public bool IsPaid { get; set; }
+        public bool IsPickupDatePast { get; set; }
     }
 }

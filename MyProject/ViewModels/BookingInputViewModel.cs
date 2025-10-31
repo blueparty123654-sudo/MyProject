@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyProject.ViewModels
 {
-    // ใช้รับข้อมูลจากฟอร์มจองในหน้า Details ส่งไป BookingController
     public class BookingInputViewModel
     {
         [Required]
@@ -23,7 +22,5 @@ namespace MyProject.ViewModels
 
         [Display(Name = "รหัสส่วนลด")]
         public string? DiscountCode { get; set; }
-
-        // public int BranchId { get; set; } // Uncomment ถ้าจะส่ง BranchId มาจากฟอร์ม
     }
 }

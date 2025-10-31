@@ -109,8 +109,6 @@
 
             // --- Function to handle filter item clicks (loads new page) ---
             function attachFilterClickHandler() {
-                // ใช้ Event Delegation บน Container, ไม่ต้องใช้ :not(.clone) ที่นี่
-                // เพราะถึงคลิก clone ก็ใช้ data-filter-value เดียวกัน
                 filterContainer.off('click', '.filter-item').on('click', '.filter-item', function() {
                     const branchId = $(this).data('filter-value');
                     console.log("Filter Clicked:", branchId);
@@ -129,7 +127,7 @@
                     } else { // "All" selected
                         if (!searchParams.has('branchId')) {
                             console.log("Already showing all. No navigation.");
-                            return; // Don't reload if clicking "All" when already showing all
+                            return;
                         }
                         searchParams.delete('branchId');
                     }
@@ -145,18 +143,15 @@
 
             // --- Setup Slider (Only if enough items) ---
             if (totalItems <= visibleItems) {
-                // Not enough items to slide, hide arrows and center items
                 leftArrow.hide();
                 rightArrow.hide();
                 filterContainer.css('justify-content', 'center');
-                attachFilterClickHandler(); // Still need to handle clicks
-                return; // Stop execution, no need for cloning/sliding logic
+                attachFilterClickHandler();
+                return;
             }
 
             // --- Clone items for infinite loop effect ---
-            // Clone last 'visibleItems' to the beginning
             filterItems.slice(-visibleItems).clone().addClass('clone').prependTo(filterContainer);
-            // Clone first 'visibleItems' to the end
             filterItems.slice(0, visibleItems).clone().addClass('clone').appendTo(filterContainer);
 
             // --- Set Initial Scroll Position ---
@@ -171,16 +166,12 @@
                 isAnimating = true;
 
                 const currentScroll = filterContainer.scrollLeft();
-                // Calculate the target scroll position (move one item width to the right)
-                // Round current position to nearest item start, then add one item width
                 const targetScroll = Math.round(currentScroll / itemOuterWidth) * itemOuterWidth + itemOuterWidth;
                 console.log("Right -> Target:", targetScroll);
 
                 filterContainer.animate({ scrollLeft: targetScroll }, animationDuration, 'swing', function() {
                     const currentExactScroll = filterContainer.scrollLeft(); // Get position after animation
 
-                    // Threshold: Position right after the last original item
-                    // = initialScroll + (itemOuterWidth * totalItems)
                     const loopThreshold = initialScroll + (itemOuterWidth * totalItems);
                     console.log("Right -> After animate Exact:", currentExactScroll, "Target:", targetScroll, "Threshold:", loopThreshold);
 
@@ -205,19 +196,14 @@
                  isAnimating = true;
 
                 const currentScroll = filterContainer.scrollLeft();
-                // Calculate the target scroll position (move one item width to the left)
-                 // Round current position to nearest item start, then subtract one item width
                 const targetScroll = Math.round(currentScroll / itemOuterWidth) * itemOuterWidth - itemOuterWidth;
                 console.log("Left -> Target:", targetScroll);
 
                 filterContainer.animate({ scrollLeft: targetScroll }, animationDuration, 'swing', function() {
                     const currentExactScroll = filterContainer.scrollLeft(); // Get position after animation
-
-                    // Threshold: Position right at the start of the first original item
                      const loopThreshold = initialScroll;
                      console.log("Left -> After animate Exact:", currentExactScroll, "Target:", targetScroll, "Threshold:", loopThreshold);
 
-                     // If the *target* position is before the threshold, jump to the end instantly
                      if (targetScroll < loopThreshold) {
                          // Position of the last original item (before the end clones start)
                          const endScrollTarget = initialScroll + (itemOuterWidth * totalItems) - itemOuterWidth;
@@ -234,7 +220,6 @@
                 });
             }
 
-            // --- Attach Filter Click Handler ---
             attachFilterClickHandler();
 
         }); // end document ready

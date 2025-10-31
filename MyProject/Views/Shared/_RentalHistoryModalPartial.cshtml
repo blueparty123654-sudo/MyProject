@@ -1,0 +1,21 @@
+﻿<div class="modal fade" id="rentalHistoryModal" tabindex="-1" aria-labelledby="rentalHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        @* ใช้ modal-xl ให้กว้าง *@
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                @* ใช้สีเขียวตามปุ่ม *@
+                <h5 class="modal-title" id="rentalHistoryModalLabel"><i class="fas fa-check-circle me-1"></i> ประวัติการเช่า</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="rentalHistoryListContainer">
+                    <p class="text-center text-muted">กำลังโหลดข้อมูล...</p>
+                </div>
+                <div id="rentalHistoryErrorAlert" class="alert alert-danger mt-3" role="alert" style="display: none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>

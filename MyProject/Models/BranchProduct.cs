@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyProject.Models
 {
@@ -8,7 +9,8 @@ namespace MyProject.Models
         public int BranchId { get; set; }
         public int ProductId { get; set; }
 
-        public int StockQuantity { get; set; } // จำนวนรถรุ่นนี้ที่มีในสาขานี้
+        [Range(0, int.MaxValue, ErrorMessage = "Stock must not be negative")]
+        public int StockQuantity { get; set; }
 
         // Navigation Properties
         [ForeignKey("BranchId")]

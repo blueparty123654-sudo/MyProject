@@ -1,0 +1,114 @@
+﻿@model List<MyProject.ViewModels.AdminStockViewModel>
+@using MyProject.Models
+@{
+    ViewData["Title"] = @Localizer["Manage Product Stock"];
+    var branches = ViewBag.Branches as List<Branch> ?? new List<Branch>();
+    int? currentBranchFilter = ViewBag.FilterBranchId;
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="fas fa-boxes me-2 text-success"></i>@Localizer["Manage Product Stock"]</h2>
+
+    @* --- แสดง TempData Messages (ไม่ต้องแปล) --- *@
+    @if (TempData["AdminSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["AdminSuccess"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["AdminError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["AdminError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["AdminInfo"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["AdminInfo"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @* --- Filter Form --- *@
+    <form asp-action="ManageStock" method="get" class="row g-3 mb-4 align-items-end">
+        <div class="col-md-4">
+            <label for="filterBranchId" class="form-label">@Localizer["Filter by branch:"]</label>
+            <select name="filterBranchId" id="filterBranchId" class="form-select">
+                <option value="">@Localizer["-- All Branches --"]</option>
+                @foreach (var branch in branches)
+                {
+                    <option value="@branch.BranchId" selected="@(currentBranchFilter == branch.BranchId)">@branch.Name</option> @* <<< ชื่อสาขามาจาก DB ไม่ต้องแปล *@
+                }
+            </select>
+        </div>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-success">@Localizer["Filter"]</button>
+        </div>
+        <div class="col-md-auto ms-auto">
+            <a asp-action="Index" asp-controller="Admin" class="btn btn-secondary"><i class="fas fa-arrow-left me-1"></i> @Localizer["Back to Dashboard"]</a>
+        </div>
+    </form>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 10%;">@Localizer["Image (Optional)"]</th>
+                        <th style="width: 35%;">@Localizer["Product"]</th>
+                        <th style="width: 35%;">@Localizer["Branch"]</th>
+                        <th class="text-center">@Localizer["Current Stock"]</th>
+                        <th style="width: 35%;">@Localizer["Update Stock"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.ProductImageUrl))
+                                {
+                                    <img src="@item.ProductImageUrl" alt="@item.ProductName" class="img-thumbnail" style="max-height: 50px;" />
+                                }
+                            </td>
+                            <td>@item.ProductName <small class="text-muted">(@Localizer["ID"]: @item.ProductId)</small></td>
+                            <td>@item.BranchName <small class="text-muted">(@Localizer["ID"]: @item.BranchId)</small></td>
+                            <td class="text-center fw-bold">@item.CurrentStock</td>
+                            <td>
+                                @* ฟอร์มเพิ่ม Stock *@
+                                <form asp-action="AddStock" method="post" class="d-inline-flex align-items-center stock-update-form me-2">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="branchId" value="@item.BranchId" />
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <input type="number" name="quantityToAdd" class="form-control form-control-sm me-1" value="0" min="0" max="1000" required style="width: 70px;" title="@Localizer["Quantity to add"]" />
+                                    <button type="submit" class="btn btn-sm btn-success flex-shrink-0" title="@Localizer["Add Stock"]">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </form>
+
+                                @* ฟอร์มลด Stock *@
+                                <form asp-action="RemoveStock" method="post" class="d-inline-flex align-items-center stock-update-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="branchId" value="@item.BranchId" />
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <input type="number" name="quantityToRemove" class="form-control form-control-sm me-1" value="0" min="1" max="@item.CurrentStock" required style="width: 70px;" title="@Localizer["Quantity to remove"]" />
+                                    <button type="submit" class="btn btn-sm btn-danger flex-shrink-0" title="@Localizer["Remove Stock"]">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted mt-4">@Localizer["No stock information found matching the selected criteria."]</p>
+    }
+</div>

@@ -1,11 +1,16 @@
-﻿namespace MyProject.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyProject.Models
 {
     public class Favorite
     {
-        // ไม่มี [Key] ที่นี่ เพราะเราจะกำหนดใน DbContext
         public int UserId { get; set; }
-        public int ProductId { get; set; } // เดิมคือ PrId
-        public string? MonthYear { get; set; } // เดิมคือ FavMonthYear
+        public int ProductId { get; set; }
+
+        [StringLength(7)]
+        public string? MonthYear { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "ViewCount must not be negative")]
         public int ViewCount { get; set; }
 
         // Navigation Properties

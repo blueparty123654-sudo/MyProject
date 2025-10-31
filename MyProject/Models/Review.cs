@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyProject.Models
@@ -7,7 +8,10 @@ namespace MyProject.Models
     {
         [Key]
         public int ReviewId { get; set; }
+
+        [Required]
         public int UserId { get; set; }
+
         public int? ProductId { get; set; }
         public int? BranchId { get; set; }
 
@@ -16,9 +20,10 @@ namespace MyProject.Models
         public int Rating { get; set; }
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(1000, MinimumLength = 1)]
         public string Comment { get; set; } = null!;
 
+        [Required]
         public DateTime ReviewDate { get; set; }
 
         // Navigation Properties

@@ -2,6 +2,9 @@
 @model MyProject.ViewModels.BookingDetailsViewModel
 @{
     ViewData["Title"] = $"สรุปรายการจอง #{Model.OrderId}"; // ตั้งชื่อ Title ของหน้าเว็บ
+
+    bool canPay = !Model.IsPaid && !Model.IsPickupDatePast;
+    string paymentButtonTooltip = Model.IsPaid ? "รายการนี้ชำระเงินแล้ว" : (Model.IsPickupDatePast ? "ไม่สามารถชำระเงินได้เนื่องจากเลยกำหนดวันเช่าแล้ว" : "ไปยังหน้าชำระเงิน");
 }
 
 <div class="container mt-5 booking-summary-page">
@@ -108,7 +111,12 @@
         </div>
         @* --- ปุ่ม Footer ใหม่ --- *@
         <div class="card-footer text-center d-flex justify-content-around gap-2 bg-light">
-            <a href="#" class="btn btn-success flex-fill"> <i class="fas fa-credit-card me-1"></i> เลือกวิธีการชำระเงิน</a> @* ยังไม่มีระบบชำระเงิน *@
+            <a asp-action="Index" asp-controller="Payment" asp-route-orderId="@Model.OrderId"
+               class="btn btn-success flex-fill @(!canPay ? "disabled" : "")"
+               title="@paymentButtonTooltip">
+                <i class="fas fa-credit-card me-1"></i>
+                @(canPay ? "เลือกวิธีการชำระเงิน" : (Model.IsPaid ? "ชำระเงินแล้ว" : "เลยกำหนดชำระ")) @* <-- เปลี่ยนข้อความปุ่ม *@
+            </a>
             <a asp-action="Edit" asp-controller="Booking" asp-route-orderId="@Model.OrderId" class="btn btn-warning flex-fill">แก้ไขการจอง</a>
             <a asp-action="Index" asp-controller="Home" class="btn btn-primary flex-fill"> <i class="fas fa-arrow-left me-1"></i> กลับหน้าหลัก</a>
         </div>

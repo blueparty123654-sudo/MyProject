@@ -1,0 +1,118 @@
+﻿@model List<MyProject.ViewModels.AdminPaymentViewModel>
+@{
+    ViewData["Title"] = @Localizer["Manage Payments"];
+    var currentFilter = ViewBag.FilterStatus as string ?? "All";
+    var availableStatuses = ViewBag.AvailableStatuses as List<string> ?? new List<string>();
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="fas fa-receipt me-2"></i>@Localizer["Manage Payments"]</h2>
+
+    @* --- แสดง TempData Messages (ข้อความจาก TempData ไม่ต้องแปล) --- *@
+    @if (TempData["AdminSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["AdminSuccess"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["AdminError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["AdminError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @* --- Filter Form --- *@
+    <form asp-action="ManagePayments" method="get" class="row g-3 mb-4 align-items-end">
+        <div class="col-md-4">
+            <label for="filterStatus" class="form-label">@Localizer["Filter by status:"]</label>
+            <select name="filterStatus" id="filterStatus" class="form-select">
+                <option value="All" selected="@(currentFilter == "All")">@Localizer["-- All --"]</option>
+                <option value="In progress" selected="@(currentFilter == "In progress")">@Localizer["In progress"]</option>
+                <option value="Completed" selected="@(currentFilter == "Completed")">@Localizer["Completed"]</option>
+                <option value="Failed" selected="@(currentFilter == "Failed")">@Localizer["Failed"]</option>
+                <option value="Refunded" selected="@(currentFilter == "Refunded")">@Localizer["Refunded"]</option>
+            </select>
+        </div>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-primary">@Localizer["Filter"]</button>
+        </div>
+
+        <div class="col-md-auto ms-auto">
+            <a asp-action="Index" asp-controller="Admin" class="btn btn-secondary"><i class="fas fa-arrow-left me-1"></i> @Localizer["Back to Dashboard"]</a>
+        </div>
+    </form>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>@Localizer["Payment ID"]</th>
+                        <th>@Localizer["Order ID"]</th>
+                        <th>@Localizer["Customer"]</th>
+                        @* <th>@Localizer["Product (Optional)"]</th> *@
+                        <th>@Localizer["Payment Date"]</th>
+                        <th>@Localizer["Amount"]</th>
+                        <th>@Localizer["Method"]</th>
+                        <th>@Localizer["Current Status"]</th>
+                        <th>@Localizer["Change Status"]</th>
+                        <th></th> @* คอลัมน์สำหรับปุ่ม Save *@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.PaymentId</td>
+                            <td>@item.OrderId</td>
+                            <td>@item.UserName</td>
+                            @* <td>@item.ProductName</td> *@
+                            <td>@item.PaymentDate.ToString("g", new System.Globalization.CultureInfo("th-TH"))</td>
+                            <td>@item.Amount.ToString("N2")</td>
+                            <td>@item.Method</td>
+                            <td><span class="badge @GetStatusBadgeClass(item.CurrentStatus)">@Localizer[item.CurrentStatus]</span></td> @* <<< แปล Status *@
+                            <td>
+                                <form asp-action="UpdatePaymentStatus" method="post" class="d-inline-flex align-items-center status-update-form">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="paymentId" value="@item.PaymentId" />
+                                    <select name="newStatus" class="form-select form-select-sm me-2" required>
+                                        @foreach (var status in availableStatuses) // <<< (แก้ไข) ใช้ตัวแปรที่ประกาศไว้ข้างบน
+                                        {
+                                            <option value="@status" selected="@(status == item.CurrentStatus)">@Localizer[status]</option> @* <<< แปล Status *@
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fas fa-save"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-muted mt-4">@Localizer["No payment records found matching the selected criteria."]</p>
+    }
+</div>
+
+@* Helper function (ไม่ต้องแปล) *@
+@functions {
+    string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Completed" => "bg-success",
+            "In progress" => "bg-info text-dark",
+            "Failed" => "bg-danger",
+            "Refunded" => "bg-warning text-dark",
+            _ => "bg-secondary",
+        };
+    }
+}

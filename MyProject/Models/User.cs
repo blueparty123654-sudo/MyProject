@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyProject.Models
@@ -9,32 +11,39 @@ namespace MyProject.Models
         public int UserId { get; set; }
 
         [Required]
-        public string Name { get; set; } = null!; // เดิมคือ UserName
+        [StringLength(100)]
+        public string Name { get; set; } = null!;
+        [Required]
+        [StringLength(256)]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
 
         [Required]
-        public string Email { get; set; } = null!; // เดิมคือ UserEmail
+        [StringLength(20)]
+        public string PhoneNumber { get; set; } = null!;
 
         [Required]
-        public string PhoneNumber { get; set; } = null!; // เดิมคือ UserNo
+        public DateOnly DateOfBirth { get; set; }
 
         [Required]
-        public DateOnly DateOfBirth { get; set; } // เดิมคือ UserDob
+        public string PasswordHash { get; set; } = null!;
 
-        [Required]
-        public string PasswordHash { get; set; } = null!; // เดิมคือ UserPass (ชื่อใหม่ชัดเจนกว่า)
+        [StringLength(500)]
+        public string? DrivingLicenseImageUrl { get; set; }
 
-        public string? DrivingLicenseImageUrl { get; set; } // เดิมคือ UserDrivingcard
-
+        [Range(0, int.MaxValue, ErrorMessage = "UserPoint must not be negative")]
         public int UserPoint { get; set; } = 0;
 
+        [StringLength(50)]
         public string? Status { get; set; }
 
+        [Required]
         public int RoleId { get; set; } // Foreign Key
 
         [ForeignKey("RoleId")]
-        public virtual Role? Role { get; set; }
+        public virtual Role? Role { get; set; } = null!;
 
-        // --- Navigation Properties (ความสัมพันธ์กับตารางอื่น) ---
+        // --- Navigation Properties ---
         public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();

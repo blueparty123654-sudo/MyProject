@@ -83,6 +83,7 @@ namespace MyProject.Controllers
             List<ProductViewModel> products = new List<ProductViewModel>();
 
             products = await _context.Products // <--- ไม่ต้องใช้ productQuery แล้ว เริ่มจาก _context.Products ได้เลย
+                .Include(p => p.ProductImages)
                 .Join(
                     _context.BranchProducts.Where(bp => bp.BranchId == actualBranchIdToShow),
                     product => product.ProductId,
@@ -96,7 +97,11 @@ namespace MyProject.Controllers
                     PricePerDay = joined.product.PricePerDay,
                     PricePerWeek = joined.product.PricePerWeek,
                     PricePerMonth = joined.product.PricePerMonth,
-                    ImageUrl = joined.product.ImageUrl,
+                    ImageUrl = joined.product.ProductImages // <<<--- 2. ดึงจาก ProductImages
+                                    .OrderBy(img => img.ImageNo) // <<<--- 3. เรียงตามลำดับ
+                                    .FirstOrDefault() != null // <<<--- 4. เช็ค Null ก่อน
+                                    ? joined.product.ProductImages.OrderBy(img => img.ImageNo).First().Url // <<<--- 5. เอา Url รูปแรก
+                                    : "/images/placeholder.png",
                     IsAvailable = joined.StockQuantity > 0
                 })
                 .AsNoTracking()

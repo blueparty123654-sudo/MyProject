@@ -28,6 +28,22 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Admin/ManagePayments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUGF5bWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Admin/ManageRedemptions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlUmVkZW1wdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Admin/ManageStock.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWFuYWdlU3RvY2suY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User/source/repos/MyProject/MyProject/Views/Booking/CreateBooking.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDcmVhdGVCb29raW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,6 +62,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/User/source/repos/MyProject/MyProject/Views/Payment/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Redeem/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVkZWVtXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/source/repos/MyProject/MyProject/Views/Review/Reviews.cshtml]
@@ -68,8 +88,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qcm9maWxlTW9kYWxQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Shared/_RedemptionHistoryModalPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZWRlbXB0aW9uSGlzdG9yeU1vZGFsUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/User/source/repos/MyProject/MyProject/Views/Shared/_RegisterModalPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZWdpc3Rlck1vZGFsUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/source/repos/MyProject/MyProject/Views/Shared/_RentalHistoryModalPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZW50YWxIaXN0b3J5TW9kYWxQYXJ0aWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/User/source/repos/MyProject/MyProject/Views/Shared/_ValidationScriptsPartial.cshtml]

@@ -32,18 +32,22 @@ namespace MyProject.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("MapUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("BranchId");
 
@@ -65,7 +69,10 @@ namespace MyProject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BranchProducts");
+                    b.ToTable("BranchProducts", t =>
+                        {
+                            t.HasCheckConstraint("CK_BranchProduct_StockQuantity", "StockQuantity >= 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Discount", b =>
@@ -78,15 +85,19 @@ namespace MyProject.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateOnly>("Date")
+                    b.Property<DateOnly>("ExpiryDate")
                         .HasColumnType("date");
 
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(5, 2)");
 
                     b.HasKey("DiscountId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.ToTable("Discounts");
                 });
@@ -100,7 +111,8 @@ namespace MyProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("MonthYear")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(7)
+                        .HasColumnType("nvarchar(7)");
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
@@ -109,7 +121,10 @@ namespace MyProject.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Favorites");
+                    b.ToTable("Favorites", t =>
+                        {
+                            t.HasCheckConstraint("CK_Favorite_ViewCount", "ViewCount >= 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Giveaway", b =>
@@ -122,18 +137,23 @@ namespace MyProject.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("PointCost")
                         .HasColumnType("int");
 
                     b.HasKey("GiveawayId");
 
-                    b.ToTable("Giveaways");
+                    b.ToTable("Giveaways", t =>
+                        {
+                            t.HasCheckConstraint("CK_Giveaway_PointCost", "PointCost >= 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Order", b =>
@@ -178,7 +198,12 @@ namespace MyProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", t =>
+                        {
+                            t.HasCheckConstraint("CK_Order_Point", "Point >= 0");
+
+                            t.HasCheckConstraint("CK_Order_Price", "Price >= 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Payment", b =>
@@ -197,21 +222,26 @@ namespace MyProject.Migrations
 
                     b.Property<string>("Method")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("PaymentId");
 
                     b.HasIndex("OrderId")
                         .IsUnique();
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", t =>
+                        {
+                            t.HasCheckConstraint("CK_Payment_Amount", "Amount > 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Product", b =>
@@ -222,49 +252,10 @@ namespace MyProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<string>("BrakeSystem")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CoolingSystem")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Dimensions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Engine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FuelDispensing")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FuelTankCapacity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FuelType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GearType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("decimal(18, 2)");
@@ -275,31 +266,115 @@ namespace MyProject.Migrations
                     b.Property<decimal>("PricePerWeek")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<string>("StartingSystem")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Suspension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TireSize")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VehicleWeight")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("MyProject.Models.ProductDetail", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BrakeSystem")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CoolingSystem")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Dimensions")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Engine")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FuelDispensing")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FuelTankCapacity")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FuelType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("GearType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StartingSystem")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Suspension")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TireSize")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("VehicleWeight")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("ProductDetails");
+                });
+
+            modelBuilder.Entity("MyProject.Models.ProductImage", b =>
+                {
+                    b.Property<int>("ProductImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductImageId"));
+
+                    b.Property<int>("ImageNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("ProductImageId");
+
+                    b.HasIndex("ProductId", "ImageNo")
+                        .IsUnique();
+
+                    b.ToTable("ProductImages");
+                });
+
             modelBuilder.Entity("MyProject.Models.Redemption", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("RedemptionId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RedemptionId"));
 
                     b.Property<int>("GiveawayId")
                         .HasColumnType("int");
@@ -309,11 +384,17 @@ namespace MyProject.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("UserId", "GiveawayId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RedemptionId");
 
                     b.HasIndex("GiveawayId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Redemptions");
                 });
@@ -354,7 +435,10 @@ namespace MyProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", t =>
+                        {
+                            t.HasCheckConstraint("CK_Review_Rating", "Rating >= 1 AND Rating <= 5");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.Role", b =>
@@ -367,9 +451,13 @@ namespace MyProject.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("RoleId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Roles");
                 });
@@ -386,15 +474,18 @@ namespace MyProject.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("DrivingLicenseImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -402,22 +493,30 @@ namespace MyProject.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("UserPoint")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", t =>
+                        {
+                            t.HasCheckConstraint("CK_User_UserPoint", "UserPoint >= 0");
+                        });
                 });
 
             modelBuilder.Entity("MyProject.Models.BranchProduct", b =>
@@ -503,18 +602,40 @@ namespace MyProject.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("MyProject.Models.ProductDetail", b =>
+                {
+                    b.HasOne("MyProject.Models.Product", "Product")
+                        .WithOne("ProductDetail")
+                        .HasForeignKey("MyProject.Models.ProductDetail", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MyProject.Models.ProductImage", b =>
+                {
+                    b.HasOne("MyProject.Models.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("MyProject.Models.Redemption", b =>
                 {
                     b.HasOne("MyProject.Models.Giveaway", "Giveaway")
                         .WithMany("Redemptions")
                         .HasForeignKey("GiveawayId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("MyProject.Models.User", "User")
                         .WithMany("Redemptions")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Giveaway");
@@ -583,6 +704,10 @@ namespace MyProject.Migrations
                     b.Navigation("Favorites");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("ProductDetail");
+
+                    b.Navigation("ProductImages");
 
                     b.Navigation("Reviews");
                 });

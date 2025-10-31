@@ -65,7 +65,7 @@ namespace MyProject.Controllers
                 PasswordHash = hashedPassword,
                 DrivingLicenseImageUrl = uniqueFileName,
                 RoleId = customerRole.RoleId,
-                Status = "รอการตรวจสอบ"
+                Status = "Processing"
             };
 
             _context.Users.Add(user);

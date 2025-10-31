@@ -118,236 +118,236 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="home" xml:space="preserve">
-    <value>Home</value>
+    <value>หน้าหลัก</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>Contact</value>
+    <value>ติดต่อ</value>
   </data>
   <data name="review" xml:space="preserve">
-    <value>Reviews</value>
+    <value>รีวิว</value>
   </data>
   <data name="insurance" xml:space="preserve">
-    <value>Redeem Point</value>
+    <value>แลกคะแนนสะสม</value>
   </data>
   <data name="login" xml:space="preserve">
-    <value>Login</value>
+    <value>เข้าสู่ระบบ</value>
   </data>
   <data name="logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>ออกจากระบบ</value>
   </data>
   <data name="welcome" xml:space="preserve">
-    <value>Hello</value>
+    <value>สวัสดี</value>
   </data>
   <data name="loginTitle" xml:space="preserve">
-    <value>Login</value>
+    <value>เข้าสู่ระบบ</value>
   </data>
   <data name="username" xml:space="preserve">
-    <value>Username</value>
+    <value>ชื่อผู้ใช้</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Password</value>
+    <value>รหัสผ่าน</value>
   </data>
   <data name="loginBtn" xml:space="preserve">
-    <value>Login</value>
+    <value>เข้าสู่ระบบ</value>
   </data>
   <data name="cancelBtn" xml:space="preserve">
-    <value>Cancel</value>
+    <value>ยกเลิก</value>
   </data>
   <data name="registerText" xml:space="preserve">
-    <value>Don't have an account? &lt;a href='#' onclick='switchToRegister()'&gt;Register&lt;/a&gt;</value>
+    <value>ยังไม่มีบัญชี? &lt;a href='#' onclick='switchToRegister()'&gt;สมัครสมาชิก&lt;/a&gt;</value>
   </data>
   <data name="registerTitle" xml:space="preserve">
-    <value>Register</value>
+    <value>สมัครสมาชิก</value>
   </data>
   <data name="email" xml:space="preserve">
-    <value>Email</value>
+    <value>อีเมล</value>
   </data>
   <data name="phone" xml:space="preserve">
-    <value>Phone Number</value>
+    <value>เบอร์โทรศัพท์</value>
   </data>
   <data name="idcard" xml:space="preserve">
-    <value>ID Card</value>
+    <value>เลขบัตรประชาชน</value>
   </data>
   <data name="license" xml:space="preserve">
-    <value>Upload Driving License</value>
+    <value>อัปโหลดใบขับขี่</value>
   </data>
   <data name="registerBtn" xml:space="preserve">
-    <value>Register</value>
+    <value>สมัครสมาชิก</value>
   </data>
   <data name="loginText" xml:space="preserve">
-    <value>Already have an account? &lt;a href='#' onclick='switchToLogin()'&gt;Login&lt;/a&gt;</value>
+    <value>มีบัญชีแล้ว? &lt;a href='#' onclick='switchToLogin()'&gt;เข้าสู่ระบบ&lt;/a&gt;</value>
   </data>
   <data name="siteTitle" xml:space="preserve">
-    <value>Base Motorcycle Rental System</value>
+    <value>ระบบเช่ามอเตอร์ไซค์</value>
   </data>
   <data name="select" xml:space="preserve">
-    <value>Select</value>
+    <value>เลือก</value>
   </data>
   <data name="bike1" xml:space="preserve">
     <value>Honda Wave 125 LED</value>
   </data>
   <data name="bike1Price1" xml:space="preserve">
-    <value>300 THB / Day</value>
+    <value>300 บาท / วัน</value>
   </data>
   <data name="bike1Price2" xml:space="preserve">
-    <value>1,600 THB / Week</value>
+    <value>1,600 บาท / สัปดาห์</value>
   </data>
   <data name="bike1Price3" xml:space="preserve">
-    <value>3,000 THB / Month</value>
+    <value>3,000 บาท / เดือน</value>
   </data>
   <data name="bike2" xml:space="preserve">
-    <value>Honda Pcx 160 (2025)</value>
+    <value>Honda Pcx 160 ปี 2025</value>
   </data>
   <data name="bike2Price1" xml:space="preserve">
-    <value>550 THB / Day</value>
+    <value>550 บาท / วัน</value>
   </data>
   <data name="bike2Price2" xml:space="preserve">
-    <value>3,200 THB / Week</value>
+    <value>3,200 บาท / สัปดาห์</value>
   </data>
   <data name="bike2Price3" xml:space="preserve">
-    <value>8,000 THB / Month</value>
+    <value>8,000 บาท / เดือน</value>
   </data>
   <data name="bike3" xml:space="preserve">
-    <value>Honda Scoopy (2024)</value>
+    <value>Honda Scoopy ปี 2024</value>
   </data>
   <data name="bike3Price1" xml:space="preserve">
-    <value>300 THB / Day</value>
+    <value>300 บาท / วัน</value>
   </data>
   <data name="bike3Price2" xml:space="preserve">
-    <value>1,600 THB / Week</value>
+    <value>1,600 บาท / สัปดาห์</value>
   </data>
   <data name="bike3Price3" xml:space="preserve">
-    <value>3,000 THB / Month</value>
+    <value>3,000 บาท / เดือน</value>
   </data>
   <data name="bike4" xml:space="preserve">
-    <value>Yamaha Grand Filano (2025)</value>
+    <value>Yamaha Grand Filano ปี 2025</value>
   </data>
   <data name="bike4Price1" xml:space="preserve">
-    <value>350 THB / Day</value>
+    <value>350 บาท / วัน</value>
   </data>
   <data name="bike4Price2" xml:space="preserve">
-    <value>2,000 THB / Week</value>
+    <value>2,000 บาท / สัปดาห์</value>
   </data>
   <data name="bike4Price3" xml:space="preserve">
-    <value>3,500 THB / Month</value>
+    <value>3,500 บาท / เดือน</value>
   </data>
   <data name="bike5" xml:space="preserve">
-    <value>Yamaha NMAX TECH MAX (2025)</value>
+    <value>Yamaha NMAX TECH MAX ปี 2025</value>
   </data>
   <data name="bike5Price1" xml:space="preserve">
-    <value>550 THB / Day</value>
+    <value>550 บาท / วัน</value>
   </data>
   <data name="bike5Price2" xml:space="preserve">
-    <value>3,200 THB / Week</value>
+    <value>3,200 บาท / สัปดาห์</value>
   </data>
   <data name="bike5Price3" xml:space="preserve">
-    <value>8,000 THB / Month</value>
+    <value>8,000 บาท / เดือน</value>
   </data>
   <data name="bike6" xml:space="preserve">
-    <value>Yamaha Fazzio FILA Edition (2024)</value>
+    <value>Yamaha Fazzio FILA Edition ปี 2024</value>
   </data>
   <data name="bike6Price1" xml:space="preserve">
-    <value>300 THB / Day</value>
+    <value>300 บาท / วัน</value>
   </data>
   <data name="bike6Price2" xml:space="preserve">
-    <value>1,600 THB / Week</value>
+    <value>1,600 บาท / สัปดาห์</value>
   </data>
   <data name="bike6Price3" xml:space="preserve">
-    <value>3,000 THB / Month</value>
+    <value>3,000 บาท / เดือน</value>
   </data>
   <data name="bike7" xml:space="preserve">
-    <value>Honda Click 160 Special Edition (2024)</value>
+    <value>Honda Click 160 Special Edition ปี 2024</value>
   </data>
   <data name="bike7Price1" xml:space="preserve">
-    <value>400 THB / Day</value>
+    <value>400 บาท / วัน</value>
   </data>
   <data name="bike7Price2" xml:space="preserve">
-    <value>2,200 THB / Week</value>
+    <value>2,200 บาท / สัปดาห์</value>
   </data>
   <data name="bike7Price3" xml:space="preserve">
-    <value>5,500 THB / Month</value>
+    <value>5,500 บาท / เดือน</value>
   </data>
   <data name="bike8" xml:space="preserve">
-    <value>Honda Super Cub C125 Custom Edition (2025)</value>
+    <value>Honda Super Cub C125 Custom Edition ปี 2025</value>
   </data>
   <data name="bike8Price1" xml:space="preserve">
-    <value>700 THB / Day</value>
+    <value>700 บาท / วัน</value>
   </data>
   <data name="bike8Price2" xml:space="preserve">
-    <value>4,000 THB / Week</value>
+    <value>4,000 บาท / สัปดาห์</value>
   </data>
   <data name="bike8Price3" xml:space="preserve">
-    <value>10,000 THB / Month</value>
+    <value>10,000 บาท / เดือน</value>
   </data>
   <data name="bike9" xml:space="preserve">
-    <value>Yamaha GT125 (Standard) (2023)</value>
+    <value>Yamaha GT125 (Standard) ปี 2023</value>
   </data>
   <data name="bike9Price1" xml:space="preserve">
-    <value>600 THB / Day</value>
+    <value>600 บาท / วัน</value>
   </data>
   <data name="bike9Price2" xml:space="preserve">
-    <value>3,500 THB / Week</value>
+    <value>3,500 บาท / สัปดาห์</value>
   </data>
   <data name="bike9Price3" xml:space="preserve">
-    <value>9,000 THB / Month</value>
+    <value>9,000 บาท / เดือน</value>
   </data>
   <data name="bike10" xml:space="preserve">
-    <value>Yamaha FINN UBS (2024)</value>
+    <value>Yamaha FINN UBS ปี 2024</value>
   </data>
   <data name="bike10Price1" xml:space="preserve">
-    <value>400 THB / Day</value>
+    <value>400 บาท / วัน</value>
   </data>
   <data name="bike10Price2" xml:space="preserve">
-    <value>2,200 THB / Week</value>
+    <value>2,200 บาท / สัปดาห์</value>
   </data>
   <data name="bike10Price3" xml:space="preserve">
-    <value>5,500 THB / Month</value>
+    <value>5,500 บาท / เดือน</value>
   </data>
   <data name="bike11" xml:space="preserve">
-    <value>Yamaha Fazzio SMART KEY (2022)</value>
+    <value>Yamaha Fazzio SMART KEY ปี 2022</value>
   </data>
   <data name="bike11Price1" xml:space="preserve">
-    <value>650 THB / Day</value>
+    <value>650 บาท / วัน</value>
   </data>
   <data name="bike11Price2" xml:space="preserve">
-    <value>3,800 THB / Week</value>
+    <value>3,800 บาท / สัปดาห์</value>
   </data>
   <data name="bike11Price3" xml:space="preserve">
-    <value>9,500 THB / Month</value>
+    <value>9,500 บาท / เดือน</value>
   </data>
   <data name="bike12" xml:space="preserve">
-    <value>Honda Giorno+ ABS (2024)</value>
+    <value>Honda Giorno+ ABS ปี 2024</value>
   </data>
   <data name="bike12Price1" xml:space="preserve">
-    <value>350 THB / Day</value>
+    <value>350 บาท / วัน</value>
   </data>
   <data name="bike12Price2" xml:space="preserve">
-    <value>2,000 THB / Week</value>
+    <value>2,000 บาท / สัปดาห์</value>
   </data>
   <data name="bike12Price3" xml:space="preserve">
-    <value>4,800 THB / Month</value>
+    <value>4,800 บาท / เดือน</value>
   </data>
   <data name="contactTitle" xml:space="preserve">
-    <value>Contact Us</value>
+    <value>ติดต่อเรา</value>
   </data>
   <data name="contactSub" xml:space="preserve">
-    <value>Ways to reach us and more information</value>
+    <value>ช่องทางการติดต่อ และข้อมูลเพิ่มเติม</value>
   </data>
   <data name="contactHoursTitle" xml:space="preserve">
-    <value>Operating Hours</value>
+    <value>เวลาทำการ</value>
   </data>
   <data name="contactHoursText" xml:space="preserve">
     <value>08:00-18:00
-Open Daily</value>
+เปิดทุกวัน</value>
   </data>
   <data name="contactAddressTitle" xml:space="preserve">
-    <value>Address</value>
+    <value>ที่อยู่</value>
   </data>
   <data name="contactAddressText" xml:space="preserve">
-    <value>Bangkok, Thailand</value>
+    <value>กรุงเทพมหานคร, ประเทศไทย</value>
   </data>
   <data name="contactPhoneTitle" xml:space="preserve">
-    <value>Telephone &amp; Email</value>
+    <value>เบอร์โทรศัพท์ &amp; อีเมล</value>
   </data>
   <data name="contactPhoneText" xml:space="preserve">
     <value>+66xxxxxxxxxx
@@ -355,6 +355,12 @@ Open Daily</value>
 xxx@gmail.com</value>
   </data>
   <data name="backHome" xml:space="preserve">
-    <value>← Back to Home</value>
+    <value>← กลับหน้าหลัก</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="sign up" xml:space="preserve">
+    <value>ลงทะเบียน</value>
   </data>
 </root>

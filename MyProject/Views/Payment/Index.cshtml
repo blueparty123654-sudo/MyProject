@@ -1,62 +1,290 @@
-﻿@{
-    // คำสั่งนี้สำคัญมาก: เป็นการบอกว่าหน้านี้ไม่ต้องใช้ _Layout.cshtml
-    Layout = null;
+﻿@model MyProject.ViewModels.PaymentViewModel
+@{
+    ViewData["Title"] = $"ชำระเงินสำหรับรายการจอง #{Model.OrderId}";
+    // ใช้ SweetAlert2 สำหรับ Success Message
 }
+@* เพิ่ม CDN SweetAlert2 (ถ้ายังไม่มีใน _Layout) *@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="utf-8" />
-    <title>ทดสอบปฏิทิน พ.ศ.</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+<div class="container mt-5 payment-page">
+    <h2 class="text-center mb-4">💳 การชำระเงิน</h2>
 
-    <style>
-        body {
-            padding: 2rem;
-        }
-    </style>
-</head>
-<body>
+    @* --- แสดง TempData Error (ถ้ามีตอน POST กลับมา) --- *@
+    @if (TempData["PaymentError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["PaymentError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-    <div class="container">
-        <h1>ทดสอบ Bootstrap Datepicker (พ.ศ.)</h1>
-        <p>คลิกที่ช่องกรอกด้านล่างเพื่อดูผลลัพธ์ ถ้าเห็นปีเป็น <strong>2568</strong> แปลว่าทำงานถูกต้อง</p>
 
-        <div class="form-group" style="width: 300px;">
-            <label for="datepicker-th">เลือกวันเกิด</label>
-            <input type="text" class="form-control" id="datepicker-th" placeholder="คลิกเพื่อเลือกวันที่..." autocomplete="off">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            @* --- การ์ดสรุปรายการ (เหมือนเดิม) --- *@
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light text-center">
+                    <strong>สรุปรายการจอง</strong>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.ProductImageUrl))
+                    {
+                        <img src="@Model.ProductImageUrl" alt="@Model.ProductName" class="float-end rounded ms-3 mb-2" style="max-height: 500px;" />
+                    }
+                    <h5 class="card-title">@Model.ProductName</h5>
+                    <p class="card-text mb-1">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-alt me-1"></i> เช่า: @Model.PickupDate.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("th-TH"))
+                            - @Model.ReturnDate.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("th-TH"))
+                        </small>
+                    </p>
+                    <p class="card-text fs-5 fw-bold text-success">
+                        ยอดรวมที่ต้องชำระ: @Model.FinalPrice.ToString("N2") บาท
+                    </p>
+                </div>
+            </div>
+
+            @* --- ฟอร์มเลือกวิธีชำระ + ยืนยัน --- *@
+            <form asp-action="Index" asp-controller="Payment" method="post" id="paymentForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="OrderId" />
+                <input type="hidden" asp-for="SelectedPaymentMethod" id="selectedPaymentMethod" />
+
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <strong>เลือกวิธีการชำระเงิน</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center mb-4">
+                            <button type="button" class="btn btn-outline-primary payment-method-btn flex-fill" data-method="Card">
+                                <i class="fab fa-cc-visa me-1"></i><i class="fab fa-cc-mastercard me-1"></i> บัตรสากล
+                            </button>
+                            <button type="button" class="btn btn-outline-info payment-method-btn flex-fill" data-method="QR">
+                                <i class="fas fa-qrcode me-1"></i> Cross-Border QR
+                            </button>
+                        </div>
+
+                        @* --- ส่วนกรอกข้อมูลบัตร (ซ่อนไว้ก่อน) --- *@
+                        <div id="cardPaymentDetails" class="payment-details-section p-3 border rounded bg-light" style="display: none;">
+                            <h6 class="mb-3"><i class="fas fa-credit-card me-1"></i> กรอกข้อมูลบัตรเครดิต/เดบิต</h6>
+                            @* ----- (เพิ่ม) ชื่อบนบัตร ----- *@
+                            <div class="mb-3">
+                                <label asp-for="CardHolderName" class="form-label"></label>
+                                <input asp-for="CardHolderName" type="text" class="form-control card-input" placeholder="ชื่อ-นามสกุล บนบัตร" disabled>
+                                <div class="invalid-feedback">กรุณากรอกชื่อบนบัตร</div>
+                            </div>
+                            @* ------------------------- *@
+                            <div class="mb-3">
+                                <label asp-for="CardNumber" class="form-label"></label>
+                                <input asp-for="CardNumber" type="text" class="form-control card-input" placeholder="xxxx xxxx xxxx xxxx" pattern="[\d\s]{15,19}" title="กรอกเฉพาะตัวเลข 13-16 หลัก" disabled> @* เพิ่ม pattern *@
+                                <div class="invalid-feedback">กรุณากรอกหมายเลขบัตร 13-16 หลักให้ถูกต้อง</div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-7">
+                                    <label asp-for="ExpiryDate" class="form-label"></label>
+                                    <input asp-for="ExpiryDate" type="text" class="form-control card-input" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/\d{2}" title="รูปแบบ MM/YY เช่น 12/28" disabled> @* เพิ่ม pattern *@
+                                    <div class="invalid-feedback">กรุณากรอกวันหมดอายุในรูปแบบ MM/YY</div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <label asp-for="Cvv" class="form-label"></label>
+                                    <input asp-for="Cvv" type="text" class="form-control card-input" placeholder="xxx หรือ xxxx" pattern="\d{3,4}" title="CVV 3 หรือ 4 หลัก" disabled> @* เพิ่ม pattern *@
+                                    <div class="invalid-feedback">กรุณากรอก CVV 3 หรือ 4 หลัก</div>
+                                </div>
+                            </div>
+                            <small class="text-muted d-block text-center">ระบบจำลอง ยังไม่มีการตัดบัตรจริง</small>
+                        </div>
+
+                        @* --- ส่วนแสดง QR Code (ซ่อนไว้ก่อน) --- *@
+                        <div id="qrPaymentDetails" class="payment-details-section text-center p-3 border rounded bg-light" style="display: none;">
+                            <h6 class="mb-3"><i class="fas fa-qrcode me-1"></i> สแกน QR Code เพื่อชำระเงิน</h6>
+                            <img src="~/images/QR/QR.png" alt="QR Code สำหรับชำระเงิน" id="qrCodeImage" class="img-fluid mb-2" style="max-width: 200px;" />
+                            <p class="mb-1"><strong>ยอดชำระ: @Model.FinalPrice.ToString("N2") บาท</strong></p>
+                            <small class="text-muted d-block">ระบบจำลอง ยังไม่มีการชำระเงินจริง</small>
+                        </div>
+
+                    </div> @* ปิด card-body *@
+
+                    <div class="card-footer text-end">
+                        <button type="submit" class="btn btn-success" id="confirmPaymentBtn" disabled>
+                            <i class="fas fa-check-circle me-1"></i> ยืนยันการชำระเงิน
+                        </button>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/locales/bootstrap-datepicker.th.min.js"></script>
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+        // ไม่ต้อง include profile-modal.js ที่นี่ ถ้ามันถูก include ใน _Layout แล้ว
     <script>
-        // ใช้ $(document).ready() เพื่อให้แน่ใจว่า jQuery และ DOM พร้อมใช้งาน
-        $(document).ready(function(){
+        $(document).ready(function() {
+            // --- Cache Elements ---
+            const paymentMethodButtons = $('.payment-method-btn');
+            const cardDetailsSection = $('#cardPaymentDetails');
+            const qrDetailsSection = $('#qrPaymentDetails');
+            const allDetailSections = $('.payment-details-section');
+            const selectedMethodInput = $('#selectedPaymentMethod');
+            const confirmButton = $('#confirmPaymentBtn');
+            const cardInputs = $('#cardPaymentDetails input.card-input');
+            const paymentForm = $('#paymentForm');
+            const dateErrorAlert = $('#dateErrorAlert');
+            // *** ลบ const successMessageDiv ออกไปแล้ว ***
 
-            // ✨ "สอน" ให้ Datepicker รู้จักการคำนวณปี พ.ศ. ✨
-            // ต้องทำ "ก่อน" ที่จะสร้างปฏิทินเสมอ
-            if ($.fn.datepicker.dates['th']) {
-                 $.fn.datepicker.dates['th'].getFullYear = function(d) {
-                    return new Date(d).getFullYear() + 543;
-                };
+            // --- เช็ควันที่เริ่มเช่า ---
+            let isOrderDateValid = true;
+            let dateErrorMessage = '';
+            const orderPickupDateStr = '@Model.PickupDate.ToString("yyyy-MM-dd")';
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            try {
+                const parts = orderPickupDateStr.split('-');
+                const pickupDate = new Date(Date.UTC(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2])));
+                if (isNaN(pickupDate.getTime())) { throw new Error("Invalid date format."); }
+                if (pickupDate.getTime() < today.getTime()) {
+                    isOrderDateValid = false;
+                    dateErrorMessage = 'ไม่สามารถชำระเงินได้ เนื่องจากวันที่เริ่มเช่า ('
+                                     + new Date(orderPickupDateStr).toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' })
+                                     + ') ผ่านไปแล้ว';
+                }
+            } catch (e) {
+                 isOrderDateValid = false;
+                 dateErrorMessage = 'เกิดข้อผิดพลาดในการตรวจสอบวันที่';
+                 console.error("Error comparing dates:", e, "Received date string:", orderPickupDateStr);
             }
 
-            // ✨ สั่งให้ช่องกรอก #datepicker-th แปลงร่างเป็นปฏิทิน ✨
-            $('#datepicker-th').datepicker({
-                format: "dd/mm/yyyy",
-                language: "th",
-                autoclose: true,
-                todayHighlight: true
-            });
-        });
-    </script>
+            // --- จัดการถ้าวันที่ไม่ถูกต้อง ---
+            if (!isOrderDateValid) {
+                console.warn("Order date is invalid:", dateErrorMessage);
+                dateErrorAlert.text(dateErrorMessage).show();
+                paymentMethodButtons.prop('disabled', true).addClass('disabled');
+                confirmButton.prop('disabled', true).html('<i class="fas fa-times-circle me-1"></i> ไม่สามารถชำระเงิน');
+                allDetailSections.hide();
+            }
 
-</body>
-</html>
+            // --- Function: Client-side Card Validation ---
+            function validateCardDetails() {
+                let isValid = true;
+                cardInputs.each(function () {
+                    const input = $(this);
+                    input.removeClass('is-invalid');
+                    if (!input[0].checkValidity()) {
+                        input.addClass('is-invalid');
+                        isValid = false;
+                        console.log("Invalid field:", input.attr('name'), "| Reason:", input[0].validationMessage);
+                    }
+                });
+                return isValid;
+            }
+
+            // --- เลือกวิธีชำระเงิน ---
+            paymentMethodButtons.on('click', function () {
+                if (!isOrderDateValid) return;
+
+                const button = $(this);
+                const selectedMethod = button.data('method');
+
+                selectedMethodInput.val(selectedMethod);
+                paymentMethodButtons.removeClass('active btn-primary btn-info').addClass('btn-outline-primary btn-outline-info');
+                button.removeClass('btn-outline-primary btn-outline-info').addClass(selectedMethod === 'Card' ? 'active btn-primary' : 'active btn-info');
+
+                allDetailSections.hide();
+                cardInputs.prop('disabled', true).prop('required', false).removeClass('is-invalid');
+
+                if (selectedMethod === 'Card') {
+                    cardDetailsSection.slideDown();
+                    cardInputs.prop('disabled', false).prop('required', true);
+                } else if (selectedMethod === 'QR') {
+                    qrDetailsSection.slideDown();
+                }
+
+                confirmButton.prop('disabled', false); // Enable confirm button *เมื่อ* เลือกวิธีแล้ว
+            });
+
+            // --- กดปุ่มยืนยันการชำระเงิน ---
+            paymentForm.on('submit', function (e) {
+                e.preventDefault(); // หยุด Submit ปกติ
+                // *** ลบบรรทัด successMessageDiv.hide().text(''); ออกไปแล้ว ***
+
+                if (!isOrderDateValid) {
+                    Swal.fire('เกิดข้อผิดพลาด', dateErrorMessage, 'error');
+                    return;
+                }
+
+                const selectedMethod = selectedMethodInput.val();
+
+                if (!selectedMethod) {
+                    Swal.fire('เกิดข้อผิดพลาด', 'กรุณาเลือกวิธีการชำระเงิน', 'warning');
+                    return;
+                }
+
+                if (selectedMethod === 'Card') {
+                    if (!validateCardDetails()) {
+                        Swal.fire('ข้อมูลบัตรไม่ถูกต้อง', 'กรุณาตรวจสอบข้อมูลที่กรอก แล้วลองใหม่อีกครั้ง', 'error');
+                        return;
+                    }
+                }
+
+                confirmButton.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> กำลังดำเนินการ...');
+
+                const formData = $(this).serialize();
+                const actionUrl = $(this).attr('action');
+                const token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: formData,
+                    headers: { 'RequestVerificationToken': token },
+                    success: function (response) {
+                        console.log("Payment POST Success:", response);
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ชำระเงินสำเร็จ!',
+                                html: response.message || 'ดำเนินการชำระเงินเรียบร้อยแล้ว',
+                                timer: (response.countdownSeconds || 3) * 1000, // ใช้ 3 วิ ถ้า Controller ไม่ส่งมา
+                                timerProgressBar: true,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                didOpen: () => { Swal.showLoading(); },
+                                willClose: () => { window.location.href = response.redirectUrl || '/Home/Index'; }
+                            });
+                            paymentForm.slideUp();
+                        } else {
+                            // แสดง Error จาก Controller (เช่น Validation ไม่ผ่าน หรือ Save DB ไม่ได้)
+                            let errorHtml = response.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่';
+                            if(response.errors && response.errors.length > 0){
+                                errorHtml += '<ul class="text-start mt-2">';
+                                response.errors.forEach(err => { errorHtml += `<li>${err}</li>`; });
+                                errorHtml += '</ul>';
+                            }
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'ชำระเงินไม่สำเร็จ',
+                                html: errorHtml // แสดง List ของ Error ถ้ามี
+                            });
+                            confirmButton.prop('disabled', false).html('<i class="fas fa-check-circle me-1"></i> ยืนยันการชำระเงิน');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error("Payment POST Error:", textStatus, errorThrown, jqXHR.responseText);
+                        let errorMsg = 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง';
+                        try { const res = JSON.parse(jqXHR.responseText); if (res?.message) errorMsg = res.message; } catch (e) { }
+                        Swal.fire('เกิดข้อผิดพลาด', errorMsg, 'error');
+                        confirmButton.prop('disabled', false).html('<i class="fas fa-check-circle me-1"></i> ยืนยันการชำระเงิน');
+                    }
+                }); // จบ AJAX
+            }); // จบ Form Submit
+
+        }); // จบ document ready
+    </script>
+}

@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using MyProject.Models;
 using MyProject.Data; // << Your DbContext namespace
+using MyProject.Models;
+using MyProject.Services;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyBookstoreDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add services to the container.
+
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddControllersWithViews()
     .AddViewLocalization();
 

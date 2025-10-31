@@ -1,9 +1,8 @@
-﻿@* ใน Views/Shared/_BookingHistoryModalPartial.cshtml *@
-<div class="modal fade" id="bookingHistoryModal" tabindex="-1" aria-labelledby="bookingHistoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+﻿<div class="modal fade" id="bookingHistoryModal" tabindex="-1" aria-labelledby="bookingHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         @* ทำให้ใหญ่ขึ้นและ Scroll ได้ *@
         <div class="modal-content">
-            <div class="modal-header bg-info text-dark">
+            <div class="modal-header text-white">
                 <h5 class="modal-title" id="bookingHistoryModalLabel"><i class="fas fa-history me-1"></i> ประวัติการจองของคุณ</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -16,9 +15,6 @@
 
                 @* แสดงข้อความ Error ถ้าโหลดไม่สำเร็จ *@
                 <div id="bookingHistoryErrorAlert" class="alert alert-danger mt-3" role="alert" style="display: none;"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using MyProject.Data
+@inject MyBookstoreDbContext dbContext
+@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,8 +42,18 @@
                             <a class="nav-link" asp-area="" asp-controller="Review" asp-action="Reviews">@Localizer["review"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="RedeemPoints">@Localizer["insurance"]</a>
+                            <a class="nav-link" asp-area="" asp-controller="Redeem" asp-action="Index">@Localizer["insurance"]</a>
                         </li>
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin")) @* <<< เช็คว่าเป็น Admin *@
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    @* <<< ลิงก์ไป /Admin *@
+                                    <i class="fas fa-user-shield me-1"></i> Admin Panel @* <<< ข้อความ + Icon *@
+                                </a>
+                            </li>
+                        }
                     </ul>
 
                     <ul class="navbar-nav">
@@ -70,17 +85,28 @@
                     <div class="auth-buttons">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
-                            // ---- ถ้า Login แล้ว (ดีไซน์ใหม่) ----
+                            var userEmailForLayout = User.FindFirstValue(System.Security.Claims.ClaimTypes.Email);
+                            MyProject.Models.User? userForLayout = null; // <<< สร้างตัวแปร User (ใส่ Namespace Model ของคุณ)
+                            int pointsToShow = 0;
+
+                            if (!string.IsNullOrEmpty(userEmailForLayout))
+                            {
+                                userForLayout = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == userEmailForLayout);
+                                if (userForLayout != null)
+                                {
+                                    pointsToShow = userForLayout.UserPoint; // <<< อ่านค่า Point ล่าสุดจาก DB
+                                }
+                            }
                             <div class="user-profile-bar">
                                 <a href="#" id="showProfileModalBtn" class="user-details-link">
                                     <i class="fa-solid fa-user-circle"></i>
-
-                                    <span>@User.Identity.Name</span>
+                                    <span>@(userForLayout?.Name ?? User.Identity.Name)</span> @* แสดงชื่อจาก DB ถ้ามี, ถ้าไม่มีใช้ชื่อจาก Claims *@
 
                                     <i class="fa-solid fa-star"></i>
-                                    <span>@User.FindFirst("Points")?.Value Points</span>
+                                    <span id="layoutUserPoints">@pointsToShow Points</span> @* <<< แสดง Point ล่าสุด *@
+
                                     <i class="fa-solid fa-circle-check"></i>
-                                    <span>@User.FindFirst("Status")?.Value</span>
+                                    <span>@(userForLayout?.Status ?? "")</span> @* แสดง Status จาก DB (ถ้ามี) *@
                                 </a>
                                 <a asp-controller="Account" asp-action="Logout" class="btn-logout-yellow">@Localizer["logout"]</a>
                             </div>
@@ -217,6 +243,8 @@
     <partial name="_LoginModalPartial" model="new MyProject.ViewModels.LoginViewModel()" />
     <partial name="_ProfileModalPartial" model="new MyProject.ViewModels.ProfileViewModel()" />
     <partial name="_BookingHistoryModalPartial" />
+    <partial name="_RedemptionHistoryModalPartial" />
+    <partial name="_RentalHistoryModalPartial" />
 
 </body>
 </html>

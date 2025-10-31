@@ -593,6 +593,15 @@ label, .col-form-label {
         transform: scale(1.1);
     }
 
+.load-more-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+    .load-more-container .btn-submit-review:hover {
+        background-color: #1a306d !important;
+    }
+
 
 /* =================================== */
 /* ==      Filter Slider Styles     == */
@@ -1099,3 +1108,29 @@ label, .col-form-label {
 .card-header strong {
     font-size: 1.2rem;
 }
+
+
+/* =================================== */
+/* ==            Payment            == */
+/* =================================== */
+
+.booking-history-item .img-thumbnail {
+    object-fit: contain; /* ให้รูปคงสัดส่วนภายในกรอบ */
+    height: 60px; /* กำหนดความสูง */
+    width: 100%; /* ให้ความกว้างเต็มพื้นที่ col ที่กำหนด */
+    background-color: #f8f9fa; /* (Optional) เพิ่มสีพื้นหลังเผื่อรูปโปร่งใส */
+}
+
+/* =================================== */
+/* ==            Redeem             == */
+/* =================================== */
+
+
+.btn-Redeem {
+    color: white !important;
+}
+
+    .btn-Redeem:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }

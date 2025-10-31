@@ -1,0 +1,196 @@
+﻿@model MyProject.ViewModels.RedeemViewModel
+@{
+    ViewData["Title"] = "แลกคะแนนสะสม";
+}
+@* เพิ่ม CDN SweetAlert2 (ถ้ายังไม่มีใน _Layout) *@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<div class="container mt-4 redeem-page">
+    <h2 class="text-center mb-4">🎁 แลกคะแนนสะสม 🎁</h2>
+
+    @* --- แสดงคะแนนปัจจุบัน (เพิ่ม ID) --- *@
+    <div class="text-center mb-4">
+        <span class="fs-5">คะแนนสะสมของคุณ:</span>
+        <span class="badge bg-warning text-dark fs-5 ms-2 p-2" id="currentUserPointsBadge">
+            @* <<< ID สำหรับอัปเดตในหน้านี้ *@
+            <i class="fa-solid fa-star me-1"></i> @Model.CurrentUserPoints Points
+        </span>
+    </div>
+
+    @* --- แสดง TempData Message (ถ้ามี Error ตอนโหลดหน้า หรือ Redirect กลับมา) --- *@
+    @if (TempData["RedeemMessage"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["RedeemMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["RedeemError"] != null) // เพิ่มเผื่อ Error
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["RedeemError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @* --- แสดงรายการของรางวัล --- *@
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="giveawayList">
+        @* <<< ID สำหรับ Event Delegation *@
+        @foreach (var item in Model.Giveaways)
+        {
+            // เช็คว่าคะแนนพอหรือไม่ สำหรับการแสดงผลครั้งแรก
+            bool canRedeem = Model.CurrentUserPoints >= item.PointCost;
+
+            <div class="col" data-giveaway-id="@item.GiveawayId">
+                @* <<< data attribute เก็บ ID *@
+                <div class="card h-100 shadow-sm text-center giveaway-card @(!canRedeem ? "bg-light opacity-75" : "")">
+                    @* เพิ่ม/ลด class ถ้าแต้มไม่พอ *@
+                    <img src="@item.ImageUrl" class="card-img-top giveaway-img mx-auto mt-3" alt="@item.Name">
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title flex-grow-1 small">@item.Name</h6>
+                        <p class="card-text text-warning fw-bold point-cost small">@item.PointCost คะแนน</p> @* <<< class สำหรับอ่าน Point Cost *@
+                        @* ฟอร์มสำหรับปุ่มแลก *@
+                        <form asp-action="RedeemItem" asp-controller="Redeem" method="post" class="redeem-form">
+                            @* <<< class สำหรับ JS *@
+                            @Html.AntiForgeryToken() @* <<< ต้องมี Token *@
+                            <input type="hidden" name="giveawayId" value="@item.GiveawayId" />
+                            <button type="submit" class="btn btn-card-action btn-sm w-100 redeem-button" @(!canRedeem ? "disabled" : "")>
+                                แลกคะแนน
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!Model.Giveaways.Any())
+    {
+        <p class="text-center text-muted mt-5">ยังไม่มีรายการของรางวัลให้แลก</p>
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            const antiForgeryToken = $('input[name="__RequestVerificationToken"]').first().val(); // ดึง Token (ใช้ .first() เผื่อมีหลายฟอร์ม)
+            const pointsBadgeOnPage = $('#currentUserPointsBadge'); // Cache element แสดง Point บนหน้า
+            const layoutPointsSpan = $('#layoutUserPoints'); // Cache element แสดง Point บน Layout (ต้องมี ID นี้ใน _Layout.cshtml)
+            const giveawayList = $('#giveawayList'); // Cache container ของรางวัล
+
+            // --- Function สำหรับอัปเดตสถานะปุ่มแลกทั้งหมด ---
+            function updateRedeemButtons(currentUserPoints) {
+                if (isNaN(currentUserPoints)) return; // ป้องกันถ้าค่าไม่ใช่ตัวเลข
+
+                $('.giveaway-card').each(function() {
+                     const card = $(this);
+                     const pointCostText = card.find('.point-cost').text();
+                     const pointCost = parseInt(pointCostText.replace(/[^0-9]/g, ''), 10); // ดึงตัวเลข Point Cost
+                     const button = card.find('.redeem-button');
+                     const parentCol = card.closest('.col');
+
+                     if (!isNaN(pointCost)) {
+                         if (currentUserPoints >= pointCost) {
+                             button.prop('disabled', false);
+                             card.removeClass('bg-light opacity-75'); // ทำให้ Card กลับมาปกติ
+                             // parentCol?.removeClass('opacity-75'); // อาจจะไม่ต้องใช้ ถ้าใส่ที่ card โดยตรง
+                         } else {
+                             button.prop('disabled', true);
+                             card.addClass('bg-light opacity-75'); // ทำให้ Card ดูจางลง
+                             // parentCol?.addClass('opacity-75');
+                         }
+                     }
+                });
+            }
+
+            // --- จัดการการกดปุ่ม "แลกคะแนน" (ใช้ Event Delegation) ---
+            giveawayList.on('submit', 'form.redeem-form', function(e) {
+                e.preventDefault(); // <<< หยุดการ Submit ปกติ
+
+                const form = $(this);
+                const button = form.find('.redeem-button');
+                const giveawayId = form.find('input[name="giveawayId"]').val();
+                const card = button.closest('.giveaway-card');
+                const itemName = card.find('.card-title').text();
+                const pointCostText = card.find('.point-cost').text();
+
+                // --- แสดง SweetAlert ยืนยัน ---
+                Swal.fire({
+                    title: 'ยืนยันการแลกคะแนน',
+                    html: `คุณต้องการใช้ <b>${pointCostText}</b> เพื่อแลก<br><b>${itemName}</b> หรือไม่?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '<i class="fas fa-check me-1"></i> ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    showLoaderOnConfirm: true,
+                    preConfirm: () => {
+                        // --- ส่ง AJAX POST ไปยัง Controller ---
+                        return $.ajax({
+                            url: form.attr('action'),
+                            type: 'POST',
+                            data: { // ส่งข้อมูลแบบ Form data
+                                giveawayId: giveawayId
+                                // Token จะถูกส่งใน Header
+                            },
+                             headers: { // ส่ง AntiForgeryToken
+                                 'RequestVerificationToken': antiForgeryToken
+                             }
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                             // จัดการ Error ตอนส่ง AJAX
+                             console.error("AJAX Error redeeming item:", textStatus, errorThrown, jqXHR.responseText);
+                             let errorMsg = 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
+                              try {
+                                  const res = JSON.parse(jqXHR.responseText);
+                                  // ถ้า Controller คืน JSON Error มา
+                                  if (res?.message) errorMsg = res.message;
+                              } catch(e){}
+                             // แสดง Error Message ที่ได้ หรือข้อความ Default
+                             Swal.showValidationMessage(`ขออภัย! ${errorMsg}`);
+                        });
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+
+                }).then((result) => {
+                    // result.value คือ Response จาก AJAX ถ้า preConfirm สำเร็จ
+                    if (result.isConfirmed && result.value && result.value.success) {
+                        // --- แลกสำเร็จ ---
+                        Swal.fire({
+                           icon: 'success',
+                           title: 'แลกสำเร็จ!',
+                           text: result.value.message || 'ดำเนินการแลกคะแนนเรียบร้อยแล้ว',
+                           timer: 2500, // แสดงผล 2.5 วินาที
+                           timerProgressBar: true,
+                           showConfirmButton: false // ไม่ต้องมีปุ่ม OK
+                        });
+
+                        // --- อัปเดตคะแนนที่แสดง ---
+                        const newPoints = result.value.newPoints;
+                        // 1. อัปเดตคะแนนบนหน้านี้
+                        pointsBadgeOnPage.html(`<i class="fa-solid fa-star me-1"></i> ${newPoints} Points`);
+                        // 2. อัปเดตคะแนนบน Layout Header
+                        if (layoutPointsSpan.length > 0) {
+                             layoutPointsSpan.text(`${newPoints} Points`);
+                         }
+
+                        // --- อัปเดตสถานะปุ่มของ Card อื่นๆ ---
+                         updateRedeemButtons(newPoints);
+
+                    } else if (result.isConfirmed && result.value && !result.value.success) {
+                         // --- แลกไม่สำเร็จ (เช่น คะแนนไม่พอ - Error จาก Controller) ---
+                         Swal.fire(
+                             'แลกไม่สำเร็จ',
+                             result.value.message || 'เกิดข้อผิดพลาดในการแลกคะแนน',
+                             'error'
+                         );
+                    }
+                    // else: กรณีอื่นๆ (กด Cancel, Network Error ที่ preConfirm จัดการแล้ว)
+                }); // จบ then()
+            }); // จบ form.redeem-form submit
+        }); // จบ document ready
+    </script>
+}
